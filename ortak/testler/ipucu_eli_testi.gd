@@ -58,10 +58,14 @@ func _calis() -> void:
 			continue
 		secilen.append(args[i])
 		i += 1
+	if DisplayServer.get_name() == "headless":
+		root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP    # headless pencere kare; çizim alanı 1280x720
 	gecis = root.get_node("SahneGecis")
 	_yedekle()
 	if secilen.is_empty() or "bilesen" in secilen:
 		await _bilesen_testi()
+	change_scene_to_file(MENU)
+	await _gecis_bekle()
 	for oyun: Dictionary in OyunListesi.OYUNLAR:
 		if secilen.is_empty() or oyun["klasor"] in secilen:
 			await _oyun_testi(oyun)
