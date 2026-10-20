@@ -167,6 +167,7 @@ func _ses_dugmesi_olustur() -> void:
 func _bilgi_dugmesi_olustur() -> void:
 	var boyut := DUGME_BOYU
 	_bilgi_dugmesi = BasiliDugme.new()
+	_bilgi_dugmesi.double_tap = false
 	_bilgi_dugmesi.hold_time = EBEVEYN_BEKLEME
 	_bilgi_dugmesi.icon = BILGI_SIMGESI
 	_bilgi_dugmesi.size = Vector2(boyut, boyut)

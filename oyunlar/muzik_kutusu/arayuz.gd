@@ -1,12 +1,10 @@
 extends Control
-# Hud (UI CanvasLayer içinde): sol üstte ortak basılı-tut geri düğmesi (çocuk ekrana sürekli dokunduğu için
+# Hud (UI CanvasLayer içinde): sol üstte ortak çift dokunuşlu geri düğmesi (çocuk ekrana sürekli dokunduğu için
 # kazara çıkılmasın), sağ kenarda yazısız, büyük, yuvarlak enstrüman seçme düğmeleri. Dokunmayı ana sahne
 # yönetir (back_button.contains / selector_at sorar).
 
 const HoldButton := preload("res://ortak/basili_geri_dugmesi.gd")
-const TEX_BACK: Texture2D = preload("res://oyunlar/muzik_kutusu/gorseller/geri_beyaz.svg")
 const INK := Color("3b2f6b")
-const BACK_COLOR := Color("8b6cf6")
 const SIDE := 56.0            # yatayda çentik yanlarda olabilir: kenarlardan uzak
 const TOP := 22.0
 const BUTTON := 132.0
@@ -23,8 +21,6 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	back_button = HoldButton.new()
-	back_button.bg_color = BACK_COLOR
-	back_button.icon = TEX_BACK
 	back_button.position = Vector2(SIDE, TOP)
 	back_button.size = Vector2(116, 116)
 	add_child(back_button)
