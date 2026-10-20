@@ -1,4 +1,12 @@
-# Minik Oyunlar
+# Bouncy Zoo
+
+## Proje bilgisi
+
+- Uygulama adı: **Bouncy Zoo** (Play Store başlığı: **Bouncy Zoo: Kids Games 4-8**; paket `com.kidolab.bouncyzoo`).
+- Repo: [kidolab-studio/bouncy-zoo](https://github.com/kidolab-studio/bouncy-zoo) (eski adresi `mem1nce/mini-games`).
+- Gizlilik politikası ayrı repoda yayınlanır (`kidolab-studio/legal`, GitHub Pages): https://kidolab-studio.github.io/legal/bouncy-zoo/privacy-policy
+- Durum: Google Play kapalı testi bitmek üzere, üretime geçiş hazırlığı yapılıyor.
+- **Bu aşamanın kuralı**: sadece küçük ve güvenli düzeltmeler yap. Büyük yeniden yapılandırma, yeni özellik veya riskli değişiklik yapma; gerekiyorsa önce kullanıcıya sor. Her düzeltmeden sonra ilgili oyunu açıp çalıştığını kontrol et.
 
 Küçük çocuklar (4-8 yaş) için basit eğitici mini oyunlar. Oyun fikirlerini kullanıcı verir, birlikte geliştiririz.
 Uygulamanın adı her dilde "Bouncy Zoo" (`application/config/name`; bilgisayarda `user://` klasörü de bu adla: `app_userdata/Bouncy Zoo`). Eski adı "Minik Oyunlar"dı; belgelerde ve kod yorumlarında hâlâ geçebilir.

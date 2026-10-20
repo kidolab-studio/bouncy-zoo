@@ -32,7 +32,7 @@ Paketler proje dışındaki bir önbellek klasörüne indirilir; projeye sadece 
 | m_meyve | Children's March Theme | cleytonkauffman | https://opengameart.org/content/childrens-march-theme | CC0 |
 | buhar_duduk | Steam whistle | bart | https://opengameart.org/content/steam-whistle | CC0 |
 | buhar | Steam release sounds | bart | https://opengameart.org/content/steam-release-sounds | CC0 |
-| sentez | (bu projede üretildi) | Minik Oyunlar | `ses_hazirla.py` içindeki sentez fonksiyonları | bize ait |
+| sentez | (bu projede üretildi) | Bouncy Zoo | `ses_hazirla.py` içindeki sentez fonksiyonları | bize ait |
 
 \* Feel Good Island sayfada iki lisanslı (CC0 ve OGA-BY 3.0); CC0 seçeneğiyle kullanıldı. Sayfaya göre orijinal
 parça Brandon Morris'in; zorunlu olmasa da istenirse emeği anılabilir.
