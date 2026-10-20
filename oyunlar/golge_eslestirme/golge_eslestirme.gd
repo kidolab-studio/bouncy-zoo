@@ -121,6 +121,26 @@ func _ready() -> void:
 		_start_level(level_index)
 	var ipucu := IpucuEli.ekle(self, "golge_eslestirme", _ipucu)
 	ipucu.engel = func() -> bool: return hand.visible   # oyunun kendi ipucu eli görünürken çekilir
+	OyunBitti.kisayol(self, func() -> void:
+		if state == State.PLAYING:
+			state = State.CELEBRATING
+			level_completed.emit(level_index))
+	if OyunBitti.tamamlandi_mi("golge_eslestirme"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "golge_eslestirme", "karakter": load("res://oyunlar/golge_eslestirme/esyalar/hayvanlar/kopek.svg"),
+		"bolum_sayisi": levels.size(), "kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	await _clear_board()
+	progress.setup(levels.size())
+	_start_level(index)
 
 
 # Başlangıç ipucu eli: yerleşmemiş ilk eşyayı kendi gölgesine sürükle
@@ -266,7 +286,7 @@ func _on_level_completed(index: int) -> void:
 	_start_level(index + 1)
 
 
-# 10. bölüm bitti: büyük kutlama, sonra baştan
+# 10. bölüm bitti: büyük kutlama, sonra ortak final ekranı (bölüm seç / baştan oyna / ana menü)
 func _on_all_levels_completed() -> void:
 	var my_run := run_id
 	sounds.play("final")
@@ -280,8 +300,7 @@ func _on_all_levels_completed() -> void:
 	await _clear_board()
 	if my_run != run_id:
 		return
-	progress.setup(levels.size())
-	_start_level(0)
+	_oyun_bitti(false)
 
 
 func _clear_board() -> void:
