@@ -4,7 +4,7 @@ extends SceneTree
 # ADIMLAR ile oyun ekranına girer; el doğru yerde mi, dokununca kayboluyor mu, 6 sn beklenince geliyor mu).
 #   godot --headless --path . --fixed-fps 60 -s res://ortak/testler/ipucu_eli_testi.gd [-- oyun ...]
 # Pencereli çalıştırılırsa (--headless olmadan) ve "-- cek <klasör>" verilirse her oyunda elin göründüğü anın
-# ekran görüntüsü kaydedilir. user:// kökündeki dosyalar (ipucu_eli.cfg, oyun kayıtları ve .bak'ları) yedeklenir,
+# ekran görüntüsü kaydedilir; "GENxYUK" (ör. 2520x1080, 2048x1536) pencereyi o cihaz oranına getirir. user:// kökündeki dosyalar (ipucu_eli.cfg, oyun kayıtları ve .bak'ları) yedeklenir,
 # sonunda geri yazılır; testin oluşturduğu dosyalar ve Boyama Kitabı eserleri silinir.
 
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
@@ -28,6 +28,7 @@ var _yedek := {}
 var _eserler: PackedStringArray = []
 var _eser_klasoru_vardi := false
 var _cek := ""
+var _pencere := Vector2i.ZERO
 
 
 func _initialize() -> void:
@@ -54,6 +55,10 @@ func _calis() -> void:
 	var secilen: Array = []
 	var i := 0
 	while i < args.size():
+		if "x" in args[i] and args[i].split("x")[0].is_valid_int():
+			_pencere = Vector2i(int(args[i].split("x")[0]), int(args[i].split("x")[1]))
+			i += 1
+			continue
 		if args[i] == "cek" and i + 1 < args.size():
 			_cek = args[i + 1]
 			DirAccess.make_dir_recursive_absolute(_cek)
@@ -64,6 +69,14 @@ func _calis() -> void:
 	if DisplayServer.get_name() == "headless":
 		root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP    # headless pencere kare; çizim alanı 1280x720
 	gecis = root.get_node("SahneGecis")
+	if _pencere != Vector2i.ZERO and DisplayServer.get_name() != "headless":
+		# Cihaz oranı: monitöre sığacak kadar küçültülür (canvas_items + expand'de yalnızca oran önemli)
+		var sigan := Vector2(DisplayServer.screen_get_usable_rect().size) - Vector2(60, 110)
+		var olcek := minf(1.0, minf(sigan.x / _pencere.x, sigan.y / _pencere.y))
+		root.size = Vector2i(Vector2(_pencere) * olcek)
+		root.move_to_center()
+		await _kareler(12)
+		print("pencere %s → görünen alan %s" % [_pencere, root.get_visible_rect().size])
 	_yedekle()
 	if secilen.is_empty() or "bilesen" in secilen:
 		await _bilesen_testi()
