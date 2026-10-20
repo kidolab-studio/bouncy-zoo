@@ -15,6 +15,7 @@ const GAME_SCENE := "res://oyunlar/buyukten_kucuge/buyukten_kucuge.tscn"
 const MENU_SCENE := "res://ana_menu/ana_menu.tscn"
 const SAVES := ["user://buyukten_kucuge.cfg", "user://ana_menu.cfg"]
 
+var _bitmisti := false             # oyun bu testten önce tamamlanmış mıydı (OyunBitti)
 var out := ""
 var game: Node
 var _fails := 0
@@ -28,6 +29,9 @@ func _check(condition: bool, message: String) -> void:
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	_bitmisti = OyunBitti.tamamlandi_mi("buyukten_kucuge")
+	OyunBitti.sifirla("buyukten_kucuge")
 	var args := OS.get_cmdline_user_args()
 	out = args[0] if args.size() > 0 else OS.get_user_data_dir()
 	for path in SAVES:
@@ -43,6 +47,10 @@ func _initialize() -> void:
 
 
 func _finish() -> void:
+	if _bitmisti:
+		OyunBitti.tamamla("buyukten_kucuge")
+	else:
+		OyunBitti.sifirla("buyukten_kucuge")
 	for path in SAVES:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 		if _backups.has(path):
@@ -123,6 +131,7 @@ func _play_all() -> void:
 			await _frames(150)
 			await _shot("03_bebek_selam")
 		await _wait_level_end(level)
+	await _final_bastan()
 	await _wait_playing()
 	_check(game.level_index == 0, "son bölümden sonra 1. bölüme dönülmedi (%d)" % (game.level_index + 1))
 	_check(game.stars.current == 0, "yeni turda yıldızlar sıfırlanmadı")
@@ -147,7 +156,7 @@ func _wait_level_end(level: int) -> void:
 		await process_frame
 		if game.level_index != level and game.state == game.State.PLAYING:
 			return
-		if level == 14 and game.level_index == 0 and game.state == game.State.PLAYING:
+		if level == 14 and OyunBitti.acik:
 			return
 		if level == 14 and k == 300:
 			await _shot("15_final")
@@ -297,3 +306,29 @@ func _frames(count: int) -> void:
 func _shot(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("%s/%s.png" % [out, name])
+
+
+# Son bölümden sonra ortak final ekranı (OyunBitti) gelir; düğmeler belirince "Baştan oyna"ya dokunulur
+func _final_bastan() -> void:
+	for k in 3000:
+		if OyunBitti.acik:
+			break
+		await process_frame
+	_check(OyunBitti.acik, "son bölümden sonra final ekranı gelmedi")
+	var ekran: OyunBitti = null
+	for c in root.get_children():
+		if c is OyunBitti:
+			ekran = c
+	if ekran == null:
+		return
+	for k in 600:
+		if ekran._hazir:
+			break
+		await process_frame
+	for satir: Array in ekran._dugmeler:
+		if satir[1] == "bastan":
+			for basili in [true, false]:
+				var olay := InputEventScreenTouch.new()
+				olay.position = (satir[0] as Control).get_global_rect().get_center()
+				olay.pressed = basili
+				root.push_input(olay, true)

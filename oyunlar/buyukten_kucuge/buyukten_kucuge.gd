@@ -98,6 +98,27 @@ func _ready() -> void:
 	_start_level(level_index)
 	var ipucu := IpucuEli.ekle(self, "buyukten_kucuge", _ipucu)
 	ipucu.engel = func() -> bool: return hand.visible   # oyunun kendi ipucu eli görünürken çekilir
+	OyunBitti.kisayol(self, func() -> void:
+		if state == State.PLAYING:
+			state = State.CELEBRATING
+			level_completed.emit(level_index))
+	if OyunBitti.tamamlandi_mi("buyukten_kucuge"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "buyukten_kucuge", "karakter": load("res://ana_menu/kartlar/buyukten_kucuge.svg"),
+		"bolum_sayisi": settings.level_count(), "kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	if activity:
+		await _clear_level()
+	stars.setup(settings.level_count())
+	_start_level(index)
 
 
 # Başlangıç ipucu eli: etkinliğin sıradaki doğru hamlesi (nesneyi hedefine sürükle)
@@ -186,7 +207,7 @@ func _on_level_completed(index: int) -> void:
 	_start_level(index + 1)
 
 
-# Son bölüm bitti: büyük kutlama, sonra 1. bölümden yeniden
+# Son bölüm bitti: büyük kutlama, sonra ortak final ekranı (bölüm seç / baştan oyna / ana menü)
 func _on_all_levels_completed() -> void:
 	var my_run := run_id
 	sounds.play("final")
@@ -201,8 +222,7 @@ func _on_all_levels_completed() -> void:
 	await _clear_level()
 	if my_run != run_id:
 		return
-	stars.setup(settings.level_count())
-	_start_level(0)
+	_oyun_bitti(false)
 
 
 func _clear_level() -> void:
