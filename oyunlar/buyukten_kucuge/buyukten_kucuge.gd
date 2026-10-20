@@ -96,6 +96,18 @@ func _ready() -> void:
 	_layout_static()
 	get_viewport().size_changed.connect(_on_resized)
 	_start_level(level_index)
+	var ipucu := IpucuEli.ekle(self, "buyukten_kucuge", _ipucu)
+	ipucu.engel = func() -> bool: return hand.visible   # oyunun kendi ipucu eli görünürken çekilir
+
+
+# Başlangıç ipucu eli: etkinliğin sıradaki doğru hamlesi (nesneyi hedefine sürükle)
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or activity == null or drag_input.active_touch != -1:
+		return {}
+	var move := activity.hint_move()
+	if move.is_empty():
+		return {}
+	return IpucuEli.surukle(IpucuEli.ekran_konumu(move[0]), activity.get_global_transform_with_canvas() * move[1])
 
 
 func _layout_static() -> void:
