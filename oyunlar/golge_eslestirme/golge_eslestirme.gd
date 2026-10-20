@@ -119,6 +119,18 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout_static)
 	if not levels.is_empty():
 		_start_level(level_index)
+	var ipucu := IpucuEli.ekle(self, "golge_eslestirme", _ipucu)
+	ipucu.engel = func() -> bool: return hand.visible   # oyunun kendi ipucu eli görünürken çekilir
+
+
+# Başlangıç ipucu eli: yerleşmemiş ilk eşyayı kendi gölgesine sürükle
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or drag_input.active_touch != -1:
+		return {}
+	for item in items:
+		if not item.placed:
+			return IpucuEli.surukle(IpucuEli.ekran_konumu(item), IpucuEli.ekran_konumu(item.slot))
+	return {}
 
 
 # --- Veri kontrolü ---
