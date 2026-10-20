@@ -100,6 +100,16 @@ func _ready() -> void:
 	_layout()
 	get_viewport().size_changed.connect(_layout)
 	select(0, false)
+	IpucuEli.ekle(self, "muzik_kutusu", _ipucu)
+
+
+# Başlangıç ipucu eli: seçili enstrümanın ortadaki parçasına dokun (ses çıkar)
+func _ipucu() -> Dictionary:
+	var calgi := instrument()
+	if calgi == null or calgi.pads.is_empty():
+		return {}
+	var parca: Node2D = calgi.pads[int(calgi.pads.size() / 2.0)]
+	return IpucuEli.dokun(parca.get_global_transform_with_canvas() * parca.hit_offset)
 
 
 # --- Yerleşim (ekran boyutuna göre; telefon ve tablet oranları) ---
