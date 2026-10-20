@@ -37,7 +37,7 @@ const SES_KAYNAKLARI := [
 	["Pleasing Bell Sound Effect", "Spring Spring", "opengameart.org/content/pleasing-bell-sound-effect"],
 	["Steam whistle, Steam release sounds", "bart", "opengameart.org/content/steam-whistle"],
 	["80 CC0 creature SFX, 30 CC0 SFX loops", "rubberduck", "opengameart.org"],
-	["Happy Clappy Loop", "OwlishMedia", "opengameart.org/content/happy-clappy-loop"],
+	["Children's Game Music 3 - Home", "heartade", "opengameart.org/content/childrens-game-music-3-home"],
 	["Flowerbed Fields", "Zane Little Music", "opengameart.org/content/flowerbed-fields-loop"],
 	["Feel Good Island", "Brandon Morris (döngü: AntumDeluge)", "opengameart.org/content/feel-good-island-loop"],
 	["Cozy Puzzle Jingle / Result", "MintoDog", "opengameart.org/content/cozy-puzzle-jingle-result"],
