@@ -18,6 +18,9 @@ var _yedek_var := false
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	var bitmisti := OyunBitti.tamamlandi_mi("tren_rayi")
+	OyunBitti.sifirla("tren_rayi")
 	root.content_scale_size = Vector2i(1280, 720)
 	_yedek_var = FileAccess.file_exists(Yonetici.PATH)
 	if _yedek_var:
@@ -46,6 +49,10 @@ func _initialize() -> void:
 	else:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Yonetici.PATH))
 	print("SONUÇ: ", "hepsi geçti" if failures == 0 else "%d hata" % failures)
+	if bitmisti:
+		OyunBitti.tamamla("tren_rayi")
+	else:
+		OyunBitti.sifirla("tren_rayi")
 	quit(1 if failures > 0 else 0)
 
 
@@ -120,6 +127,16 @@ func _bolum_oyna(i: int) -> bool:
 		_expect(false, "bölüm %d: tren istasyona varmadı" % (i + 1))
 		return false
 	_expect(game.tren.yolcu_sayisi() == yolcu_sayisi, "bölüm %d: yolcuların hepsi alındı (%d/%d)" % [i + 1, game.tren.yolcu_sayisi(), yolcu_sayisi])
+	if i == Bolumler.LEVELS.size() - 1:
+		# Son bölüm: ortak final ekranı; "baştan oyna" 1. bölümü açar, vagonlar kalır
+		await bekle(func() -> bool: return OyunBitti.acik, 1200)
+		_expect(OyunBitti.acik and OyunBitti.tamamlandi_mi("tren_rayi"), "son bölümden sonra final ekranı, oyun tamamlandı")
+		await _final_dugmesi("bastan")
+		await bekle(func() -> bool: return game.durum == game.Durum.OYUN, 1200)
+		_expect(game.yonetici.bolum == 0 and game.yonetici.vagon == i + 1, "final → baştan oyna: 1. bölüm, vagonlar duruyor")
+		print("bölüm %d tamam" % (i + 1))
+		await frames(30)
+		return true
 	await bekle(func() -> bool: return game.durum == game.Durum.OYUN, 1200)
 	_expect(game.yonetici.bolum == i + 1 and game.yonetici.vagon == i + 1, "bölüm %d sonrası ilerleme ve vagon" % (i + 1))
 	var ayar := ConfigFile.new()
@@ -185,3 +202,17 @@ func _expect(ok: bool, message: String) -> void:
 	if not ok:
 		failures += 1
 		push_error("HATA: " + message)
+
+
+# Ortak final ekranında (OyunBitti) düğmeler belirince verilen düğmeye dokunur ("bastan", "sonsuz", ...)
+func _final_dugmesi(eylem: String) -> void:
+	var ekran: OyunBitti = null
+	for c in root.get_children():
+		if c is OyunBitti:
+			ekran = c
+	if ekran == null:
+		return
+	await bekle(func() -> bool: return ekran._hazir, 600)
+	for satir: Array in ekran._dugmeler:
+		if satir[1] == eylem:
+			tap((satir[0] as Control).get_global_rect().get_center())
