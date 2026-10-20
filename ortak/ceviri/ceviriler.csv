@@ -74,3 +74,8 @@
 "Tam lisans metinlerini göster","Tam lisans metinlerini göster","Show full license texts"
 " ve diğerleri"," ve diğerleri"," and others"
 "Lisans: %s","Lisans: %s","License: %s"
+"Hepsini bitirdin!","Hepsini bitirdin!","You finished them all!"
+"İlerlemeyi sıfırla","İlerlemeyi sıfırla","Reset progress"
+"Bir oyunun bütün ilerlemesini (bölümler ve kupa) siler. Önce oyuna, sonra onaylamak için bir kez daha dokunun.","Bir oyunun bütün ilerlemesini (bölümler ve kupa) siler. Önce oyuna, sonra onaylamak için bir kez daha dokunun.","Erases all progress of a game (levels and trophy). Tap a game, then tap it once more to confirm."
+"%s: silmek için tekrar dokunun","%s: silmek için tekrar dokunun","%s: tap again to erase"
+"%s: ilerleme silindi","%s: ilerleme silindi","%s: progress erased"

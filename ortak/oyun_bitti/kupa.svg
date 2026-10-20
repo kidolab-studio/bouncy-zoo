@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Final ekranı kupası (Bouncy Zoo için çizildi): altın kupa, ön yüzünde yıldız -->
+  <defs>
+    <linearGradient id="altin" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb21e"/>
+      <stop offset="0.45" stop-color="#ffe066"/>
+      <stop offset="1" stop-color="#f29a0e"/>
+    </linearGradient>
+    <linearGradient id="taban" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9a6cf6"/>
+      <stop offset="1" stop-color="#6c4fd8"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#2d2447" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M62 52 C20 52 22 120 76 126" fill="none"/>
+    <path d="M194 52 C236 52 234 120 180 126" fill="none"/>
+    <path d="M60 30 H196 V70 C196 128 166 156 128 158 C90 156 60 128 60 70 Z" fill="url(#altin)"/>
+    <rect x="112" y="156" width="32" height="34" fill="url(#altin)"/>
+    <path d="M82 192 H174 L184 214 H72 Z" fill="url(#altin)"/>
+    <rect x="58" y="212" width="140" height="32" rx="10" fill="url(#taban)"/>
+  </g>
+  <path d="M128 66 L138 88 L162 90 L144 106 L150 130 L128 117 L106 130 L112 106 L94 90 L118 88 Z" fill="#fff6c8" stroke="#e08a00" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M76 44 C74 80 82 108 100 128" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="9" stroke-linecap="round"/>
+  <rect x="84" y="222" width="88" height="10" rx="5" fill="#ffffff" fill-opacity="0.35"/>
+</svg>
