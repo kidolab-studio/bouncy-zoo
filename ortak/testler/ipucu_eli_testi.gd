@@ -220,6 +220,7 @@ func _oyun_testi(oyun: Dictionary) -> void:
 			# Elin gösterdiği hareketi gerçekten yap: oyun ilerlemeli (sonraki ipucu ya da durum değişir)
 			h = el._hareket_al()
 			if not h.is_empty():
+				print("  %s: yapılan: %s" % [ad, _ozet(el, h)])
 				await _uygula(el, h)
 				await _sn(1.5)
 				print("  %s: '%s' yapıldı → sonraki ipucu: %s" % [ad, h["tur"], _ozet(el, el._hareket_al())])
@@ -233,6 +234,8 @@ func _ozet(el: IpucuEli, h: Dictionary) -> String:
 		return "(yok)"
 	if h["tur"] == "sira":
 		return "sira %s" % str(h["adimlar"].map(func(a: Dictionary) -> String: return "%s@%s" % [a["tur"], el._nokta(a["a"]).round()]))
+	if h.has("b"):
+		return "%s@%s→%s" % [h["tur"], el._nokta(h["a"]).round(), el._nokta(h["b"]).round()]
 	return "%s@%s" % [h["tur"], el._nokta(h["a"]).round()]
 
 
@@ -349,7 +352,8 @@ func _yedekle() -> void:
 	for dosya in DirAccess.get_files_at("user://"):
 		if dosya.ends_with(".cfg"):
 			_yedek[dosya] = FileAccess.get_file_as_bytes("user://" + dosya)
-	_eserler = DirAccess.get_directories_at("user://boyama_kitabi")
+	if DirAccess.dir_exists_absolute("user://boyama_kitabi"):
+		_eserler = DirAccess.get_directories_at("user://boyama_kitabi")
 
 
 func _geri_yaz() -> void:
@@ -361,7 +365,8 @@ func _geri_yaz() -> void:
 		f.store_buffer(_yedek[dosya])
 		f.close()
 	# Testin Boyama Kitabı'nda oluşturduğu eserleri sil (önceden var olanlara dokunma)
-	for eser in DirAccess.get_directories_at("user://boyama_kitabi"):
+	var eserler := DirAccess.get_directories_at("user://boyama_kitabi") if DirAccess.dir_exists_absolute("user://boyama_kitabi") else PackedStringArray()
+	for eser in eserler:
 		if not (eser in _eserler):
 			var klasor := "user://boyama_kitabi".path_join(eser)
 			for dosya in DirAccess.get_files_at(klasor):
