@@ -112,6 +112,21 @@ func _ready() -> void:
 	_layout_static()
 	get_viewport().size_changed.connect(_on_resized)
 	_start_level(level_index)
+	IpucuEli.ekle(self, "hayvan_besle", _ipucu)
+
+
+# Başlangıç ipucu eli: aç bir hayvanın istediği yiyeceği onun ağzına sürükle
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or drag_input.active_touch != -1:
+		return {}
+	for animal in animals:
+		if not animal.wants_more():
+			continue
+		for food in foods:
+			if is_instance_valid(food) and food.can_grab() and animal.accepts(food.data):
+				return IpucuEli.surukle(IpucuEli.ekran_konumu(food),
+					get_viewport().get_canvas_transform() * animal.mouth_global())
+	return {}
 
 
 # --- Yerleşim ---
