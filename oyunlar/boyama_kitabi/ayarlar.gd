@@ -8,6 +8,9 @@ const CANVAS_LONG_SIDE := 2048
 const PAGE_THUMB_WIDTH := 320
 ## Galerideki eser küçük resminin genişliği (piksel)
 const ART_THUMB_WIDTH := 400
+## Galerideki en fazla eser. Galeri bütün küçük resimleri birden yüklediği için sınır var. Dolunca yeni
+## resim açılmaz: galeri açılır ve çöp kutuları sallanır; çocuk birini silince yeniden yeni resim yapabilir.
+const MAX_ARTWORKS := 60
 
 ## Kategoriler (sayfa seçimindeki sırayla). Sayfa SVG'leri sayfalar/kaynak/<id>/ klasöründedir.
 const CATEGORIES := [
