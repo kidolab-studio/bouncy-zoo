@@ -3,10 +3,13 @@ extends Control
 # Godot'un lisansı ve içindeki üçüncü taraf bileşenler motordan okunur (Engine.get_license_text(),
 # get_copyright_info(), get_license_info()); yazı tipi lisansı ve ses kaynakları lisans_metinleri.gd'de.
 # Parmakla ya da fare tekerleğiyle kaydırılır; sol üstteki geri düğmesi, Escape ve Android geri tuşu kapatır.
+# En üstte "İlerlemeyi sıfırla": kaydı olan her oyun için bir satır; ilk dokunuş onay ister, ikinci dokunuş oyunun
+# kaydını (user://<klasör>.cfg) ve kupasını (OyunBitti) siler. Çocuğun erişebildiği başka hiçbir yerde ilerleme silinmez.
 
 signal kapandi
 
 const Metinler := preload("res://ana_menu/lisans_metinleri.gd")
+const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
 const GERI: Texture2D = preload("res://ortak/gorseller/geri.svg")
 const KENAR := 36.0
 const BASLIK_YUKSEKLIGI := 170.0
@@ -28,6 +31,9 @@ var _son_y := 0.0
 var _son_zaman := 0
 var _kayiyor := false
 var _kapaniyor := false
+var _sifirlama: Array = []             # [etiket, oyun kaydı]
+var _onaydaki := -1                    # silmek için ikinci dokunuşu bekleyen satır
+var ilerleme_silindi := false          # kapanınca menü yenilensin (kart rozetleri)
 
 
 func _ready() -> void:
@@ -99,6 +105,7 @@ func _geri_ciz() -> void:
 
 func _icerigi_doldur() -> void:
 	_bosluk(6)
+	_ilerleme_bolumu()
 	_metin(tr(Metinler.GIRIS), 26, YAZI)
 
 	_bolum(tr("Oyun motoru: Godot Engine"))
@@ -126,6 +133,52 @@ func _icerigi_doldur() -> void:
 	_bosluk(10)
 	_tam_metin_dugmesi = _dugme(tr("Tam lisans metinlerini göster"))
 	_bosluk(80)
+
+
+# Ebeveyn için: kaydı olan her oyunun ilerlemesini sıfırlama (onaylı)
+func _ilerleme_bolumu() -> void:
+	var oyunlar: Array = []
+	for oyun: Dictionary in OyunListesi.OYUNLAR:
+		var klasor: String = oyun["klasor"]
+		if FileAccess.file_exists("user://%s.cfg" % klasor) or OyunBitti.tamamlandi_mi(klasor):
+			oyunlar.append(oyun)
+	if oyunlar.is_empty():
+		return
+	_bolum(tr("İlerlemeyi sıfırla"))
+	_metin(tr("Bir oyunun bütün ilerlemesini (bölümler ve kupa) siler. Önce oyuna, sonra onaylamak için bir kez daha dokunun."), 24, YAZI)
+	for oyun: Dictionary in oyunlar:
+		_sifirlama.append([_dugme(tr(oyun["ad"])), oyun])
+	_bosluk(20)
+
+
+func _sifirlama_dokunuldu(sira: int) -> void:
+	var etiket: Label = _sifirlama[sira][0]
+	var oyun: Dictionary = _sifirlama[sira][1]
+	if _onaydaki != sira:
+		_onay_kaldir()
+		_onaydaki = sira
+		SesYoneticisi.efekt("dugme_tik")
+		etiket.text = tr("%s: silmek için tekrar dokunun") % tr(oyun["ad"])
+		etiket.add_theme_color_override("font_color", Color("d93a5a"))
+		return
+	_onaydaki = -1
+	var klasor: String = oyun["klasor"]
+	for ek in [".cfg", ".cfg.bak", ".cfg.tmp"]:
+		if FileAccess.file_exists("user://" + klasor + ek):
+			DirAccess.remove_absolute("user://" + klasor + ek)
+	OyunBitti.sifirla(klasor)
+	ilerleme_silindi = true
+	SesYoneticisi.efekt("geri")
+	etiket.text = tr("%s: ilerleme silindi") % tr(oyun["ad"])
+	etiket.add_theme_color_override("font_color", SOLUK)
+
+
+func _onay_kaldir() -> void:
+	if _onaydaki >= 0:
+		var etiket: Label = _sifirlama[_onaydaki][0]
+		etiket.text = tr(_sifirlama[_onaydaki][1]["ad"])
+		etiket.remove_theme_color_override("font_color")
+	_onaydaki = -1
 
 
 # Motorun bildirdiği bileşenler: her biri için ad, telif sahipleri (en çok üçü) ve lisans adı
@@ -287,6 +340,12 @@ func _input(event: InputEvent) -> void:
 
 
 func _dokunuldu(nokta: Vector2) -> void:
+	if nokta.y > BASLIK_YUKSEKLIGI:
+		for i in _sifirlama.size():
+			if (_sifirlama[i][0] as Control).get_global_rect().has_point(nokta):
+				_sifirlama_dokunuldu(i)
+				return
+	_onay_kaldir()
 	if _geri.get_global_rect().grow(18.0).has_point(nokta):
 		kapat()
 	elif _tam_metin_dugmesi and nokta.y > BASLIK_YUKSEKLIGI and _tam_metin_dugmesi.get_global_rect().has_point(nokta):

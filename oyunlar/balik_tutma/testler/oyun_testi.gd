@@ -19,6 +19,9 @@ var _yedek_var := false
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	var bitmisti := OyunBitti.tamamlandi_mi("balik_tutma")
+	OyunBitti.sifirla("balik_tutma")
 	root.content_scale_size = Vector2i(720, 1280)
 	_yedek_var = FileAccess.file_exists(Kayit.PATH)
 	if _yedek_var:
@@ -51,6 +54,10 @@ func _initialize() -> void:
 	else:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Kayit.PATH))
 	print("SONUÇ: ", "hepsi geçti" if failures == 0 else "%d hata" % failures)
+	if bitmisti:
+		OyunBitti.tamamla("balik_tutma")
+	else:
+		OyunBitti.sifirla("balik_tutma")
 	quit(1 if failures > 0 else 0)
 
 

@@ -73,6 +73,26 @@ func _ready() -> void:
 	_arayuzu_kur()
 	_bolumu_kur()
 	IpucuEli.ekle(self, "balik_tutma", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if durum == Durum.OYUN:
+			_bolum_bitti())
+	if OyunBitti.tamamlandi_mi("balik_tutma"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "balik_tutma", "karakter": load(G + "penguen_mutlu.svg"), "bolum_sayisi": Bolumler.LEVELS.size(),
+		"kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	kayit.bolum = index
+	kayit.kaydet()
+	_bolumu_kur()
+	create_tween().tween_property(_dunya, "modulate:a", 1.0, 0.35)
 
 
 # İpucu eli: kayığın altında suya bas, ekrandaki (kayığa en yakın) balığa doğru sürükle; balık yüzdükçe el izler
@@ -468,6 +488,9 @@ func _bolum_bitti() -> void:
 	kayit.kaydet()
 	await get_tree().create_timer(0.8, false).timeout
 	if oturum != _oturum:
+		return
+	if kayit.bolum % Bolumler.LEVELS.size() == 0:
+		_oyun_bitti(false)          # son bölüm bitti: final ekranı (yoksa sessizce 1. bölüme dönülüyordu)
 		return
 	var tween := create_tween()
 	tween.tween_property(_dunya, "modulate:a", 0.0, 0.35)

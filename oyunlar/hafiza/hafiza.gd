@@ -86,6 +86,28 @@ func _ready() -> void:
 	_create_theme_buttons()
 	_show_level_select()
 	IpucuEli.ekle(self, "hafiza", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if state == State.PLAYING:
+			_level_complete(run_id))
+	if OyunBitti.tamamlandi_mi("hafiza"):
+		_oyun_bitti(true)
+
+
+# Bütün temaların bütün bölümleri bitti mi
+func _hepsi_bitti() -> bool:
+	for tema: Dictionary in Data.THEMES:
+		if completed.get(tema["id"], 0) < Data.LEVELS.size():
+			return false
+	return true
+
+
+# Bütün temalar bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı. Bölüm seç → kendi ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "hafiza", "karakter": _texture("res://oyunlar/hafiza/temalar/hayvanlar/panda.svg"),
+		"bolum_sayisi": Data.LEVELS.size(), "kisa": kisa,
+		"bolum_secme_ekrani": _show_level_select, "bastan": _start_level.bind(0),
+	})
 
 
 # İpucu eli: kapalı bir karta, sonra başka bir karta dokun (bir kart açıksa sadece ikinciye)
@@ -482,6 +504,8 @@ func _level_complete(my_run: int) -> void:
 		return
 	if level_index + 1 < Data.LEVELS.size():
 		_start_level(level_index + 1)
+	elif _hepsi_bitti():
+		_oyun_bitti(false)
 	else:
 		_show_level_select()
 

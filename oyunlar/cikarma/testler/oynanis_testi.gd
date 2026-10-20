@@ -11,6 +11,7 @@ const SAVE_PATH := "user://cikarma.cfg"
 const SPEED := 3.0                      # testi hızlandırmak için oyun zamanı çarpanı
 const SHOT_LEVELS := [0, 8, 16, 19]     # bu bölümlerin ekran görüntüsü alınır (0'dan)
 
+var _bitmisti := false             # oyun bu testten önce tamamlanmış mıydı (OyunBitti)
 var errors: PackedStringArray = []
 var shot_dir: String = ""
 var backup: PackedByteArray = []
@@ -22,6 +23,9 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	_bitmisti = OyunBitti.tamamlandi_mi("cikarma")
+	OyunBitti.sifirla("cikarma")
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--ekran="):
 			shot_dir = arg.trim_prefix("--ekran=")
@@ -63,6 +67,7 @@ func _run() -> void:
 		if not await _play_level(game, level):
 			break
 	# Final sonrası baştan
+	await _final_bastan()
 	var restarted := await _wait(func() -> bool: return game.state == game.State.WAITING and game.level_index == 0, 1200)
 	_check(restarted, "son bölümden sonra 1. bölüme dönülmedi")
 	var config := ConfigFile.new()
@@ -176,6 +181,10 @@ func _check(ok: bool, message: String) -> void:
 
 
 func _finish() -> void:
+	if _bitmisti:
+		OyunBitti.tamamla("cikarma")
+	else:
+		OyunBitti.sifirla("cikarma")
 	Engine.time_scale = 1.0
 	DirAccess.remove_absolute(SAVE_PATH)
 	if had_save:
@@ -193,3 +202,29 @@ func _finish() -> void:
 # Autoload adı (SahneGecis) -s ile çalışan script'te derlenirken bilinmez; düğümden alınır
 func _transition() -> Node:
 	return root.get_node("SahneGecis")
+
+
+# Son bölümden sonra ortak final ekranı (OyunBitti) gelir; düğmeler belirince "Baştan oyna"ya dokunulur
+func _final_bastan() -> void:
+	for k in 3000:
+		if OyunBitti.acik:
+			break
+		await process_frame
+	_check(OyunBitti.acik, "son bölümden sonra final ekranı gelmedi")
+	var ekran: OyunBitti = null
+	for c in root.get_children():
+		if c is OyunBitti:
+			ekran = c
+	if ekran == null:
+		return
+	for k in 600:
+		if ekran._hazir:
+			break
+		await process_frame
+	for satir: Array in ekran._dugmeler:
+		if satir[1] == "bastan":
+			for basili in [true, false]:
+				var olay := InputEventScreenTouch.new()
+				olay.position = (satir[0] as Control).get_global_rect().get_center()
+				olay.pressed = basili
+				root.push_input(olay, true)

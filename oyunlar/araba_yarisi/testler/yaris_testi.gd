@@ -17,6 +17,9 @@ var _had_save := false
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	var bitmisti := OyunBitti.tamamlandi_mi("araba_yarisi")
+	OyunBitti.sifirla("araba_yarisi")
 	_save_backup(SAVE)
 	root.content_scale_size = Vector2i(1280, 720)
 	var errors := Pistler.validate(PistScript)
@@ -37,6 +40,10 @@ func _initialize() -> void:
 	await process_frame
 	_save_restore(SAVE)
 	print("SONUÇ: ", "hepsi geçti" if failures == 0 else "%d hata" % failures)
+	if bitmisti:
+		OyunBitti.tamamla("araba_yarisi")
+	else:
+		OyunBitti.sifirla("araba_yarisi")
 	quit(1 if failures > 0 else 0)
 
 

@@ -67,6 +67,27 @@ func _ready() -> void:
 	manager.load_progress()
 	_start_level()
 	IpucuEli.ekle(self, "robot_fabrikasi", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if not _level_done and not _montage.running:
+			_on_level_complete())
+	if OyunBitti.tamamlandi_mi("robot_fabrikasi"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "robot_fabrikasi", "karakter": load(G + "yardimci.svg"), "bolum_sayisi": Bolumler.LEVELS.size(),
+		"kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+		"sonsuz": _bolumden_basla.bind(Bolumler.LEVELS.size()),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	manager.index = index
+	manager.save_progress()
+	_belt.clear()
+	_start_level()
 
 
 # İpucu eli: banttaki (görünen) ilk parçayı onu alan kutuya sürükle; parça bantla birlikte kayar
@@ -270,6 +291,9 @@ func _on_level_complete() -> void:
 	manager.gallery[robot_id] = look
 	manager.index += 1
 	manager.save_progress()
+	if manager.index == Bolumler.LEVELS.size():
+		_oyun_bitti(false)          # 15. bölüm bitti: final ekranı (sonsuz mod: karışık bölümler)
+		return
 	_start_level()
 
 

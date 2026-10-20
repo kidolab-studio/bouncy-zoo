@@ -211,8 +211,11 @@ func _lisanslari_ac() -> void:
 
 
 func _lisanslar_kapandi() -> void:
+	var silindi: bool = _lisanslar.ilerleme_silindi
 	_lisanslar = null
 	_bilgi_dugmesi.reset()
+	if silindi:
+		SahneGecis.sahneyi_yeniden_baslat()      # kart rozetleri (ilerleme, kupa) yenilensin
 
 
 func _sekme_boyu() -> Vector2:

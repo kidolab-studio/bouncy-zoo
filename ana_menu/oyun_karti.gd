@@ -1,6 +1,6 @@
 extends Control
 # Ana menüde tek oyun kartı: pastel zemin, ortada oyunun büyük görseli (yavaşça nefes alır), altta kısa ad,
-# köşelerde küçük rozetler ("Yeni" ve bölümlü oyunlarda ilerleme). Bütün görünüm "ic" düğümünde;
+# köşelerde küçük rozetler ("Yeni" ve bölümlü oyunlarda ilerleme; bütün bölümler bitince kupa). Bütün görünüm "ic" düğümünde;
 # kartın kendisi sadece yer tutar (kaydırma onu taşır), basma ve açılış animasyonları "ic" üzerinde oynar.
 
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
@@ -68,7 +68,9 @@ func kur(p_oyun: Dictionary, boyut: Vector2, faz: float) -> void:
 	ad.size = Vector2(boyut.x, yazi_payi)
 
 	var bolum := OyunListesi.ilerleme(oyun)
-	if bolum > 0:
+	if OyunBitti.tamamlandi_mi(oyun["klasor"]):
+		_kose_rozeti(_kupa_rozeti(), true)       # bütün bölümler bitti: küçük kupa
+	elif bolum > 0:
 		_kose_rozeti(_ilerleme_rozeti(bolum), true)
 	if OyunListesi.yeni_mi(oyun):
 		_yeni = _yeni_rozeti()
@@ -124,6 +126,20 @@ func _ilerleme_rozeti(bolum: int) -> Control:
 	yildiz.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	satir.add_child(yildiz)
 	satir.add_child(_rozet_yazisi(str(bolum), YAZI_RENGI))
+	return rozet
+
+
+# Sağ üstte küçük kupa: oyunun bütün bölümleri bitirildi (OyunBitti)
+func _kupa_rozeti() -> Control:
+	var rozet := _hap(Color(1, 1, 1, 0.94))
+	rozet.name = "KupaRozeti"
+	var kupa := TextureRect.new()
+	kupa.texture = OyunBitti.KUPA
+	kupa.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	kupa.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	kupa.custom_minimum_size = Vector2(30, 30)
+	kupa.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rozet.add_child(kupa)
 	return rozet
 
 

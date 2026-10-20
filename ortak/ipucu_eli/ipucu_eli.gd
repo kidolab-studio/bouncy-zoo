@@ -147,7 +147,7 @@ func _hareket_al() -> Dictionary:
 
 
 func _engelli() -> bool:
-	return engel.is_valid() and bool(engel.call())
+	return OyunBitti.acik or (engel.is_valid() and bool(engel.call()))   # final ekranı açıkken de gösterilmez
 
 
 func _process(delta: float) -> void:

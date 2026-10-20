@@ -17,6 +17,9 @@ var _yedek_var := false
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	var bitmisti := OyunBitti.tamamlandi_mi("kule_yapma")
+	OyunBitti.sifirla("kule_yapma")
 	root.content_scale_size = Vector2i(720, 1280)
 	_yedek_var = FileAccess.file_exists(Kayit.PATH)
 	if _yedek_var:
@@ -55,6 +58,10 @@ func _initialize() -> void:
 	else:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Kayit.PATH))
 	print("SONUÇ: ", "hepsi geçti" if failures == 0 else "%d hata" % failures)
+	if bitmisti:
+		OyunBitti.tamamla("kule_yapma")
+	else:
+		OyunBitti.sifirla("kule_yapma")
 	quit(1 if failures > 0 else 0)
 
 
@@ -223,6 +230,15 @@ func _bolum_oyna(i: int) -> bool:
 		await kat_bekle()
 	_expect(game.kule.sayi() == hedef, "bölüm %d: %d kat (hedef %d)" % [i + 1, game.kule.sayi(), hedef])
 	_expect(game.kule.cati_var(), "bölüm %d: son kat çatı" % (i + 1))
+	if i == Bolumler.LEVELS.size() - 1:
+		# Son bölüm: bölüm sonu paneli yerine ortak final ekranı; oradan sonsuz moda geçilir
+		await bekle(func() -> bool: return OyunBitti.acik, 600)
+		_expect(OyunBitti.acik and OyunBitti.tamamlandi_mi("kule_yapma"), "son bölümden sonra final ekranı, oyun tamamlandı")
+		await _final_dugmesi("sonsuz")
+		await bekle(func() -> bool: return game.durum == game.Durum.OYUN and game.vinc.hazir, 600)
+		_expect(not OyunBitti.acik and game.kayit.bolum == Bolumler.LEVELS.size(), "final → sonsuz mod başladı")
+		print("bölüm %d tamam" % (i + 1))
+		return true
 	await bekle(func() -> bool: return game.durum == game.Durum.SONU, 600)
 	if game.durum != game.Durum.SONU:
 		_expect(false, "bölüm %d sonu paneli açılmadı (durum %d, kalp %d)" % [i + 1, game.durum, game._kalp])
@@ -300,3 +316,17 @@ func _expect(ok: bool, message: String) -> void:
 	if not ok:
 		failures += 1
 		push_error("HATA: " + message)
+
+
+# Ortak final ekranında (OyunBitti) düğmeler belirince verilen düğmeye dokunur ("bastan", "sonsuz", ...)
+func _final_dugmesi(eylem: String) -> void:
+	var ekran: OyunBitti = null
+	for c in root.get_children():
+		if c is OyunBitti:
+			ekran = c
+	if ekran == null:
+		return
+	await bekle(func() -> bool: return ekran._hazir, 600)
+	for satir: Array in ekran._dugmeler:
+		if satir[1] == eylem:
+			tap((satir[0] as Control).get_global_rect().get_center())

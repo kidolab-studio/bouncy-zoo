@@ -18,6 +18,9 @@ var _had_save := false
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	var bitmisti := OyunBitti.tamamlandi_mi("robot_fabrikasi")
+	OyunBitti.sifirla("robot_fabrikasi")
 	_save_backup(Yonetici.PATH)
 	root.content_scale_size = Vector2i(1280, 720)
 	_check_data()
@@ -28,12 +31,21 @@ func _initialize() -> void:
 	await _check_recycle()
 	await _check_lever()
 	await _check_all_levels()
+	_expect(OyunBitti.acik, "15. bölümden sonra final ekranı açılmalı")
+	for c in root.get_children():
+		if c is OyunBitti:
+			c.queue_free()
+	await _frames(2)
 	await _check_gallery()
 	await _check_save()
 	game.queue_free()
 	await process_frame
 	_save_restore(Yonetici.PATH)
 	print("SONUÇ: ", "hepsi geçti" if failures == 0 else "%d hata" % failures)
+	if bitmisti:
+		OyunBitti.tamamla("robot_fabrikasi")
+	else:
+		OyunBitti.sifirla("robot_fabrikasi")
 	quit(1 if failures > 0 else 0)
 
 

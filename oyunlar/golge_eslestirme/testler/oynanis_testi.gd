@@ -8,6 +8,7 @@ extends SceneTree
 const GAME_SCENE := "res://oyunlar/golge_eslestirme/golge_eslestirme.tscn"
 const SAVE_PATH := "user://golge_eslestirme.cfg"
 
+var _bitmisti := false             # oyun bu testten önce tamamlanmış mıydı (OyunBitti)
 var game: Node
 var _fails := 0
 var _backup: PackedByteArray
@@ -21,6 +22,9 @@ func _check(condition: bool, message: String) -> void:
 
 
 func _initialize() -> void:
+	# Önceki çalışmadan kalan "tamamlandı" (final ekranı) testi bozmasın: sonunda eski hali geri yazılır
+	_bitmisti = OyunBitti.tamamlandi_mi("golge_eslestirme")
+	OyunBitti.sifirla("golge_eslestirme")
 	_had_save = FileAccess.file_exists(SAVE_PATH)
 	if _had_save:
 		_backup = FileAccess.get_file_as_bytes(SAVE_PATH)
@@ -33,6 +37,10 @@ func _initialize() -> void:
 
 
 func _finish() -> void:
+	if _bitmisti:
+		OyunBitti.tamamla("golge_eslestirme")
+	else:
+		OyunBitti.sifirla("golge_eslestirme")
 	if is_instance_valid(game):
 		game.queue_free()
 	await process_frame
@@ -60,6 +68,7 @@ func _play_all() -> void:
 			await _drop_on(item, item.slot.position)
 			await _frames(20)
 			_check(item.placed, "bölüm %d: eşya gölgesine yerleşmedi" % level)
+	await _final_bastan()
 	await _wait_playing()
 	_check(game.level_index == 0, "son bölümden sonra 1. bölüme dönülmedi (%d)" % game.level_index)
 	_check(game.placed_count == 0, "yeni turda yerleşmiş eşya var")
@@ -142,3 +151,29 @@ func _drag_event(pos: Vector2, index: int) -> void:
 func _frames(count: int) -> void:
 	for k in count:
 		await process_frame
+
+
+# Son bölümden sonra ortak final ekranı (OyunBitti) gelir; düğmeler belirince "Baştan oyna"ya dokunulur
+func _final_bastan() -> void:
+	for k in 3000:
+		if OyunBitti.acik:
+			break
+		await process_frame
+	_check(OyunBitti.acik, "son bölümden sonra final ekranı gelmedi")
+	var ekran: OyunBitti = null
+	for c in root.get_children():
+		if c is OyunBitti:
+			ekran = c
+	if ekran == null:
+		return
+	for k in 600:
+		if ekran._hazir:
+			break
+		await process_frame
+	for satir: Array in ekran._dugmeler:
+		if satir[1] == "bastan":
+			for basili in [true, false]:
+				var olay := InputEventScreenTouch.new()
+				olay.position = (satir[0] as Control).get_global_rect().get_center()
+				olay.pressed = basili
+				root.push_input(olay, true)
