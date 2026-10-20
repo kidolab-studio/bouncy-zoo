@@ -116,6 +116,14 @@ func _ready() -> void:
 
 	backdrop.set_phase(Data.get_level(levels.saved_index)["background"], 0.0)
 	_go_to_start()
+	IpucuEli.ekle(self, "meyve_topla", _ipucu)
+
+
+# İpucu eli: kirpinin altında parmakla sağa sola kaydır
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING:
+		return {}
+	return IpucuEli.kaydir_yatay(IpucuEli.ekran_konumu(player, Vector2(0.0, 30.0)), 320.0)
 
 
 func _texture(path: String) -> Texture2D:
