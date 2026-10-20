@@ -5,8 +5,11 @@ extends RefCounted
 #              olusturma / degisme (unix zamanı)
 #   firca.png  fırça ve damga katmanı (tuval boyutunda, önceden çarpılmış alfa; katman boşsa yok)
 #   kucuk.png  galeri küçük resmi
-# Aynı sayfadan istenildiği kadar eser olabilir. Galeri en son değişeni en başta gösterir.
+# Aynı sayfadan istenildiği kadar eser olabilir; toplamda en fazla Settings.MAX_ARTWORKS eser.
+# Galeri en son değişeni en başta gösterir.
 
+const Settings := preload("res://oyunlar/boyama_kitabi/ayarlar.gd")
+const PageList := preload("res://oyunlar/boyama_kitabi/sayfalar/sayfa_listesi.gd")
 const DIR := "user://boyama_kitabi/"
 
 
@@ -22,6 +25,19 @@ static func list() -> Array[Dictionary]:
 			"modified": float(config.get_value("eser", "degisme", 0.0))})
 	result.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["modified"] > b["modified"])
 	return result
+
+
+## Galeride görünen eserler: sayfası hâlâ var olanlar (list() sırasıyla)
+static func gallery_list() -> Array[Dictionary]:
+	var known := {}
+	for page in PageList.PAGES:
+		known[page["id"]] = true
+	return list().filter(func(art: Dictionary) -> bool: return known.has(art["page"]))
+
+
+## Galeri dolu mu: yeni eser açılmaz
+static func is_full() -> bool:
+	return gallery_list().size() >= Settings.MAX_ARTWORKS
 
 
 ## {"page", "colors", "brush" (Image ya da null)}; yoksa boş sözlük

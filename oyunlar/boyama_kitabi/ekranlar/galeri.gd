@@ -6,7 +6,6 @@ extends Control
 # Galeri boşsa şövale ve gülen boya kalemi görseli ile yeni resim düğmesi görünür.
 
 const BackButton := preload("res://ortak/basili_geri_dugmesi.gd")
-const PageList := preload("res://oyunlar/boyama_kitabi/sayfalar/sayfa_listesi.gd")
 const G := "res://oyunlar/boyama_kitabi/gorseller/"
 const BG := Color("eef7ff")
 const OUT := Color("3b2f6b")
@@ -14,6 +13,7 @@ const COLUMNS := 4
 const TOP := 118.0
 const GAP := 26.0
 const TRASH := 84.0                   # kartın sağ üst köşesindeki çöp kutusu
+const FULL_HINT_DELAY := 0.35          # galeri doluyken çöp kutuları açılış geçişinden sonra sallanır
 
 var game: Node
 var back: Control
@@ -71,12 +71,8 @@ func _reload() -> void:
 		trash.queue_free()
 	_cards.clear()
 	_trashes.clear()
-	var known := {}
-	for page in PageList.PAGES:
-		known[page["id"]] = true
-	for art in ColoringArtworks.list():
-		if known.has(art["page"]):
-			_cards.append(_make_card(art))
+	for art in ColoringArtworks.gallery_list():
+		_cards.append(_make_card(art))
 	_empty.visible = _cards.is_empty()
 	new_button.visible = _cards.is_empty()
 
@@ -104,6 +100,7 @@ func _make_card(art: Dictionary) -> Control:
 	card.resized.connect(func() -> void: card.pivot_offset = card.size * 0.5)
 	_grid.add_child(card)
 	var trash := _button("cop", TRASH)
+	trash.accent = Color("ff5b6e")
 	trash.set_meta("card", card)
 	_grid.add_child(trash)
 	_trashes.append(trash)
@@ -230,6 +227,26 @@ func _release_card() -> void:
 		var tween := _pressed_card.create_tween()
 		tween.tween_property(_pressed_card, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_pressed_card = null
+
+
+## Galeri dolu (yeni resim açılamadı): çöp kutuları kırmızı halkayla iki kez sallanır, "birini sil" der
+func hint_full() -> void:
+	var tween := create_tween()
+	tween.tween_interval(FULL_HINT_DELAY)
+	tween.tween_callback(_shake_trashes.bind(true))
+	tween.tween_interval(0.6)
+	tween.tween_callback(_shake_trashes.bind(true))
+	tween.tween_interval(0.8)
+	tween.tween_callback(_shake_trashes.bind(false))
+
+
+func _shake_trashes(on: bool) -> void:
+	for trash: ColoringIconButton in _trashes:
+		trash.selected = on
+		if on:
+			trash.shake()
+	if on:
+		game.sounds.play("tik")
 
 
 # --- Silme: çöp kutusu → onay ---
