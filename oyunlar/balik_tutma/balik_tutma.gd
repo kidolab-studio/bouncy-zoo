@@ -72,6 +72,25 @@ func _ready() -> void:
 	add_child(_dunya)
 	_arayuzu_kur()
 	_bolumu_kur()
+	IpucuEli.ekle(self, "balik_tutma", _ipucu)
+
+
+# İpucu eli: kayığın altında suya bas, ekrandaki (kayığa en yakın) balığa doğru sürükle; balık yüzdükçe el izler
+func _ipucu() -> Dictionary:
+	if durum != Durum.OYUN or _duraklatildi or _akvaryum.acik_mi() or _parmak != -1 or olta == null or olta.icerik != null:
+		return {}
+	var kayik_x: float = IpucuEli.ekran_konumu(kayik).x
+	var en_yakin: Node2D = null
+	for balik: Node2D in uretici.baliklar:
+		if not is_instance_valid(balik) or not balik.visible:
+			continue
+		var x: float = IpucuEli.ekran_konumu(balik).x
+		if x > 120.0 and x < _ekran.x - 120.0:
+			if en_yakin == null or absf(x - kayik_x) < absf(IpucuEli.ekran_konumu(en_yakin).x - kayik_x):
+				en_yakin = balik
+	if en_yakin == null:
+		return {}
+	return IpucuEli.surukle(Vector2(kayik_x, yuzey_y + 70.0), IpucuEli.izle(en_yakin))
 
 
 func _arayuzu_kur() -> void:

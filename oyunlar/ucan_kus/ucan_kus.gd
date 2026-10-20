@@ -207,6 +207,14 @@ func _ready() -> void:
 	var tween := tap_label.create_tween().set_loops()
 	tween.tween_property(tap_label, "modulate:a", 0.35, 0.6)
 	tween.tween_property(tap_label, "modulate:a", 1.0, 0.6)
+	IpucuEli.ekle(self, "ucan_kus", _ipucu)
+
+
+# İpucu eli: kuşun önüne dokun (kuş zıplar). Oyun sonu ekranında gösterilmez.
+func _ipucu() -> Dictionary:
+	if state == State.GAME_OVER:
+		return {}
+	return IpucuEli.dokun(IpucuEli.ekran_konumu(bird, Vector2(220.0, 0.0)))
 
 
 func _input(event: InputEvent) -> void:

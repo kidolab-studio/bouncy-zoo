@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- İpucu eli (Bouncy Zoo için çizildi): işaret parmağı yukarıda, beyaz, kalın yumuşak dış çizgi, hafif gölge.
+       Parmak ucu (104, 8) noktasında; ipucu_eli.gd UC sabiti buna göre. -->
+  <defs>
+    <linearGradient id="ten" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ece8f6"/>
+    </linearGradient>
+    <linearGradient id="kol" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9a8cff"/>
+      <stop offset="1" stop-color="#7b6cf6"/>
+    </linearGradient>
+    <g id="govde">
+      <rect x="84" y="16" width="40" height="130" rx="20"/>
+      <rect x="66" y="98" width="134" height="122" rx="44"/>
+      <circle cx="142" cy="110" r="24"/>
+      <circle cx="174" cy="118" r="22"/>
+      <circle cx="196" cy="138" r="19"/>
+      <ellipse cx="70" cy="156" rx="24" ry="34" transform="rotate(-28 70 156)"/>
+      <rect x="92" y="206" width="104" height="46" rx="14"/>
+    </g>
+  </defs>
+  <!-- Gölge: aynı biçim, sağ alta kaymış, yarı saydam (üç katman: yumuşak kenar) -->
+  <g fill="#1b1430" opacity="0.10" stroke="#1b1430" stroke-width="22" stroke-linejoin="round">
+    <use href="#govde" transform="translate(9 11)"/>
+  </g>
+  <g fill="#1b1430" opacity="0.12" stroke="#1b1430" stroke-width="14" stroke-linejoin="round">
+    <use href="#govde" transform="translate(8 10)"/>
+  </g>
+  <!-- Dış çizgi: bütün parçalar kalın koyu kontürle, sonra üstüne beyaz dolgu (iç çizgiler görünmez) -->
+  <g fill="#2d2447" stroke="#2d2447" stroke-width="16" stroke-linejoin="round">
+    <use href="#govde"/>
+  </g>
+  <g fill="url(#ten)">
+    <rect x="84" y="16" width="40" height="130" rx="20"/>
+    <rect x="66" y="98" width="134" height="122" rx="44"/>
+    <circle cx="142" cy="110" r="24"/>
+    <circle cx="174" cy="118" r="22"/>
+    <circle cx="196" cy="138" r="19"/>
+    <ellipse cx="70" cy="156" rx="24" ry="34" transform="rotate(-28 70 156)"/>
+  </g>
+  <!-- Kol ağzı -->
+  <rect x="92" y="206" width="104" height="46" rx="14" fill="url(#kol)"/>
+  <path d="M100 214 H188" stroke="#ffffff" stroke-opacity="0.45" stroke-width="5" stroke-linecap="round"/>
+  <!-- Ayrıntılar: tırnak, bükülü parmak araları, başparmak çizgisi -->
+  <rect x="94" y="24" width="20" height="22" rx="9" fill="#ffe1ea"/>
+  <path d="M124 104 Q126 122 140 132" fill="none" stroke="#2d2447" stroke-width="5" stroke-linecap="round"/>
+  <path d="M158 112 Q160 128 172 138" fill="none" stroke="#2d2447" stroke-width="5" stroke-linecap="round"/>
+  <path d="M182 128 Q184 142 194 152" fill="none" stroke="#2d2447" stroke-width="5" stroke-linecap="round"/>
+  <path d="M74 140 Q88 160 104 166" fill="none" stroke="#2d2447" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="150" cy="182" rx="16" ry="9" fill="#ffc9d9" opacity="0.55"/>
+</svg>

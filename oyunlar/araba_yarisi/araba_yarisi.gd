@@ -95,6 +95,15 @@ func _ready() -> void:
 	_podium.back_completed.connect(_transition.bind(_show_map))
 	_hud.back_completed.connect(_leave_race)
 	_show_garage()
+	var ipucu := IpucuEli.ekle(self, "araba_yarisi", _ipucu)
+	ipucu.engel = func() -> bool: return _hud._hint.visible   # yarışın kendi "basılı tut" eli görünürken çekilir
+
+
+# İpucu eli: yarışta ekrana basılı tut (araba hızlanır)
+func _ipucu() -> Dictionary:
+	if _screen != Screen.RACE or _race_state != RaceState.RACING or get_tree().paused:
+		return {}
+	return IpucuEli.basili_tut(get_viewport().get_visible_rect().get_center() + Vector2(0.0, 60.0), 1.4)
 
 
 # --- Ekranlar ---

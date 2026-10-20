@@ -27,6 +27,15 @@ func _ready() -> void:
 	sounds = Sounds.new()
 	add_child(sounds)
 	show_home()
+	IpucuEli.ekle(self, "boyama_kitabi", _ipucu)
+
+
+# Başlangıç ipucu eli: boyama ekranında resmin ortasına dokun (kova boyar). Diğer ekranlarda gösterilmez.
+func _ipucu() -> Dictionary:
+	var boyama := screen as ColoringScreen
+	if _switching or boyama == null or boyama.canvas == null:
+		return {}
+	return IpucuEli.dokun(IpucuEli.ekran_konumu(boyama.canvas))
 
 
 func to_menu() -> void:

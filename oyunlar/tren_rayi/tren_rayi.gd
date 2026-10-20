@@ -99,6 +99,22 @@ func _ready() -> void:
 	_hareket.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ui.add_child(_hareket)
 	_giris_ekranina()
+	IpucuEli.ekle(self, "tren_rayi", _ipucu)
+
+
+# İpucu eli: yol tamamsa yeşil "hareket" düğmesine, değilse çözüm yolundaki yanlış yöndeki ilk raya dokun
+# (izgara.ipucu() ile aynı seçim, ama parçayı sallamadan)
+func _ipucu() -> Dictionary:
+	if durum != Durum.OYUN or izgara == null:
+		return {}
+	if izgara.tamam:
+		return IpucuEli.dokun(IpucuEli.ekran_konumu(_hareket))
+	for h in izgara._cozum_sirasi:
+		var parca: Node2D = izgara.parcalar[h]
+		var cozum: Dictionary = izgara.bolum["cozum"][h]
+		if not parca.sabit and Baglanti.acikliklar(parca.tip, parca.yon) != Baglanti.acikliklar(cozum["tip"], cozum["yon"]):
+			return IpucuEli.dokun(IpucuEli.ekran_konumu(parca), 1)
+	return {}
 
 
 func _yuvarlak_dugme(simge: Texture2D, cap: float) -> Control:

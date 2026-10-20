@@ -99,6 +99,20 @@ func _ready() -> void:
 	bubble.scale = Vector2.ZERO
 	customer.visible = false
 	_next_customer()
+	IpucuEli.ekle(self, "dondurmaci", _ipucu)
+
+
+# İpucu eli: siparişi göster, sonra istenen kaba, sonra sıradaki tadın kutusuna dokun
+func _ipucu() -> Dictionary:
+	if state != State.CHOOSE_CONTAINER and state != State.ADD_SCOOPS:
+		return {}
+	var adimlar: Array = [IpucuEli.goster(IpucuEli.ekran_konumu(order_spot, Vector2(0.0, -80.0)))]
+	if state == State.CHOOSE_CONTAINER:
+		adimlar.append(IpucuEli.dokun(IpucuEli.ekran_konumu(container_buttons[order_container]), 1))
+	if made_count < order_flavors.size():
+		var kutu := flavor_boxes[_flavor_index(order_flavors[made_count])]
+		adimlar.append(IpucuEli.dokun(IpucuEli.ekran_konumu(kutu), 1))
+	return IpucuEli.sira(adimlar)
 
 
 func _input(event: InputEvent) -> void:

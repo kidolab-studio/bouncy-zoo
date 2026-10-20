@@ -64,6 +64,25 @@ func _ready() -> void:
 	_build_layers()
 	_build_ui()
 	_load()
+	var ipucu := IpucuEli.ekle(self, "sihirli_bahce", _ipucu)
+	ipucu.engel = func() -> bool: return _hand.visible and _hand.modulate.a > 0.05   # oyunun ilk ekim eli
+
+
+# İpucu eli, bahçenin durumuna göre sıradaki adım: sulama bekleyen bitkiye bulutu sürükle, güneş bekleyen
+# varsa güneşe dokun, yoksa keseyi boş parsele sürükle
+func _ipucu() -> Dictionary:
+	if _album.is_busy() or _drag_index != -1:
+		return {}
+	for plot in plots:
+		if plot.need == "water":
+			return IpucuEli.surukle(_weather.center("cloud"), get_viewport().get_canvas_transform() * plot.plant_global_top() + Vector2(0.0, -40.0))
+	for plot in plots:
+		if plot.need == "sun":
+			return IpucuEli.dokun(_weather.center("sun"))
+	for plot in plots:
+		if plot.is_empty():
+			return IpucuEli.surukle(IpucuEli.ekran_konumu(_packs[0]), IpucuEli.ekran_konumu(plot, Vector2(0.0, -40.0)))
+	return {}
 
 
 # --- Kurulum ---

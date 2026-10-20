@@ -131,6 +131,17 @@ func _ready() -> void:
 	_arayuzu_kur()
 	_bolumu_hazirla()
 	_giris_ekrani()
+	IpucuEli.ekle(self, "kule_yapma", _ipucu)
+
+
+# İpucu eli: sallanan katın üstünde bekler, kat kulenin üstüne gelince dokunur
+func _ipucu() -> Dictionary:
+	if durum != Durum.OYUN or _duraklatildi or not vinc.hazir or vinc.asili == null:
+		return {}
+	var blok: Node2D = vinc.asili
+	var ustunde := func() -> bool:
+		return is_instance_valid(blok) and absf(blok.global_position.x - kule.tepe().x) < 24.0
+	return IpucuEli.dokun(IpucuEli.izle(blok), 1, ustunde)
 
 
 # --- Arayüz ---

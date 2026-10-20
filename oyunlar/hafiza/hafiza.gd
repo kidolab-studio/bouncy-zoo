@@ -85,6 +85,22 @@ func _ready() -> void:
 	_create_floaters()
 	_create_theme_buttons()
 	_show_level_select()
+	IpucuEli.ekle(self, "hafiza", _ipucu)
+
+
+# İpucu eli: kapalı bir karta, sonra başka bir karta dokun (bir kart açıksa sadece ikinciye)
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or open_cards.size() >= 2:
+		return {}
+	var kapali: Array = []
+	for card in cards:
+		if not card.is_open and not card.is_matched:
+			kapali.append(card)
+	if open_cards.size() == 1 and kapali.size() >= 1:
+		return IpucuEli.dokun(IpucuEli.ekran_konumu(kapali[0]), 1)
+	if kapali.size() >= 2:
+		return IpucuEli.cift_dokun(IpucuEli.ekran_konumu(kapali[0]), IpucuEli.ekran_konumu(kapali[-1]))
+	return {}
 
 
 func _check_data() -> void:

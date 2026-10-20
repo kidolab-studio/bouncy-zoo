@@ -64,6 +64,15 @@ func _ready() -> void:
 	hud.back_button.hold_time = hold_to_exit
 	hud.back_button.completed.connect(SahneGecis.ana_menuye_don)
 	_new_game()
+	var ipucu := IpucuEli.ekle(self, "zipla_zipla", _ipucu)
+	ipucu.engel = func() -> bool: return hud._hand.visible   # oyunun kendi başlangıç eli görünürken çekilir
+
+
+# Başlangıç ipucu eli: kurbağanın yanında ekrana dokun (kurbağa zıplar)
+func _ipucu() -> Dictionary:
+	if state != State.READY and state != State.PLAYING:
+		return {}
+	return IpucuEli.dokun(_to_screen(player.position) + Vector2(120.0, -40.0))
 
 
 # --- Durumlar ---
