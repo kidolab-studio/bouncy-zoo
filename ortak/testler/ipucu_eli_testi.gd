@@ -24,6 +24,7 @@ const ADIMLAR := {
 var gecis: Node
 var hata := 0
 var _yedek := {}
+var _eserler: PackedStringArray = []
 var _cek := ""
 
 
@@ -213,18 +214,77 @@ func _oyun_testi(oyun: Dictionary) -> void:
 				var geldi := await _gorunene_kadar(el, el.bekleme_suresi + 1.5)
 				_kontrol(geldi or el._hareket_al().is_empty(), "%s: 6 sn beklenince geri geldi" % ad)
 		else:
-			_kontrol(not await _gorunene_kadar(el, 2.0), "%s: ikinci açılışta hemen gösterilmiyor" % ad)
+			_kontrol(not await _gorunene_kadar(el, 2.0, false), "%s: ikinci açılışta hemen gösterilmiyor" % ad)
 			var geldi := await _gorunene_kadar(el, el.bekleme_suresi)
 			_kontrol(geldi or el._hareket_al().is_empty(), "%s: ikinci açılışta beklemede gösteriliyor" % ad)
+			# Elin gösterdiği hareketi gerçekten yap: oyun ilerlemeli (sonraki ipucu ya da durum değişir)
+			h = el._hareket_al()
+			if not h.is_empty():
+				await _uygula(el, h)
+				await _sn(1.5)
+				print("  %s: '%s' yapıldı → sonraki ipucu: %s" % [ad, h["tur"], _ozet(el, el._hareket_al())])
+				if _cek != "" and await _gorunene_kadar(el, el.bekleme_suresi + 1.0, false):
+					await _sn(1.2)
+					await _goruntu(ad + "_2")
 
 
-func _gorunene_kadar(el: IpucuEli, sure: float) -> bool:
+func _ozet(el: IpucuEli, h: Dictionary) -> String:
+	if h.is_empty():
+		return "(yok)"
+	if h["tur"] == "sira":
+		return "sira %s" % str(h["adimlar"].map(func(a: Dictionary) -> String: return "%s@%s" % [a["tur"], el._nokta(a["a"]).round()]))
+	return "%s@%s" % [h["tur"], el._nokta(h["a"]).round()]
+
+
+# İpucunun gösterdiği hareketi dokunuşlarla yapar
+func _uygula(el: IpucuEli, h: Dictionary) -> void:
+	match h["tur"]:
+		"dokun", "goster":
+			_dokun(el._nokta(h["a"]))
+			_dokun(el._nokta(h["a"]), false)
+		"cift_dokun":
+			_dokun(el._nokta(h["a"]))
+			_dokun(el._nokta(h["a"]), false)
+			await _sn(0.4)
+			_dokun(el._nokta(h["b"]))
+			_dokun(el._nokta(h["b"]), false)
+		"surukle":
+			await _surukle(el._nokta(h["a"]), el._nokta(h["b"]))
+		"basili_tut":
+			_dokun(el._nokta(h["a"]))
+			await _sn(3.0)
+			_dokun(el._nokta(h["a"]), false)
+		"kaydir_yatay":
+			var a := el._nokta(h["a"])
+			await _surukle(a, a + Vector2(h["mesafe"] / 2.0, 0.0))
+		"sira":
+			for adim: Dictionary in h["adimlar"]:
+				if adim["tur"] != "goster":
+					await _uygula(el, adim)
+					await _sn(0.6)
+
+
+func _surukle(a: Vector2, b: Vector2) -> void:
+	_dokun(a)
+	await _kareler(3)
+	for i in range(1, 21):
+		var olay := InputEventScreenDrag.new()
+		olay.index = 0
+		olay.position = a.lerp(b, i / 20.0)
+		olay.relative = (b - a) / 20.0
+		root.push_input(olay, true)
+		await process_frame
+	await _kareler(3)
+	_dokun(b, false)
+
+
+func _gorunene_kadar(el: IpucuEli, sure: float, engel_sayilir := true) -> bool:
 	var kare := int(sure * 60.0)
 	for i in kare:
 		await process_frame
 		if el._el.visible and el._el.modulate.a > 0.5:
 			return true
-		if el._engelli():
+		if engel_sayilir and el._engelli():
 			print("  not: oyunun kendi ipucu görünüyor (bu el ona yol verdi)")
 			return true
 	return false
@@ -289,6 +349,7 @@ func _yedekle() -> void:
 	for dosya in DirAccess.get_files_at("user://"):
 		if dosya.ends_with(".cfg"):
 			_yedek[dosya] = FileAccess.get_file_as_bytes("user://" + dosya)
+	_eserler = DirAccess.get_directories_at("user://boyama_kitabi")
 
 
 func _geri_yaz() -> void:
@@ -299,3 +360,10 @@ func _geri_yaz() -> void:
 		var f := FileAccess.open("user://" + dosya, FileAccess.WRITE)
 		f.store_buffer(_yedek[dosya])
 		f.close()
+	# Testin Boyama Kitabı'nda oluşturduğu eserleri sil (önceden var olanlara dokunma)
+	for eser in DirAccess.get_directories_at("user://boyama_kitabi"):
+		if not (eser in _eserler):
+			var klasor := "user://boyama_kitabi".path_join(eser)
+			for dosya in DirAccess.get_files_at(klasor):
+				DirAccess.remove_absolute(klasor.path_join(dosya))
+			DirAccess.remove_absolute(klasor)
