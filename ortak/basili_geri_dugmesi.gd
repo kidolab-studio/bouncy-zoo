@@ -1,8 +1,9 @@
 extends Control
 # Geri düğmesi. İki kullanım şekli var:
-# - Çift dokunuş (varsayılan, oyunların geri düğmesi): ilk dokunuşta düğme büyür ve çevresinde bir halka
-#   azalarak geri sayar; halka bitmeden ikinci kez dokunulursa "completed" gelir. Çok hızlı art arda
-#   dokunuşlar (ekrana vurmak) sayılmaz, böylece küçük çocuklar kazara oyundan çıkmaz. Basılı tutmak da çalışır.
+# - Çift dokunuş (varsayılan, oyunların geri düğmesi): ilk dokunuşta düğme büyür ve parlar; ikinci kez
+#   dokunulursa "completed" gelir. Başka bir yere dokunulunca (ya da bir süre dokunulmazsa) düğme eski haline
+#   döner. Çok hızlı art arda dokunuşlar (ekrana vurmak) sayılmaz, böylece küçük çocuklar kazara oyundan
+#   çıkmaz. Basılı tutmak da çalışır (halkasız).
 # - Basılı tutma (double_tap = false; ör. ebeveyn kapısı, resmi silme): parmak basılı kaldıkça halka dolar,
 #   dolunca "completed" gelir; erken bırakılırsa halka geri söner.
 # Dokunmayı ana sahne yönetir (press/release ya da handle_touch çağırır).
@@ -15,7 +16,7 @@ const BORDER := Color(0.23, 0.18, 0.42)
 const RING := Color("ff7a9a")
 const RING_BG := Color(0.23, 0.18, 0.42, 0.15)
 const ARMED_SCALE := 1.35       # ilk dokunuştan sonraki büyüklük
-const ARMED_TIME := 3.0         # ikinci dokunuş için bekleme süresi (sn)
+const ARMED_TIME := 5.0         # hiç dokunulmazsa düğme bu kadar sonra küçülür (sn; görünmez)
 const MIN_GAP := 0.3            # ilk dokunuştan bu kadar önce gelen ikinci dokunuş sayılmaz (sn)
 
 var hold_time: float = 0.6
@@ -31,6 +32,7 @@ var _finger: int = -1
 var _armed: bool = false
 var _armed_age: float = 0.0     # ilk dokunuştan beri geçen süre
 var _armed_left: float = 0.0    # parmak kalkınca azalan bekleme süresi
+var _outside_touch: bool = false   # düğme büyükken başka bir yere dokunuldu
 var _scale_tween: Tween
 
 
@@ -82,6 +84,7 @@ func reset() -> void:
 	_done = false
 	_holding = false
 	_armed = false
+	_outside_touch = false
 	_finger = -1
 	_progress = 0.0
 	if _scale_tween:
@@ -90,10 +93,19 @@ func reset() -> void:
 	queue_redraw()
 
 
+## Düğme büyükken başka bir yere dokunulursa küçülür. Dokunmayı oyun yönettiği için burada sadece not edilir;
+## oyun aynı karede press() çağırırsa (dokunuşu düğmenin saydıysa) not silinir.
+func _input(event: InputEvent) -> void:
+	var touch := event as InputEventScreenTouch
+	if _armed and touch and touch.pressed and not contains(touch.position):
+		_outside_touch = true
+
+
 func press() -> void:
 	if _done:
 		return
 	_holding = true
+	_outside_touch = false
 	pivot_offset = size / 2.0      # boyut _ready'den sonra verilmiş olabilir; ortasından büyüsün
 	if double_tap:
 		if _armed and _armed_age >= MIN_GAP:
@@ -124,6 +136,7 @@ func _arm() -> void:
 
 func _disarm() -> void:
 	_armed = false
+	_outside_touch = false
 	_tween_scale(1.0, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	queue_redraw()
 
@@ -163,8 +176,8 @@ func _process(delta: float) -> void:
 		_armed_age += delta
 		if not _holding:
 			_armed_left -= delta
-			if _armed_left <= 0.0:
-				_disarm()
+		if _outside_touch or _armed_left <= 0.0:
+			_disarm()
 		queue_redraw()
 	elif _progress != before:
 		queue_redraw()
@@ -182,9 +195,7 @@ func _draw() -> void:
 	draw_arc(center, radius - 8.0, 0.0, TAU, 48, BORDER, 5.0, true)
 	var icon_size := radius * 1.0
 	draw_texture_rect(icon, Rect2(center - Vector2(icon_size, icon_size) / 2.0, Vector2(icon_size, icon_size)), false)
-	var ring := _progress
-	if _armed and not _holding:
-		ring = maxf(ring, _armed_left / ARMED_TIME)    # azalan halka: kalan süre
-	if ring > 0.0:
+	# Basılı tutma halkası sadece basılı tutma kipinde görünür (çift dokunuşta her dokunuşta yanıp sönmesin)
+	if _progress > 0.0 and not double_tap:
 		draw_arc(center, radius - 1.0, 0.0, TAU, 48, RING_BG, 10.0, true)
-		draw_arc(center, radius - 1.0, -PI / 2.0, -PI / 2.0 + TAU * ring, 48, RING, 10.0, true)
+		draw_arc(center, radius - 1.0, -PI / 2.0, -PI / 2.0 + TAU * _progress, 48, RING, 10.0, true)

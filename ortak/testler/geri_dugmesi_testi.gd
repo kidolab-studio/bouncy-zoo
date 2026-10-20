@@ -1,8 +1,8 @@
 extends SceneTree
 # Ortak geri düğmesi testi (headless). Proje kökünden:
 #   godot --headless --path . --fixed-fps 60 -s res://ortak/testler/geri_dugmesi_testi.gd
-# Denetler: tek dokunuş çıkmaz, düğmeyi büyütür; çok hızlı ikinci dokunuş sayılmaz; bekleme süresi bitince
-# düğme küçülür; zamanında ikinci dokunuş çıkar; basılı tutmak da çıkar; double_tap = false iken iki dokunuş
+# Denetler: tek dokunuş çıkmaz, düğmeyi büyütür; çok hızlı ikinci dokunuş sayılmaz; bekleme süresi bitince ya da
+# başka bir yere dokununca düğme küçülür; zamanında ikinci dokunuş çıkar; basılı tutmak da çıkar; double_tap = false iken iki dokunuş
 # çıkmaz, sadece basılı tutmak çıkar; reset() düğmeyi ilk haline döndürür.
 
 const HoldButton := preload("res://ortak/basili_geri_dugmesi.gd")
@@ -26,6 +26,13 @@ func _tap(button: Control, frames: int = 4) -> void:
 	button.press()
 	await _frames(frames)
 	button.release()
+
+
+func _touch_at(pos: Vector2, pressed: bool) -> void:
+	var touch := InputEventScreenTouch.new()
+	touch.position = pos
+	touch.pressed = pressed
+	root.push_input(touch, true)
 
 
 func _new_button() -> Control:
@@ -60,6 +67,27 @@ func _run() -> void:
 	await _tap(button)
 	await _frames(20)
 	_check(_done_count == 0, "süre bittikten sonraki dokunuş çıkmamalı")
+
+	# Başka bir yere dokununca küçülür; sonraki dokunuş yine ilk dokunuş sayılır
+	await _frames(25)
+	_touch_at(Vector2(900, 500), true)
+	_touch_at(Vector2(900, 500), false)
+	await _frames(20)
+	_check(not button._armed and button.scale.is_equal_approx(Vector2.ONE), "başka yere dokununca düğme küçülmeli")
+	await _tap(button)
+	await _frames(20)
+	_check(_done_count == 0, "başka yere dokunduktan sonraki dokunuş çıkmamalı")
+	# Düğmeye dokunan olay (oyun press() çağırır) düğmeyi küçültmez
+	var center := button.get_global_rect().get_center()
+	_touch_at(center, true)
+	button.press()
+	await _frames(2)
+	_check(_done_count == 1, "düğmenin üstündeki ikinci dokunuş çıkmalı")
+	button.release()
+	button.reset()
+	_done_count = 0
+	await _tap(button)
+	await _frames(20)
 
 	# Zamanında ikinci dokunuş çıkar
 	await _tap(button)
