@@ -49,15 +49,21 @@ func show_home() -> void:
 
 
 func show_picker() -> void:
+	# Galeri doluysa yeni resim açılmaz: galeri açılır, çöp kutuları sallanarak "birini sil" der
+	if ColoringArtworks.is_full():
+		show_gallery(true)
+		return
 	var picker := ColoringPagePicker.new()
 	_switch(picker)
 	picker.setup(self, last_category)
 
 
-func show_gallery() -> void:
+func show_gallery(full: bool = false) -> void:
 	var gallery := ColoringGallery.new()
 	_switch(gallery)
 	gallery.setup(self)
+	if full:
+		gallery.hint_full()
 
 
 ## Boyama ekranını açar: art_id boşsa sayfadan yeni eser; from: dönülecek ekran ("picker" / "gallery")

@@ -10,7 +10,9 @@ extends SceneTree
 #   - geri al: 25 işlem sonra 22 geri alma doğru duruma döner; temizle (basılı) ve geri alınması;
 #   - avuç içi: ikinci parmak gelince yeni çizgi iptal, iki parmak yakınlaştırır; büyüteç geri getirir;
 #   - kaydet (kutlama), geri düğmesiyle otomatik kayıt, galeriden kaldığı yerden devam, aynı sayfadan
-#     ikinci eser, uzun bas → çöp → onay (✗ ve ✓) ile silme, boş galeri; Escape ile çıkarken kayıt.
+#     ikinci eser, her kartta görünen çöp → onay (✗ ve ✓) ile silme, boş galeri;
+#   - galeri dolu (Settings.MAX_ARTWORKS): yeni resim galeriyi açar, çöpler uyarır; biri silinince açılır;
+#   - Escape ile çıkarken kayıt.
 # <klasör> içine ekran görüntüleri kaydeder. Kullanıcının eserleri test boyunca kenara alınıp geri konur.
 
 const GAME := "res://oyunlar/boyama_kitabi/boyama_kitabi.tscn"
@@ -52,6 +54,7 @@ func _initialize() -> void:
 	await _home_to_picker()
 	await _coloring_tests()
 	await _gallery_tests()
+	await _limit_tests()
 	await _escape_saves()
 	_finish()
 
@@ -355,29 +358,24 @@ func _gallery_tests() -> void:
 	gallery = game.screen
 	await _frames(10)
 	_check(gallery._cards.size() == 2 and gallery._cards[1].get_meta("art")["id"] == first["id"], "değiştirilmeden kapanan eser yeniden yazılmadı (sırası aynı)")
-	# Uzun bas → çöp → ✗
-	await _hold(_center(gallery._cards[0]), 50)
-	await _frames(15)
-	_check(gallery.trash.visible, "uzun basınca çöp kutusu çıktı")
-	await _shot("15_cop")
-	await _tap(_center(gallery.trash))
+	# Çöp → ✗ (çöp kutuları hep görünür ve ızgaranın kenarında kesilmez)
+	var grid_rect: Rect2 = gallery._grid.get_global_rect()
+	_check(gallery._trashes.size() == 2 and gallery._trashes.all(func(t: Control) -> bool:
+		return t.is_visible_in_tree() and grid_rect.encloses(t.get_global_rect())), "çöp kutuları görünür, kesilmiyor")
+	await _tap(_center(gallery._trashes[0]))
 	await _frames(15)
 	_check(gallery._confirm != null, "çöpe dokununca onay çıktı")
 	await _shot("16_onay")
 	await _tap(_center(gallery._no))
 	await _frames(15)
 	_check(gallery._confirm == null and gallery._cards.size() == 2, "✗ silmedi")
-	# Uzun bas → çöp → ✓
-	await _hold(_center(gallery._cards[0]), 50)
-	await _frames(15)
-	await _tap(_center(gallery.trash))
+	# Çöp → ✓
+	await _tap(_center(gallery._trashes[0]))
 	await _frames(15)
 	await _tap(_center(gallery._yes))
 	await _frames(40)
 	_check(gallery._cards.size() == 1 and ColoringArtworks.list().size() == 1, "✓ eseri sildi")
-	await _hold(_center(gallery._cards[0]), 50)
-	await _frames(15)
-	await _tap(_center(gallery.trash))
+	await _tap(_center(gallery._trashes[0]))
 	await _frames(15)
 	await _tap(_center(gallery._yes))
 	await _frames(40)
@@ -385,6 +383,37 @@ func _gallery_tests() -> void:
 	await _shot("17_bos_galeri")
 	await _tap(_center(gallery.new_button))
 	await _wait_screen(ColoringPagePicker)
+
+
+func _limit_tests() -> void:
+	# Galeri dolu: yeni resim açılmaz, galeri açılır; bir eser silinince yeniden açılır
+	var thumb := Image.create(8, 6, false, Image.FORMAT_RGBA8)
+	thumb.fill(Color.WHITE)
+	for i in Settings.MAX_ARTWORKS:
+		ColoringArtworks.save_art("test_%03d" % i, "kedi", PackedColorArray(), null, thumb)
+	_check(ColoringArtworks.is_full(), "galeri dolu")
+	var picker: Control = game.screen
+	await _hold(_center(picker.back), 80)
+	await _wait_screen(ColoringHome)
+	await _tap(_center(game.screen.new_button))
+	await _wait_screen(ColoringGallery)
+	var gallery: ColoringGallery = game.screen
+	_check(gallery._cards.size() == Settings.MAX_ARTWORKS, "dolu galeride yeni resim yerine galeri açıldı")
+	await _frames(20)
+	_check((gallery._trashes[0] as ColoringIconButton).selected, "çöp kutuları uyarıyor")
+	await _shot("18_galeri_dolu")
+	await _frames(90)
+	await _tap(_center(gallery._trashes[0]))
+	await _frames(15)
+	await _tap(_center(gallery._yes))
+	await _frames(40)
+	_check(not ColoringArtworks.is_full(), "bir eser silinince yer açıldı")
+	await _hold(_center(gallery.back), 80)
+	await _wait_screen(ColoringHome)
+	await _tap(_center(game.screen.new_button))
+	_check(await _wait_screen(ColoringPagePicker), "yer açılınca yeni resim açıldı")
+	for art in ColoringArtworks.list():
+		ColoringArtworks.delete_art(art["id"])
 
 
 func _escape_saves() -> void:

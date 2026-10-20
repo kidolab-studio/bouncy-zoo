@@ -1,13 +1,13 @@
 extends SceneTree
 # Google Play telefon ekran görüntüleri (pencereli, 1920x1080). Proje kökünden:
-#   godot --path . --fixed-fps 60 -s res://ortak/testler/magaza_ekranlari.gd [-- <klasör> [oyun ...]]
-# Klasör verilmezse .playstore/screenshots/telefon; oyun adları verilirse yalnızca onlar yeniden çekilir. Sekiz oyunu menüden açar, her birini dolu ve hareketli bir
+#   godot --path . --fixed-fps 60 -s res://ortak/testler/magaza_ekranlari.gd [-- <klasör> [GENxYUK] [oyun ...]]
+# Klasör verilmezse .playstore/screenshots/telefon; oyun adları verilirse yalnızca onlar yeniden çekilir.
+# GENxYUK verilirse pencere o boyutta açılır (tablet: -- res://.playstore/screenshots/tablet 1920x1200). Sekiz oyunu menüden açar, her birini dolu ve hareketli bir
 # anına getirip 01_hayvan_besle.png ... 08_toplama.png kaydeder (alfa kanalsız PNG). Monitör en az 1920x1080
 # olmalı (pencere kenarlıksız açılır). user:// kayıtları (.bak dahil) yedeklenir, sonunda eski haline getirilir.
 # Görüntülerde dile bağlı yazı yok; aynı set Türkçe ve İngilizce mağaza sayfasında kullanılabilir.
 
 const MENU := "res://ana_menu/ana_menu.tscn"
-const BOYUT := Vector2i(1920, 1080)
 const Baglanti := preload("res://oyunlar/tren_rayi/baglanti.gd")
 
 # Sıra mağazadaki sıradır
@@ -17,14 +17,20 @@ const OYUNLAR := ["hayvan_besle", "boyama_kitabi", "dondurmaci", "balik_tutma", 
 var gecis: Node
 var game: Node
 var out := ""
+var boyut := Vector2i(1920, 1080)
 var _yedek := {}
 var _eserler: PackedStringArray = []
 
 
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
-	out = args[0] if args.size() > 0 else ProjectSettings.globalize_path("res://.playstore/screenshots/telefon")
+	out = ProjectSettings.globalize_path(args[0] if args.size() > 0 else "res://.playstore/screenshots/telefon")
 	var secilen := args.slice(1)
+	for arg in secilen.duplicate():
+		var parca := arg.split("x")
+		if parca.size() == 2 and parca[0].is_valid_int() and parca[1].is_valid_int():
+			boyut = Vector2i(parca[0].to_int(), parca[1].to_int())
+			secilen.erase(arg)
 	DirAccess.make_dir_recursive_absolute(out)
 	gecis = root.get_node("SahneGecis")
 	_kayitlari_yedekle()
@@ -32,11 +38,11 @@ func _initialize() -> void:
 	await _gecis_bekle()
 	root.borderless = true
 	root.mode = Window.MODE_WINDOWED
-	root.size = BOYUT
+	root.size = boyut
 	root.position = Vector2i.ZERO
 	await frames(20)
-	if root.get_texture().get_image().get_size() != BOYUT:
-		push_error("Pencere %s olamadı (monitör küçük mü?)" % BOYUT)
+	if root.get_texture().get_image().get_size() != boyut:
+		push_error("Pencere %s olamadı (monitör küçük mü?)" % boyut)
 	for i in OYUNLAR.size():
 		var ad: String = OYUNLAR[i]
 		if not secilen.is_empty() and not ad in secilen:
