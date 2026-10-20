@@ -101,6 +101,18 @@ func _ready() -> void:
 	_layout()
 	get_viewport().size_changed.connect(_layout)
 	_start_level(level_index)
+	IpucuEli.ekle(self, "toplama", _ipucu)
+
+
+# Başlangıç ipucu eli: "?" kartını, sonra sayı düğmelerini gösterir (cevabı vermez; seçim çocuğun)
+func _ipucu() -> Dictionary:
+	if state != State.WAITING or buttons.is_empty():
+		return {}
+	return IpucuEli.sira([
+		IpucuEli.goster(IpucuEli.ekran_konumu(box_result._card)),
+		IpucuEli.goster(IpucuEli.ekran_konumu(buttons[0])),
+		IpucuEli.goster(IpucuEli.ekran_konumu(buttons[-1])),
+	])
 
 
 func _set_state(new_state: State) -> void:
