@@ -183,7 +183,12 @@ func _oyun_testi(oyun: Dictionary) -> void:
 				await _kareler(8)
 			else:
 				await _kareler(int(adim))
-		var h: Dictionary = el._hareket_al()
+		var h: Dictionary = {}
+		for k in 360:          # oyun giriş animasyonu bitip hareket gösterilebilir olana kadar (en çok 6 sn)
+			h = el._hareket_al()
+			if not h.is_empty():
+				break
+			await process_frame
 		if h.is_empty():
 			_kontrol(false, "%s (%s): oyun ekranında hareket yok" % [ad, tur])
 			return
