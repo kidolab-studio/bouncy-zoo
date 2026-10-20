@@ -66,6 +66,24 @@ func _ready() -> void:
 	hud.back_button.completed.connect(SahneGecis.ana_menuye_don)
 	get_viewport().size_changed.connect(_layout_holes)
 	_new_game()
+	IpucuEli.ekle(self, "kostebek", _ipucu)
+
+
+# Başlangıç ipucu eli: çukurdan çıkan köstebeğe dokun (o an köstebek yoksa ekranın ortasındaki çukura)
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or holes.is_empty():
+		return {}
+	for hole in holes:
+		var item: Node2D = hole.item
+		if item != null and item.kind == Item.Kind.MOLE and item.hittable and item.phase != Item.Phase.HIDING:
+			var rect: Rect2 = hole.touch_rect(balance.touch_padding, balance.min_touch_size)
+			return IpucuEli.dokun(get_viewport().get_canvas_transform() * rect.get_center(), 1)
+	var orta := get_viewport_rect().get_center()
+	var en_yakin: Node2D = holes[0]
+	for hole in holes:
+		if IpucuEli.ekran_konumu(hole).distance_to(orta) < IpucuEli.ekran_konumu(en_yakin).distance_to(orta):
+			en_yakin = hole
+	return IpucuEli.dokun(IpucuEli.ekran_konumu(en_yakin, Vector2(0.0, -40.0)), 1)
 
 
 # --- Durumlar ---
