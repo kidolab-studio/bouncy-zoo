@@ -27,9 +27,9 @@ Mağaza metni Play Console'da değişince burası da güncellenir.
 
 ## Mağaza metni — Türkçe (tr-TR)
 
-**Uygulama adı** (26 / 30 karakter)
+**Uygulama adı** (30 / 30 karakter)
 
-    Bouncy Zoo: Kids Games 4-8
+    Bouncy Zoo: Çocuk Oyunları 4-8
 
 **Kısa açıklama** (67 / 80 karakter)
 
