@@ -1,8 +1,8 @@
 class_name ColoringGallery
 extends Control
 # Galeri: kaydedilen eserlerin küçük resimleri, en yeni en başta, kaydırılabilir ızgara.
-# Esere dokununca boyama ekranında kaldığı yerden açılır. Silme kazara olmasın diye iki adım:
-# esere uzun basınca köşesinde çöp kutusu belirir; ona dokununca büyük bir onay (✓ / ✗) çıkar.
+# Esere dokununca boyama ekranında kaldığı yerden açılır. Her eserin köşesinde hep görünen bir çöp
+# kutusu var; ona dokununca kazara silinmesin diye büyük bir onay (✓ / ✗) çıkar.
 # Galeri boşsa şövale ve gülen boya kalemi görseli ile yeni resim düğmesi görünür.
 
 const BackButton := preload("res://ortak/basili_geri_dugmesi.gd")
@@ -13,20 +13,19 @@ const OUT := Color("3b2f6b")
 const COLUMNS := 4
 const TOP := 118.0
 const GAP := 26.0
-const LONG_PRESS := 0.6
+const TRASH := 84.0                   # kartın sağ üst köşesindeki çöp kutusu
 
 var game: Node
 var back: Control
 var new_button: ColoringIconButton
-var trash: ColoringIconButton
 var _grid: Control
 var _cards: Array[Control] = []
+var _trashes: Array[Control] = []     # _cards ile aynı sırada
 var _empty: TextureRect
 var _scroller := ColoringScroller.new()
 var _owners := {}
 var _pressed_card: Control
-var _press_time: float = 0.0
-var _trash_card: Control              # çöp kutusu gösterilen eser
+var _trash_card: Control              # onayı sorulan eser
 var _confirm: Control                 # onay katmanı
 var _yes: ColoringIconButton
 var _no: ColoringIconButton
@@ -43,10 +42,6 @@ func setup(owner_game: Node) -> void:
 	_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_grid.clip_contents = true
 	add_child(_grid)
-	trash = _button("cop", 84)
-	trash.accent = Color("ff5b6e")
-	trash.visible = false
-	_grid.add_child(trash)
 	_empty = TextureRect.new()
 	_empty.texture = load(G + "bos_galeri.svg")
 	_empty.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -72,7 +67,10 @@ func _button(icon: String, side: float) -> ColoringIconButton:
 func _reload() -> void:
 	for card in _cards:
 		card.queue_free()
+	for trash in _trashes:
+		trash.queue_free()
 	_cards.clear()
+	_trashes.clear()
 	var known := {}
 	for page in PageList.PAGES:
 		known[page["id"]] = true
@@ -81,7 +79,6 @@ func _reload() -> void:
 			_cards.append(_make_card(art))
 	_empty.visible = _cards.is_empty()
 	new_button.visible = _cards.is_empty()
-	_hide_trash()
 
 
 func _make_card(art: Dictionary) -> Control:
@@ -106,7 +103,10 @@ func _make_card(art: Dictionary) -> Control:
 		card.draw_rect(inner, OUT, false, 3.0))
 	card.resized.connect(func() -> void: card.pivot_offset = card.size * 0.5)
 	_grid.add_child(card)
-	_grid.move_child(trash, -1)
+	var trash := _button("cop", TRASH)
+	trash.set_meta("card", card)
+	_grid.add_child(trash)
+	_trashes.append(trash)
 	return card
 
 
@@ -125,9 +125,8 @@ func _layout() -> void:
 	for i in _cards.size():
 		_cards[i].size = card_size
 		_cards[i].position = Vector2((i % COLUMNS) * (width + GAP), 18.0 + (i / COLUMNS) * (card_size.y + GAP) - _scroller.offset)
-	if _trash_card:
-		trash.position = _trash_card.position + Vector2(_trash_card.size.x - trash.size.x * 0.7, -trash.size.y * 0.3)
-		trash.pivot_offset = trash.size * 0.5
+		# Kartın içinde kalır; ızgara kenarları kestiği için dışarı taşarsa görünmez
+		_trashes[i].position = _cards[i].position + Vector2(card_size.x - TRASH - 4.0, 4.0)
 	var empty_size := Vector2(480, 360)
 	_empty.size = empty_size
 	_empty.position = Vector2((size.x - empty_size.x) * 0.5 - 90.0, (size.y - empty_size.y) * 0.5 + 20.0)
@@ -145,11 +144,6 @@ func _draw() -> void:
 func _process(delta: float) -> void:
 	if _scroller.step(delta):
 		_layout()
-	if _pressed_card and not _scroller.scrolling:
-		_press_time += delta
-		if _press_time >= LONG_PRESS:
-			_show_trash(_pressed_card)
-			_release_card()
 
 
 # --- Dokunma ---
@@ -172,15 +166,17 @@ func _buttons() -> Array[Control]:
 		result.append_array([_yes, _no])
 		return result
 	result.append(back)
-	if trash.visible:
-		result.append(trash)
 	if new_button.visible:
 		result.append(new_button)
+	result.append_array(_trashes)
 	return result
 
 
 func _down(index: int, pos: Vector2) -> void:
 	for button in _buttons():
+		# Kaydırılıp ızgaranın dışına çıkan (görünmeyen) çöp kutusuna dokunulmaz
+		if button in _trashes and not _grid.get_global_rect().has_point(pos):
+			continue
 		if button.get_global_rect().grow(6.0).has_point(pos):
 			_owners[index] = button
 			button.press()
@@ -190,13 +186,9 @@ func _down(index: int, pos: Vector2) -> void:
 	if _grid.get_global_rect().has_point(pos) and not _owners.values().has("grid"):
 		_owners[index] = "grid"
 		_scroller.press(pos)
-		if _trash_card:
-			_hide_trash()
-			return
 		for card in _cards:
 			if card.get_global_rect().has_point(pos):
 				_pressed_card = card
-				_press_time = 0.0
 				var tween := card.create_tween()
 				tween.tween_property(card, "scale", Vector2.ONE * 0.95, 0.08)
 
@@ -223,9 +215,9 @@ func _up(index: int, pos: Vector2) -> void:
 	if button == new_button:
 		game.sounds.play("tik")
 		game.show_picker()
-	elif button == trash:
+	elif button in _trashes:
 		game.sounds.play("tik")
-		_open_confirm()
+		_open_confirm(button.get_meta("card"))
 	elif button == _yes:
 		_delete_confirmed()
 	elif button == _no:
@@ -240,27 +232,11 @@ func _release_card() -> void:
 	_pressed_card = null
 
 
-# --- Silme: uzun bas → çöp kutusu → onay ---
+# --- Silme: çöp kutusu → onay ---
 
-func _show_trash(card: Control) -> void:
+func _open_confirm(card: Control) -> void:
 	_trash_card = card
-	trash.visible = true
-	_layout()
-	trash.scale = Vector2.ONE * 0.2
-	var tween := trash.create_tween()
-	tween.tween_property(trash, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	game.sounds.play("tik")
-
-
-func _hide_trash() -> void:
-	_trash_card = null
-	trash.visible = false
-
-
-func _open_confirm() -> void:
-	if _trash_card == null:
-		return
-	var art: Dictionary = _trash_card.get_meta("art")
+	var art: Dictionary = card.get_meta("art")
 	_confirm = Control.new()
 	_confirm.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_confirm.size = size
@@ -297,7 +273,7 @@ func _close_confirm() -> void:
 	if _confirm:
 		_confirm.queue_free()
 	_confirm = null
-	_hide_trash()
+	_trash_card = null
 
 
 func _delete_confirmed() -> void:
@@ -306,6 +282,7 @@ func _delete_confirmed() -> void:
 	ColoringArtworks.delete_art(art["id"])
 	game.sounds.play("sil")
 	_close_confirm()
+	_trashes[_cards.find(card)].hide()
 	var tween := card.create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(card, "scale", Vector2.ONE * 0.1, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
