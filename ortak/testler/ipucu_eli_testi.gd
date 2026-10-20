@@ -78,6 +78,8 @@ func _calis() -> void:
 		await _kareler(12)
 		print("pencere %s → görünen alan %s" % [_pencere, root.get_visible_rect().size])
 	_yedekle()
+	# Tamamlanmış oyun açılınca final ekranı ipucunun önüne geçer; test her oyunu ilk kez açılmış gibi denesin
+	DirAccess.remove_absolute("user://oyun_bitti.cfg")
 	if secilen.is_empty() or "bilesen" in secilen:
 		await _bilesen_testi()
 	change_scene_to_file(MENU)
