@@ -8,10 +8,11 @@ const NOTE_NAMES: PackedStringArray = ["do", "re", "mi", "fa", "sol", "la", "si"
 
 ## Ksilofonun defter düğmesinde görünen küçük resim
 @export var icon: Texture2D
+# notes / beats varsayılanı [] olmamalı: [] ile dışa aktarılan oyunda (Godot 4.7.2) .tres'teki değerler boş geliyor
 ## Notalar sırayla: "do", "re", "mi", "fa", "sol", "la", "si", "do2" (ince do)
-@export var notes: PackedStringArray = []
+@export var notes: PackedStringArray = PackedStringArray()
 ## Her notanın süresi (vuruş; 1 = dörtlük, 0.5 = sekizlik, 2 = ikilik). notes ile aynı uzunlukta.
-@export var beats: PackedFloat32Array = []
+@export var beats: PackedFloat32Array = PackedFloat32Array()
 ## Dakikadaki vuruş: şarkı bitince kutlama olarak bu hızla kendiliğinden çalınır
 @export var tempo: float = 110.0
 
