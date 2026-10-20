@@ -132,6 +132,28 @@ func _ready() -> void:
 	_bolumu_hazirla()
 	_giris_ekrani()
 	IpucuEli.ekle(self, "kule_yapma", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if durum == Durum.OYUN and not _duraklatildi:
+			_bolum_bitti())
+	if OyunBitti.tamamlandi_mi("kule_yapma"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı (sonsuz mod: Bolumler.SONSUZ)
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "kule_yapma", "karakter": load(G + "hayvanlar/panda.svg"), "bolum_sayisi": Bolumler.LEVELS.size(),
+		"kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+		"sonsuz": _bolumden_basla.bind(Bolumler.LEVELS.size()),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	kayit.bolum = index
+	kayit.kaydet()
+	_bolumu_hazirla()
+	_dunya.modulate.a = 1.0
+	_oyunu_baslat()
 
 
 # İpucu eli: sallanan katın üstünde bekler, kat kulenin üstüne gelince dokunur
@@ -927,6 +949,9 @@ func _bolum_bitti() -> void:
 	kayit.kaydet()
 	await get_tree().create_timer(3.0, false).timeout
 	if oturum != _oturum:
+		return
+	if kayit.bolum == Bolumler.LEVELS.size():
+		_oyun_bitti(false)          # son bölüm bitti: final ekranı (sonsuz mod oradan)
 		return
 	durum = Durum.SONU
 	_sonu.visible = true
