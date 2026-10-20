@@ -99,6 +99,22 @@ func _ready() -> void:
 	hint_pulse.tween_property(hints, "modulate:a", 0.45, 0.8)
 	hint_pulse.tween_property(hints, "modulate:a", 1.0, 0.8)
 	_show_level_select()
+	IpucuEli.ekle(self, "yol_yap", _ipucu)
+
+
+# İpucu eli: tepsideki bir parçayı onun boş hedef hücresine sürükle
+func _ipucu() -> Dictionary:
+	if state != State.PLAYING or dragging != null:
+		return {}
+	for piece in pieces:
+		if piece.get_meta("cell") != NO_CELL:
+			continue
+		for p: Dictionary in level["pieces"]:
+			if p["type"] == piece.get_meta("type") and not _cell_taken(p["cell"], piece):
+				var orta: Vector2 = piece.get_meta("size") / 2.0
+				return IpucuEli.surukle(piece.get_global_transform_with_canvas() * orta,
+					piece_layer.get_global_transform_with_canvas() * (_cell_position(p["cell"]) + orta))
+	return {}
 
 
 func _exit_tree() -> void:
