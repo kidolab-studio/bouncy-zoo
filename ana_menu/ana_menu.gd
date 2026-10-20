@@ -1,5 +1,5 @@
 extends Control
-# Minik Oyunlar ana menüsü (yatay): üstte tek satırda başlık ve kategori sekmeleri, altında 5 sütunlu,
+# Bouncy Zoo ana menüsü (yatay): üstte tek satırda başlık ve kategori sekmeleri, altında 5 sütunlu,
 # dikey kaydırılan büyük oyun kartları. Oyun listesi oyun_listesi.gd'de; kart oyun_karti.gd, sekme sekme.gd.
 #
 # Dokunma: parmak KAYMA_ESIGI'nden fazla kayarsa dokunma iptal olur ve liste kayar (momentumlu, uçlarda esner).
