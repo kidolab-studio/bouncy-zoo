@@ -53,6 +53,7 @@ func _ready() -> void:
 		_tool_buttons[tool["id"]] = button
 	clear_button = HoldButton.new()
 	clear_button.icon = load(G + "temizle.svg")
+	clear_button.double_tap = false     # resmi silmek bilerek yapılsın: sadece basılı tutunca
 	clear_button.hold_time = CLEAR_HOLD
 	clear_button.size = Vector2(BUTTON, BUTTON)
 	clear_button.completed.connect(_on_clear)

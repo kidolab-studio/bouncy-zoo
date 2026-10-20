@@ -1,7 +1,11 @@
 extends Control
-# Basılı tutulunca çalışan geri düğmesi: parmak basılı kaldıkça çevresinde bir halka dolar,
-# dolunca "completed" sinyali gelir. Erken bırakılırsa halka geri söner. Böylece küçük çocuklar
-# kazara dokunarak oyundan çıkmaz. Dokunmayı ana sahne yönetir (press/release çağırır).
+# Geri düğmesi. İki kullanım şekli var:
+# - Çift dokunuş (varsayılan, oyunların geri düğmesi): ilk dokunuşta düğme büyür ve çevresinde bir halka
+#   azalarak geri sayar; halka bitmeden ikinci kez dokunulursa "completed" gelir. Çok hızlı art arda
+#   dokunuşlar (ekrana vurmak) sayılmaz, böylece küçük çocuklar kazara oyundan çıkmaz. Basılı tutmak da çalışır.
+# - Basılı tutma (double_tap = false; ör. ebeveyn kapısı, resmi silme): parmak basılı kaldıkça halka dolar,
+#   dolunca "completed" gelir; erken bırakılırsa halka geri söner.
+# Dokunmayı ana sahne yönetir (press/release ya da handle_touch çağırır).
 
 signal completed
 
@@ -10,15 +14,24 @@ const BG := Color(1, 1, 1, 0.95)
 const BORDER := Color(0.23, 0.18, 0.42)
 const RING := Color("ff7a9a")
 const RING_BG := Color(0.23, 0.18, 0.42, 0.15)
+const ARMED_SCALE := 1.35       # ilk dokunuştan sonraki büyüklük
+const ARMED_TIME := 3.0         # ikinci dokunuş için bekleme süresi (sn)
+const MIN_GAP := 0.3            # ilk dokunuştan bu kadar önce gelen ikinci dokunuş sayılmaz (sn)
 
 var hold_time: float = 0.6
-## Düğmenin dolgu rengi ve ikonu (oyun kendi renginde düğme isterse değiştirir)
+## true: iki dokunuşla (ya da basılı tutarak) çalışır; false: sadece basılı tutarak
+var double_tap: bool = true
+## Düğmenin dolgu rengi ve ikonu (geri dışındaki işler için; oyunların geri düğmesi hep aynı renktedir)
 var bg_color: Color = BG
 var icon: Texture2D = ICON
 var _progress: float = 0.0
 var _holding: bool = false
 var _done: bool = false
 var _finger: int = -1
+var _armed: bool = false
+var _armed_age: float = 0.0     # ilk dokunuştan beri geçen süre
+var _armed_left: float = 0.0    # parmak kalkınca azalan bekleme süresi
+var _scale_tween: Tween
 
 
 func _ready() -> void:
@@ -68,22 +81,71 @@ func handle_touch(touch: InputEventScreenTouch) -> bool:
 func reset() -> void:
 	_done = false
 	_holding = false
+	_armed = false
 	_finger = -1
 	_progress = 0.0
+	if _scale_tween:
+		_scale_tween.kill()
 	scale = Vector2.ONE
 	queue_redraw()
 
 
 func press() -> void:
+	if _done:
+		return
 	_holding = true
-	var tween := create_tween()
-	tween.tween_property(self, "scale", Vector2(0.92, 0.92), 0.08)
+	pivot_offset = size / 2.0      # boyut _ready'den sonra verilmiş olabilir; ortasından büyüsün
+	if double_tap:
+		if _armed and _armed_age >= MIN_GAP:
+			_finish()
+			return
+		if not _armed:
+			_arm()
+	_tween_scale(_rest_scale() * 0.92, 0.08)
 
 
 func release() -> void:
 	_holding = false
-	var tween := create_tween()
-	tween.tween_property(self, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	if _done:
+		return
+	_armed_left = ARMED_TIME
+	_tween_scale(_rest_scale(), 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+
+
+func _arm() -> void:
+	_armed = true
+	_armed_age = 0.0
+	_armed_left = ARMED_TIME
+	# Autoload adı yazılmaz: bu script -s ile çalışan testlerde de derlenir
+	var sound := get_node_or_null("/root/SesYoneticisi")
+	if sound:
+		sound.efekt("dugme_tik")
+
+
+func _disarm() -> void:
+	_armed = false
+	_tween_scale(1.0, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	queue_redraw()
+
+
+func _finish() -> void:
+	_done = true
+	_armed = false
+	_progress = 1.0
+	queue_redraw()
+	completed.emit()
+
+
+func _rest_scale() -> float:
+	return ARMED_SCALE if _armed else 1.0
+
+
+func _tween_scale(value: float, time: float) -> Tween:
+	if _scale_tween:
+		_scale_tween.kill()
+	_scale_tween = create_tween()
+	_scale_tween.tween_property(self, "scale", Vector2(value, value), time)
+	return _scale_tween
 
 
 func _process(delta: float) -> void:
@@ -93,22 +155,36 @@ func _process(delta: float) -> void:
 	if _holding:
 		_progress = minf(1.0, _progress + delta / hold_time)
 		if _progress >= 1.0:
-			_done = true
-			completed.emit()
+			_finish()
+			return
 	else:
 		_progress = maxf(0.0, _progress - delta * 3.0)
-	if _progress != before:
+	if _armed:
+		_armed_age += delta
+		if not _holding:
+			_armed_left -= delta
+			if _armed_left <= 0.0:
+				_disarm()
+		queue_redraw()
+	elif _progress != before:
 		queue_redraw()
 
 
 func _draw() -> void:
 	var center := size / 2.0
 	var radius := minf(size.x, size.y) / 2.0
+	if _armed:
+		# Hafifçe atan parıltı: "bir daha dokun" der
+		var pulse := 0.5 + 0.5 * sin(_armed_age * 7.0)
+		draw_circle(center, radius + 8.0 + pulse * 8.0, Color(RING, 0.2 + pulse * 0.2))
 	draw_circle(center + Vector2(0, 6), radius - 6.0, Color(0.2, 0.1, 0.3, 0.16))
 	draw_circle(center, radius - 8.0, bg_color)
 	draw_arc(center, radius - 8.0, 0.0, TAU, 48, BORDER, 5.0, true)
 	var icon_size := radius * 1.0
 	draw_texture_rect(icon, Rect2(center - Vector2(icon_size, icon_size) / 2.0, Vector2(icon_size, icon_size)), false)
-	if _progress > 0.0:
+	var ring := _progress
+	if _armed and not _holding:
+		ring = maxf(ring, _armed_left / ARMED_TIME)    # azalan halka: kalan süre
+	if ring > 0.0:
 		draw_arc(center, radius - 1.0, 0.0, TAU, 48, RING_BG, 10.0, true)
-		draw_arc(center, radius - 1.0, -PI / 2.0, -PI / 2.0 + TAU * _progress, 48, RING, 10.0, true)
+		draw_arc(center, radius - 1.0, -PI / 2.0, -PI / 2.0 + TAU * ring, 48, RING, 10.0, true)
