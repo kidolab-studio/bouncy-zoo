@@ -224,6 +224,9 @@ func _gorunene_kadar(el: IpucuEli, sure: float) -> bool:
 		await process_frame
 		if el._el.visible and el._el.modulate.a > 0.5:
 			return true
+		if el._engelli():
+			print("  not: oyunun kendi ipucu görünüyor (bu el ona yol verdi)")
+			return true
 	return false
 
 
