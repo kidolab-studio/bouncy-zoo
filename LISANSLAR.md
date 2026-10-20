@@ -100,7 +100,7 @@ Projede başka yazı tipi yok. SVG'lerin hiçbirinde yazı ya da yazı tipi adı
 |---|---|---|
 | `icon.svg` | özgün çizim; Godot logosu değil | uygun |
 | Android simgeleri (`ortak/simge/android_*.png`, `simge_*.png`) | özgün çizim; 4 Ekim 2026'da `export_presets.cfg`'deki başlatıcı simgesi ayarlarına bağlandı | uygun: ilk derlemeden sonra telefonda bakılmalı |
-| Açılış ekranı | `boot_splash/show_image=false`: Godot logosu gösterilmiyor | uygun |
+| Açılış ekranı | `ortak/marka/splash.png`: stüdyonun kendi kidolab logosu (Lina's Farm ile aynı dosya); Godot logosu gösterilmiyor | uygun |
 | Godot Engine (MIT) | lisans metni uygulamada gösterilmiyordu | **düzeltildi**: Lisanslar ekranı eklendi |
 | Godot içindeki üçüncü taraf bileşenler (FreeType, mbedTLS vb.) | bildirimleri gösterilmiyordu | **düzeltildi**: Lisanslar ekranında |
 
