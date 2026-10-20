@@ -114,6 +114,27 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout)
 	_start_level(level_index)
 	IpucuEli.ekle(self, "cikarma", _ipucu)
+	OyunBitti.kisayol(self, _gelistirici_bitir)
+	if OyunBitti.tamamlandi_mi("cikarma"):
+		_oyun_bitti(true)
+
+
+# Geliştirici kısayolu (F9, yalnızca debug derlemede): doğru sayı düğmesini seçer
+func _gelistirici_bitir() -> void:
+	if state != State.WAITING:
+		return
+	for button in buttons:
+		if button.value == problem.answer:
+			_choose(button)
+			return
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "cikarma", "karakter": load("res://ana_menu/kartlar/cikarma.svg"), "bolum_sayisi": settings.level_count(),
+		"kisa": kisa, "bolum_baslat": _start_level, "bastan": _start_level.bind(0),
+	})
 
 
 # Başlangıç ipucu eli: "?" kartını, sonra sayı düğmelerini gösterir (cevabı vermez; seçim çocuğun)
@@ -349,7 +370,10 @@ func _finish_level(my_run: int) -> void:
 	await get_tree().create_timer(0.35).timeout
 	if my_run != run_id:
 		return
-	_start_level(0 if last else level_index + 1)
+	if last:
+		_oyun_bitti(false)          # son bölüm: 1. bölüme sessizce dönmek yerine ortak final ekranı
+		return
+	_start_level(level_index + 1)
 
 
 # Her bölümde farklı bir nesne (bir öncekiyle aynı olmasın)
