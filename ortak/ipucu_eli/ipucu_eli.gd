@@ -65,8 +65,9 @@ static func ekle(oyun: Node, ad: String, hareket: Callable) -> IpucuEli:
 
 # --- Hareket tarifleri (oyunun ipucu fonksiyonu bunlardan birini döndürür) ---
 
-static func dokun(konum: Variant, kez := 2) -> Dictionary:
-	return {"tur": "dokun", "a": konum, "kez": kez}
+# kosul (isteğe bağlı): el hedefte bekler, true dönünce basar (ör. sallanan kat kulenin üstüne gelince)
+static func dokun(konum: Variant, kez := 2, kosul := Callable()) -> Dictionary:
+	return {"tur": "dokun", "a": konum, "kez": kez, "kosul": kosul}
 
 
 static func cift_dokun(a: Variant, b: Variant) -> Dictionary:
@@ -265,6 +266,7 @@ func _eylem(h: Dictionary, no: int, kez: int) -> void:
 	match h["tur"]:
 		"dokun":
 			for i in kez:
+				await _kosulu_bekle(h.get("kosul", Callable()), no)
 				await _bas(no, true)
 				await _bas_birak(no)
 				await _bekle(0.3, no)
@@ -375,6 +377,15 @@ func _bas_birak(no: int) -> void:
 	_tw = create_tween()
 	_tw.tween_property(_el, "scale", _yon, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await _tw.finished
+
+
+# Koşul true olana kadar (en çok 3 sn) bekler
+func _kosulu_bekle(kosul: Callable, no: int) -> void:
+	if not kosul.is_valid():
+		return
+	var bitis := _zaman + 3.0
+	while no == _calisma and _zaman < bitis and not bool(kosul.call()):
+		await get_tree().process_frame
 
 
 func _bekle(sure: float, no: int) -> void:
