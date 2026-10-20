@@ -12,7 +12,7 @@
 - Basamak genişliği görsel yüzünden 160 + 60k'ya yuvarlanır (`Platform.snap_width`): basamak SVG'si sol köşe + döşenen orta parça + sağ köşe olarak `region_rect` ile parçalardan kurulur (NinePatch'in mipmap dikiş çizgisi yok; ufalanırken aynı parçalar düşer).
 - Havuz (`basamak_uretici.gd`, object pooling): 10 basamak; aşağıda kalan en üste taşınır. Ödül her basamağın kendi alt düğümü (`odul.gd`).
 - Kamera: `World` düğümü kayar; kurbağanın basamağı ekran yüksekliğinin `player_screen_ratio` oranında. Arka plan (`arka_plan.gd`) 3 döşenebilir paralaks katmanı + başlangıçtaki mavi tepeler.
-- Geri düğmesi ortak `basili_geri_dugmesi.gd` (yeşil, beyaz ok; basılı tutunca döner, çünkü çocuk ekrana sürekli dokunuyor). Dokunulan yer geri düğmesiyse zıplama olmaz.
+- Geri düğmesi ortak `basili_geri_dugmesi.gd` (çift dokunuşla döner, çünkü çocuk ekrana sürekli dokunuyor). Dokunulan yer geri düğmesiyse zıplama olmaz.
 - Görseller `gorseller/` (2x + mipmap; `arka_*` ve `tepeler` 1x): kurbağa parçaları (gövde, arka bacak ×2 poz, 4 yüz aynı 256'lık tuvalde), 4 tatlı, simgeler. Basamaklar ve arka plan `gorseller/svg_uret.py` ile üretilir. `kupa`, `ev`, `tekrar`, `isilti` Köstebek'ten, `el` Gölge Eşleştirme'den kopya.
 - Sesler `sesler/ses_uret.py` (ortak `ortak/ses/sentez.py`): zipla, kon, cin, titre, ufalan, dus, oyun_sonu, rekor.
 - Testler: `testler/mantik_testi.gd` (headless: konma sınırları, kenar kayması, eğri, havuz), `testler/oyun_testi.gd` (pencereli, `--fixed-fps 60 --resolution 1280x720`, `-- <klasör> [GENxYÜK]`; menüden açar, bot tırmanır, kaybolma süresi, düşme, rekor, tekrar oyna, ıskalayınca geri konma ve havadayken basamak ufalanınca düşme; ekran görüntüleri).

@@ -1,11 +1,10 @@
 extends Control
-# GameHUD (UI CanvasLayer içinde): sol üstte yeşil basılı-tut geri düğmesi, sağ üstte beyaz kutuda
+# GameHUD (UI CanvasLayer içinde): sol üstte ortak geri düğmesi, sağ üstte beyaz kutuda
 # lolipop + ödül sayısı, sayaca uçan ödüller, başlangıçtaki "dokun" eli ve oyun bitti paneli
 # (ödül, basamak ve rekor: simge + rakam, yazı yok). Dokunmayı ana sahne yönetir (contains / hit_* sorar).
 
 const G := "res://oyunlar/zipla_zipla/gorseller/"
 const HoldButton := preload("res://ortak/basili_geri_dugmesi.gd")
-const TEX_BACK: Texture2D = preload(G + "geri_beyaz.svg")
 const TEX_COUNTER: Texture2D = preload(G + "lolipop.svg")
 const TEX_STEPS: Texture2D = preload(G + "basamak_ikon.svg")
 const TEX_TROPHY: Texture2D = preload(G + "kupa.svg")
@@ -16,7 +15,6 @@ const TEX_SPARKLE: Texture2D = preload(G + "isilti.svg")
 const OUTLINE := Color("3b2a5a")
 const INK := Color("3b2f6b")
 const GOLD := Color("ffc928")
-const BACK_GREEN := Color("5cc95c")
 const SIDE := 56.0            # yatayda çentik yanlarda olabilir: kenarlardan biraz daha uzak
 const TOP := 22.0
 
@@ -44,8 +42,6 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	back_button = HoldButton.new()
-	back_button.bg_color = BACK_GREEN
-	back_button.icon = TEX_BACK
 	_place(back_button, Vector4(0, 0, 0, 0), Vector4(SIDE, TOP, SIDE + 116, TOP + 116))
 
 	_counter = _panel(Color(1, 1, 1, 0.96), 34)

@@ -310,15 +310,15 @@ func _back_to_menu() -> void:
 	await _frames(20)
 	_touch(back, false, 0)
 	await _frames(30)
-	_check(current_scene == game, "kısa dokunuş geri düğmesinde oyundan çıkardı")
+	_check(current_scene == game, "tek dokunuş geri düğmesinde oyundan çıkardı")
 	_touch(back, true, 0)
-	await _frames(80)
+	await _frames(5)
 	_touch(back, false, 0)
 	for k in 200:
 		await process_frame
 		if current_scene and current_scene.scene_file_path == MENU_SCENE:
 			break
-	_check(current_scene != null and current_scene.scene_file_path == MENU_SCENE, "basılı geri düğmesi ana menüye dönmedi")
+	_check(current_scene != null and current_scene.scene_file_path == MENU_SCENE, "geri düğmesine ikinci dokunuş ana menüye dönmedi")
 	_check(AudioServer.get_bus_index(&"MuzikKutusu") == -1, "oyundan çıkınca ses yolu kaldırılmadı")
 
 
