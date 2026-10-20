@@ -384,7 +384,7 @@ func _kosulu_bekle(kosul: Callable, no: int) -> void:
 	if not kosul.is_valid():
 		return
 	var bitis := _zaman + 3.0
-	while no == _calisma and _zaman < bitis and not bool(kosul.call()):
+	while is_inside_tree() and no == _calisma and _zaman < bitis and not bool(kosul.call()):
 		await get_tree().process_frame
 
 
