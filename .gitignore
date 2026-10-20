@@ -5,6 +5,3 @@
 # Python önbelleği
 __pycache__/
 *.pyc
-
-# Mağaza metinleri ve görselleri (yerel çalışma klasörü; GitHub'a ve oyuna girmez)
-/store/
