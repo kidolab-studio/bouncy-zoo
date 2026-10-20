@@ -117,6 +117,25 @@ func _ready() -> void:
 	backdrop.set_phase(Data.get_level(levels.saved_index)["background"], 0.0)
 	_go_to_start()
 	IpucuEli.ekle(self, "meyve_topla", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if state == State.PLAYING:
+			_on_level_completed())
+	if OyunBitti.tamamlandi_mi("meyve_topla"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı (sonsuz mod: 13. bölümden sonrası)
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "meyve_topla", "karakter": _texture(G + "kirpi_mutlu.svg"), "bolum_sayisi": Data.LIST.size(),
+		"kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+		"sonsuz": _bolumden_basla.bind(Data.LIST.size()),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	levels.save_progress(index)
+	_start_game()
 
 
 # İpucu eli: kirpinin altında parmakla sağa sola kaydır
@@ -227,6 +246,9 @@ func _on_level_completed() -> void:
 	hud.show_cheer(tr(WORDS.pick_random()), celebration_time - 0.6)
 	await get_tree().create_timer(celebration_time, false).timeout
 	if my_run != run_id:
+		return
+	if levels.level_index == Data.LIST.size() - 1:
+		_oyun_bitti(false)          # 12. bölüm bitti: final ekranı (sonsuz mod oradan)
 		return
 	levels.start_level(levels.level_index + 1)
 	_begin_level()
