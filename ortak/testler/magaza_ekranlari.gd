@@ -2,7 +2,7 @@ extends SceneTree
 # Google Play telefon ekran görüntüleri (pencereli, 1920x1080). Proje kökünden:
 #   godot --path . --fixed-fps 60 -s res://ortak/testler/magaza_ekranlari.gd [-- <klasör> [GENxYUK] [oyun ...]]
 # Klasör verilmezse .playstore/screenshots/telefon; oyun adları verilirse yalnızca onlar yeniden çekilir.
-# GENxYUK verilirse (ör. tablet için 1920x1200) pencere o boyutta açılır. Sekiz oyunu menüden açar, her birini dolu ve hareketli bir
+# GENxYUK verilirse pencere o boyutta açılır (tablet: -- res://.playstore/screenshots/tablet 1920x1200). Sekiz oyunu menüden açar, her birini dolu ve hareketli bir
 # anına getirip 01_hayvan_besle.png ... 08_toplama.png kaydeder (alfa kanalsız PNG). Monitör en az 1920x1080
 # olmalı (pencere kenarlıksız açılır). user:// kayıtları (.bak dahil) yedeklenir, sonunda eski haline getirilir.
 # Görüntülerde dile bağlı yazı yok; aynı set Türkçe ve İngilizce mağaza sayfasında kullanılabilir.
@@ -24,7 +24,7 @@ var _eserler: PackedStringArray = []
 
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
-	out = args[0] if args.size() > 0 else ProjectSettings.globalize_path("res://.playstore/screenshots/telefon")
+	out = ProjectSettings.globalize_path(args[0] if args.size() > 0 else "res://.playstore/screenshots/telefon")
 	var secilen := args.slice(1)
 	for arg in secilen.duplicate():
 		var parca := arg.split("x")
