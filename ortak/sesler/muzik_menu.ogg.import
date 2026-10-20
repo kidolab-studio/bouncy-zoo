@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/muzik_menu.ogg-1411e8baa60d86ea0311fcd6e9b1e6
 [params]
 
 loop=true
-loop_offset=0
+loop_offset=10.285714
 bpm=0
 beat_count=0
 bar_beats=4

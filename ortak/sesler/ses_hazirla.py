@@ -40,7 +40,7 @@ PAKETLER = {
     "donguler": (OGA + "sfx_loops.zip", "https://opengameart.org/content/30-cc0-sfx-loops"),
     "buhar_duduk": (OGA + "steam_whistle.wav", "https://opengameart.org/content/steam-whistle"),
     "buhar": (OGA + "steam_hisses.zip", "https://opengameart.org/content/steam-release-sounds"),
-    "m_menu": (OGA + "HappyClappyLoop.wav", "https://opengameart.org/content/happy-clappy-loop"),
+    "m_ev": (OGA + "children_soundtrack_3.wav", "https://opengameart.org/content/childrens-game-music-3-home"),
     "m_kus": (OGA + "flowerbed_fields.ogg", "https://opengameart.org/content/flowerbed-fields-loop"),
     "m_dondurma": (OGA + "feel_good_island_loop_0.ogg", "https://opengameart.org/content/feel-good-island-loop"),
     "m_yol": (OGA + "ogg_cozy_puzzle_jingle_result.zip", "https://opengameart.org/content/cozy-puzzle-jingle-result"),
@@ -49,11 +49,16 @@ PAKETLER = {
 }
 # Kenney casino ve rpg paketlerinin tam bağlantısı sayfadan okunur (sürüm kodu değişebilir)
 
+MENU_CUMLE = 12 * 60 / 70     # menü müziğinde bir cümle: 12 vuruş, 70 BPM (parça 0. sn'de başlar)
+
 # ad: (paket, paketteki dosya, tür, işlemler)
 #   tür: arayuz / efekt / ezgi / dongu / muzik
 #   işlemler: bas/son (sn, kırpma), perde (hız çarpanı: 1.25 = daha tiz ve kısa), alcak (Hz, tiz yumuşatma),
 #             ekle (başka bir ses: (paket, dosya, gecikme sn, kazanç)), sonu_sustur (sn, yumuşak kısılma),
-#             dikis (sn: döngünün iki ucuna çok kısa kısılma; dikişte "tık" duyulan döngüler için)
+#             dikis (sn: döngünün iki ucuna çok kısa kısılma; dikişte "tık" duyulan döngüler için),
+#             dongu ((dönüş sn, son sn, geçiş sn): dosya "son"da biter, çalınca "dönüş"e döner (.import loop_offset'i
+#             buradan yazılır); sondaki "geçiş" kadar bölüm dönüşten önceki bölümle karıştırılır, ek duyulmaz),
+#             seviye (dB: türün hedef seviyesi yerine)
 SESLER = {
     # --- Ortak ---
     "dugme_tik": ("interface", "drop_003.ogg", "arayuz", {}),
@@ -99,7 +104,9 @@ SESLER = {
     "tren_cufcuf": ("kurgu", "tren_cufcuf", "dongu", {}),
     "tren_fren": ("kurgu", "tren_fren", "efekt", {"alcak": 3000, "sonu_sustur": 0.35}),
     # --- Müzikler (döngülü) ---
-    "muzik_menu": ("m_menu", "HappyClappyLoop.wav", "muzik", {"dikis": 0.006}),
+    # Menü: 8 cümle ve kapanış; kapanış atılır, döngü 2. cümleye döner (giriş sadece ilk çalışta tam duyulur)
+    "muzik_menu": ("m_ev", "children_soundtrack_3.wav", "muzik",
+                   {"dongu": (MENU_CUMLE, 8 * MENU_CUMLE, 0.08), "seviye": -24.0}),
     "muzik_ucan_kus": ("m_kus", "flowerbed_fields.ogg", "muzik", {"alcak": 5000}),
     "muzik_dondurmaci": ("m_dondurma", "feel_good_island_loop_0.ogg", "muzik", {}),
     "muzik_yol_yap": ("m_yol", "Cozy Puzzle Clear (Loop)_BPM85.ogg", "muzik", {"alcak": 7000}),
@@ -274,6 +281,19 @@ def tren_fren(onbellek):
 SENTEZ = {"vuus": vuus, "tren_duduk": tren_duduk, "tren_cufcuf": tren_cufcuf, "tren_fren": tren_fren}
 
 
+def _donus_yaz(ad, saniye):
+    """Döngünün dönüş noktasını Godot'nun içe aktarma ayarına (loop_offset) yazar"""
+    import re
+    yol = os.path.join(BURASI, ad + ".ogg.import")
+    if not os.path.exists(yol):
+        print(f"  {ad}.ogg.import yok: Godot'ta içe aktarınca loop_offset={saniye:.6f} yap")
+        return
+    with open(yol, encoding="utf-8") as f:
+        metin = f.read()
+    with open(yol, "w", encoding="utf-8", newline="\n") as f:
+        f.write(re.sub(r"(?m)^loop_offset=.*$", f"loop_offset={saniye:.6f}", metin))
+
+
 def hazirla(onbellek, ad, paket, dosya, tur, isl):
     dongu = tur in DONGULU
     if paket in ("sentez", "kurgu"):
@@ -291,6 +311,12 @@ def hazirla(onbellek, ad, paket, dosya, tur, isl):
         uzunluk = max(len(veri), bas + len(ek))
         veri = np.pad(veri, ((0, uzunluk - len(veri)), (0, 0)))
         veri[bas:bas + len(ek)] += ek
+    if "dongu" in isl:
+        donus, son, gecis = (int(round(t * SR)) for t in isl["dongu"])
+        aci = np.linspace(0.0, np.pi / 2, gecis)[:, None]
+        veri[son - gecis:son] = veri[son - gecis:son] * np.cos(aci) + veri[donus - gecis:donus] * np.sin(aci)
+        veri = veri[:son]
+        _donus_yaz(ad, donus / SR)
     bas = int(isl.get("bas", 0) * SR)
     son = int(isl["son"] * SR) if "son" in isl else len(veri)
     veri = veri[bas:son]
@@ -315,7 +341,7 @@ def hazirla(onbellek, ad, paket, dosya, tur, isl):
         olcu = float(np.sqrt(np.mean(veri ** 2)))
     else:
         olcu = pencere_rms_max(veri)
-    kazanc = 10 ** (HEDEF[tur] / 20) / max(olcu, 1e-9)
+    kazanc = 10 ** (isl.get("seviye", HEDEF[tur]) / 20) / max(olcu, 1e-9)
     tepe = float(np.abs(veri).max()) * kazanc
     if tepe > 10 ** (-1 / 20):
         kazanc *= 10 ** (-1 / 20) / tepe
