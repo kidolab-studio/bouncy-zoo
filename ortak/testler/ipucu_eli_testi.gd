@@ -4,7 +4,8 @@ extends SceneTree
 # ADIMLAR ile oyun ekranına girer; el doğru yerde mi, dokununca kayboluyor mu, 6 sn beklenince geliyor mu).
 #   godot --headless --path . --fixed-fps 60 -s res://ortak/testler/ipucu_eli_testi.gd [-- oyun ...]
 # Pencereli çalıştırılırsa (--headless olmadan) ve "-- cek <klasör>" verilirse her oyunda elin göründüğü anın
-# ekran görüntüsü kaydedilir. user://ipucu_eli.cfg ve oyun kayıtları yedeklenir, sonunda geri yazılır.
+# ekran görüntüsü kaydedilir. user:// kökündeki dosyalar (ipucu_eli.cfg, oyun kayıtları ve .bak'ları) yedeklenir,
+# sonunda geri yazılır; testin oluşturduğu dosyalar ve Boyama Kitabı eserleri silinir.
 
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
 const MENU := "res://ana_menu/ana_menu.tscn"
@@ -25,6 +26,7 @@ var gecis: Node
 var hata := 0
 var _yedek := {}
 var _eserler: PackedStringArray = []
+var _eser_klasoru_vardi := false
 var _cek := ""
 
 
@@ -348,17 +350,18 @@ func _goruntu(ad: String) -> void:
 
 # --- Kayıtlar ---
 
+# user:// kökündeki bütün dosyalar (.cfg ve GuvenliKayit'ın .bak / .tmp dosyaları) yedeklenir
 func _yedekle() -> void:
 	for dosya in DirAccess.get_files_at("user://"):
-		if dosya.ends_with(".cfg"):
-			_yedek[dosya] = FileAccess.get_file_as_bytes("user://" + dosya)
-	if DirAccess.dir_exists_absolute("user://boyama_kitabi"):
+		_yedek[dosya] = FileAccess.get_file_as_bytes("user://" + dosya)
+	_eser_klasoru_vardi = DirAccess.dir_exists_absolute("user://boyama_kitabi")
+	if _eser_klasoru_vardi:
 		_eserler = DirAccess.get_directories_at("user://boyama_kitabi")
 
 
 func _geri_yaz() -> void:
 	for dosya in DirAccess.get_files_at("user://"):
-		if dosya.ends_with(".cfg") and not _yedek.has(dosya):
+		if not _yedek.has(dosya):
 			DirAccess.remove_absolute("user://" + dosya)
 	for dosya: String in _yedek:
 		var f := FileAccess.open("user://" + dosya, FileAccess.WRITE)
@@ -372,3 +375,5 @@ func _geri_yaz() -> void:
 			for dosya in DirAccess.get_files_at(klasor):
 				DirAccess.remove_absolute(klasor.path_join(dosya))
 			DirAccess.remove_absolute(klasor)
+	if not _eser_klasoru_vardi and DirAccess.dir_exists_absolute("user://boyama_kitabi"):
+		DirAccess.remove_absolute("user://boyama_kitabi")
