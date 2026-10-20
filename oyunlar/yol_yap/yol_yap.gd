@@ -100,6 +100,19 @@ func _ready() -> void:
 	hint_pulse.tween_property(hints, "modulate:a", 1.0, 0.8)
 	_show_level_select()
 	IpucuEli.ekle(self, "yol_yap", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if state == State.PLAYING:
+			_celebrate(run_id))
+	if OyunBitti.tamamlandi_mi("yol_yap"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı. Bölüm seç → bu oyunun kendi ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "yol_yap", "karakter": ball.texture, "bolum_sayisi": Levels.LIST.size(), "kisa": kisa,
+		"bolum_secme_ekrani": _show_level_select, "bastan": _start_level.bind(0),
+	})
 
 
 # İpucu eli: tepsideki bir parçayı onun boş hedef hücresine sürükle
@@ -657,11 +670,7 @@ func _celebrate(my_run: int) -> void:
 			if my_run != run_id:
 				return
 		state = State.FINISHED
-		replay_button.visible = true
-		replay_button.pivot_offset = replay_button.size / 2.0
-		replay_button.scale = Vector2.ZERO
-		_level_tween().tween_property(replay_button, "scale", Vector2.ONE, 0.4) \
-			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		_oyun_bitti(false)
 	else:
 		_show_cheer(tr(WORDS.pick_random()), false)
 		SesYoneticisi.ezgi("tamamlandi")
