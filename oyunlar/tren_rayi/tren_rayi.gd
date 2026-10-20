@@ -100,6 +100,29 @@ func _ready() -> void:
 	_ui.add_child(_hareket)
 	_giris_ekranina()
 	IpucuEli.ekle(self, "tren_rayi", _ipucu)
+	OyunBitti.kisayol(self, func() -> void:
+		if durum == Durum.OYUN:
+			_kutla(false))
+	if OyunBitti.tamamlandi_mi("tren_rayi"):
+		_oyun_bitti(true)
+
+
+# Son bölüm bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "tren_rayi", "karakter": load(G + "lokomotif.svg"), "bolum_sayisi": Bolumler.LEVELS.size(),
+		"kisa": kisa, "bolum_baslat": _bolumden_basla, "bastan": _bolumden_basla.bind(0),
+	})
+
+
+func _bolumden_basla(index: int) -> void:
+	yonetici.bolum = index
+	yonetici.kaydet()
+	if durum == Durum.GIRIS:
+		_oyuna_basla()
+	else:
+		_bolumu_kur()
+		create_tween().tween_property(_dunya, "modulate:a", 1.0, 0.35)
 
 
 # İpucu eli: yol tamamsa yeşil "hareket" düğmesine, değilse çözüm yolundaki yanlış yöndeki ilk raya dokun
@@ -385,6 +408,9 @@ func _kutla(ek_yildiz: bool) -> void:
 	yonetici.bitti()
 	await get_tree().create_timer(1.6).timeout
 	if oturum != _oturum:
+		return
+	if yonetici.bolum % Bolumler.LEVELS.size() == 0:
+		_oyun_bitti(false)          # 20. bölüm bitti: final ekranı (yoksa sessizce 1. bölüme dönülüyordu)
 		return
 	var tween := create_tween()
 	tween.tween_property(_dunya, "modulate:a", 0.0, 0.35)
