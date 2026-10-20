@@ -14,10 +14,12 @@ const MENU := "res://ana_menu/ana_menu.tscn"
 # biçiminde) ve "Baştan oyna"dan sonra o anki bölümü veren ifade (oyun düğümünden okunur).
 const OYUNLAR := {
 	"yol_yap": {"giris": ["level_buttons.0"], "bolum": "level_index"},
-	# Hafıza: bir tema bitince bölüm seçmeye döner (state 0); diğer temayı seçip devam edilir
-	"hafiza": {"giris": ["level_buttons.0"], "bolum": "level_index", "takilirsa": ["theme_buttons.1", "level_buttons.0"]},
+	# "takilirsa": [özellik, değer, adımlar] — oyun bu durumda beklerse (F9 işe yaramaz) adımlar yapılır.
+	# Hafıza: bir tema bitince bölüm seçmeye döner (state 0); diğer tema seçilir
+	"hafiza": {"giris": ["level_buttons.0"], "bolum": "level_index", "takilirsa": ["state", 0, ["theme_buttons.1", "level_buttons.0"]]},
 	"meyve_topla": {"giris": [Vector2(0.6, 0.6)], "bolum": "levels.level_index"},
-	"araba_yarisi": {"giris": ["_garage._play", "_map._nodes.0"], "bolum": "_track_index"},
+	# Araba Yarışı: her pistten sonra podyumda (_screen 3) "sonraki" düğmesi
+	"araba_yarisi": {"giris": ["_garage._play", "_map._nodes.0"], "bolum": "_track_index", "takilirsa": ["_screen", 3, ["_podium._next"]]},
 	"robot_fabrikasi": {"giris": [], "bolum": "manager.index"},
 	"tren_rayi": {"giris": ["_giris._oynat"], "bolum": "yonetici.bolum"},
 	"balik_tutma": {"giris": [], "bolum": "kayit.bolum"},
@@ -156,8 +158,8 @@ func _oyun_testi(ad: String) -> void:
 			gorundu = true
 			break
 		if k % 40 == 0:
-			if bilgi.has("takilirsa") and current_scene.get("state") == 0:
-				await _giris_yap(current_scene, bilgi["takilirsa"])
+			if bilgi.has("takilirsa") and current_scene.get(bilgi["takilirsa"][0]) == bilgi["takilirsa"][1]:
+				await _giris_yap(current_scene, bilgi["takilirsa"][2])
 			_tus(KEY_F9)
 			basildi += 1
 		await _sn(0.25)

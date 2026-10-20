@@ -97,6 +97,20 @@ func _ready() -> void:
 	_show_garage()
 	var ipucu := IpucuEli.ekle(self, "araba_yarisi", _ipucu)
 	ipucu.engel = func() -> bool: return _hud._hint.visible   # yarışın kendi "basılı tut" eli görünürken çekilir
+	OyunBitti.kisayol(self, func() -> void:
+		if _screen == Screen.RACE and _race_state == RaceState.RACING:
+			_on_finish(_cars[0]))
+	if OyunBitti.tamamlandi_mi("araba_yarisi"):
+		_oyun_bitti(true)
+
+
+# Son pist bitti (ya da tamamlanmış oyun yeniden açıldı): ortak final ekranı. Bölüm seç → kendi pist haritası
+func _oyun_bitti(kisa: bool) -> void:
+	OyunBitti.goster(self, {
+		"ad": "araba_yarisi", "karakter": load("res://oyunlar/araba_yarisi/gorseller/araba_%s.svg" % _color),
+		"bolum_sayisi": Pistler.TRACKS.size(), "kisa": kisa,
+		"bolum_secme_ekrani": _transition.bind(_show_map), "bastan": _transition.bind(_start_race.bind(0)),
+	})
 
 
 # İpucu eli: yarışta ekrana basılı tut (araba hızlanır)
@@ -375,6 +389,11 @@ func _show_podium() -> void:
 		_hide_all()
 		_screen = Screen.PODIUM
 		_podium.show_results(looks, _stars_taken, theme_name, has_next))
+	if not has_next:
+		# Son pist: podyum biraz görünsün, sonra ortak final ekranı
+		get_tree().create_timer(3.0).timeout.connect(func() -> void:
+			if _screen == Screen.PODIUM and not OyunBitti.acik:
+				_oyun_bitti(false))
 
 
 # --- Duraklatma ve dokunma ---
