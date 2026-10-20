@@ -66,6 +66,20 @@ func _ready() -> void:
 	_build()
 	manager.load_progress()
 	_start_level()
+	IpucuEli.ekle(self, "robot_fabrikasi", _ipucu)
+
+
+# İpucu eli: banttaki (görünen) ilk parçayı onu alan kutuya sürükle; parça bantla birlikte kayar
+func _ipucu() -> Dictionary:
+	if _paused or _level_done or _held or _gallery.is_open() or _montage.running:
+		return {}
+	for part: Node2D in _belt.parts:
+		if part.on_belt and part.visible and part.position.x < _size.x - 260.0:
+			var right := manager.box_for(part.data)
+			if right >= 0 and right < boxes.size():
+				var hedef: Vector2 = get_viewport().get_canvas_transform() * boxes[right].drop_rect().get_center()
+				return IpucuEli.surukle(IpucuEli.izle(part), hedef)
+	return {}
 
 
 # --- Kurulum ---
