@@ -185,7 +185,7 @@ func _oyun_testi(oyun: Dictionary) -> void:
 			else:
 				await _kareler(int(adim))
 		var h: Dictionary = {}
-		for k in 360:          # oyun giriş animasyonu bitip hareket gösterilebilir olana kadar (en çok 6 sn)
+		for k in 720:          # oyun giriş animasyonu / geri sayım bitip hareket gösterilebilir olana kadar (en çok 12 sn)
 			h = el._hareket_al()
 			if not h.is_empty():
 				break
