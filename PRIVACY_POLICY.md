@@ -1,6 +1,6 @@
 # Gizlilik Politikası / Privacy Policy
 
-Yayındaki sürüm: https://emirsalihgmrk.github.io/bouncy-zoo-privacy-policy/ (Play Console'a bu adres girilir).
+Yayındaki sürüm: https://kidolab-studio.github.io/legal/bouncy-zoo/privacy-policy (Play Console'a bu adres girilir).
 Bu dosya o sayfanın repodaki kopyasıdır; sayfa değişirse burayı da güncelleyin.
 
 ## Türkçe
