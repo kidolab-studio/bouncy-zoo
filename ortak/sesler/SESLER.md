@@ -24,7 +24,7 @@ Paketler proje dışındaki bir önbellek klasörüne indirilir; projeye sadece 
 | zil | Pleasing Bell Sound Effect | spring-spring | https://opengameart.org/content/pleasing-bell-sound-effect | CC0 |
 | yaratik | 80 CC0 creature SFX | rubberduck | https://opengameart.org/content/80-cc0-creature-sfx | CC0 |
 | donguler | 30 CC0 SFX loops | rubberduck | https://opengameart.org/content/30-cc0-sfx-loops | CC0 |
-| m_menu | Happy Clappy Loop | owlishmedia | https://opengameart.org/content/happy-clappy-loop | CC0 |
+| m_ev | Children's Game Music 3 - Home | heartade | https://opengameart.org/content/childrens-game-music-3-home | CC0 |
 | m_kus | Flowerbed Fields (loop) | zane-little-music | https://opengameart.org/content/flowerbed-fields-loop | CC0 |
 | m_dondurma | Feel Good Island (loop) | antumdeluge | https://opengameart.org/content/feel-good-island-loop | CC0 * |
 | m_yol | Cozy Puzzle Jingle / Result | mintodog | https://opengameart.org/content/cozy-puzzle-jingle-result | CC0 |
@@ -79,11 +79,11 @@ Denenip kullanılmayan: "dings" (OpenGameArt, CC-BY-SA 4.0), isim verme ve aynı
 | tren_duduk.ogg | buhar_duduk | steam_whistle.wav | `tren_duduk()`: kaydın sabit bölümünden iki ses birlikte (Sol5 + Si5), kısa + uzun üfleme ("tü-tüüt"), tiz yumuşatma | Tren Rayı: kalkış, istasyona varış, giriş ekranında trene dokunma |
 | tren_cufcuf.ogg | buhar | steam hisses - Marker #1.wav, #2, #3, #4 (steam_hisses.zip) | `tren_cufcuf()`: dört kısa puf kalınlaştırılıp 0,3 sn arayla dizildi (ilk vuruş vurgulu), kuyruklar başa sarıldı; dikişsiz döngü | Tren Rayı: tren hareket ederken (perde ve seviye hıza bağlı) |
 | tren_fren.ogg | buhar | steam hisses - Marker #3.wav (steam_hisses.zip) | `tren_fren()`: biraz yavaşlatıldı, yumuşak başlangıç, tiz yumuşatma ("pşşş") | Tren Rayı: yolcu duraklarında, eksik yolda ve istasyonda duruş |
-| muzik_menu.ogg | m_menu | HappyClappyLoop.wav | dikişte çok kısa kısılma | ana menü |
+| muzik_menu.ogg | m_ev | children_soundtrack_3.wav | 8 cümle (70 BPM, 12 vuruşluk cümleler) alındı, kapanış atıldı; döngü 2. cümleye döner (`.import` `loop_offset=10.285714`), sondaki 80 ms dönüş öncesiyle karıştırıldı; seviye -24 dB (diğer müziklerden biraz kısık) | ana menü |
 | muzik_ucan_kus.ogg | m_kus | flowerbed_fields.ogg | tiz yumuşatma (5 kHz) | Uçan Kuş |
 | muzik_dondurmaci.ogg | m_dondurma | feel_good_island_loop_0.ogg | | Dondurmacı |
 | muzik_yol_yap.ogg | m_yol | Cozy Puzzle Clear (Loop)_BPM85.ogg | tiz yumuşatma | Yol Yap |
 | muzik_hafiza.ogg | m_hafiza | Heavenly Loop_0.ogg | | Hafıza |
 | muzik_meyve_topla.ogg | m_meyve | Children's March Theme.ogg | tiz yumuşatma | Meyve Topla |
 
-Toplam boyut yaklaşık 4.7 MB.
+Toplam boyut yaklaşık 5.4 MB.

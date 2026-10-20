@@ -30,7 +30,7 @@ dosyalar CC0 kalır.
 | Pleasing Bell Sound Effect | Spring Spring | CC0 | https://opengameart.org/content/pleasing-bell-sound-effect | [2026-02-09](https://web.archive.org/web/20260209103147/https://opengameart.org/content/pleasing-bell-sound-effect) | "Produced by Julie Damsgaard/Spring Spring" |
 | 80 CC0 creature SFX | rubberduck | CC0 | https://opengameart.org/content/80-cc0-creature-sfx | [2026-03-12](https://web.archive.org/web/20260312032038/https://opengameart.org/content/80-cc0-creature-sfx) | "i created 80 creature sound effects" |
 | 30 CC0 SFX loops | rubberduck | CC0 | https://opengameart.org/content/30-cc0-sfx-loops | [2026-07-14](https://web.archive.org/web/20260714013630/https://opengameart.org/content/30-cc0-sfx-loops) | "I created 30 different SFX loops" |
-| Happy Clappy Loop | OwlishMedia | CC0 | https://opengameart.org/content/happy-clappy-loop | [2025-11-30](https://web.archive.org/web/20251130170618/https://opengameart.org/content/happy-clappy-loop) | "a piece from my animated short film Cat's Sky" |
+| Children's Game Music 3 - Home | heartade | CC0 | https://opengameart.org/content/childrens-game-music-3-home | [2025-12-12](https://web.archive.org/web/20251212014709/https://opengameart.org/content/childrens-game-music-3-home) | "Created for an educational game for children"; sayfa 20 Ekim 2026'da yeniden doğrulandı |
 | Flowerbed Fields [Loop] | Zane Little Music | CC0 | https://opengameart.org/content/flowerbed-fields-loop | [2025-09-04](https://web.archive.org/web/20250904202006/https://opengameart.org/content/flowerbed-fields-loop) | bestecinin kendi yüklemesi |
 | Feel Good Island Loop | AntumDeluge (özgün parça: Brandon Morris) | CC0 / OGA-BY 3.0 | https://opengameart.org/content/feel-good-island-loop | [2025-08-12](https://web.archive.org/web/20250812045400/https://opengameart.org/content/feel-good-island-loop) | özgün parçadan kırpılmış; CC0 seçildi |
 | Feel good island (özgün parça) | Brandon Morris | CC0 / OGA-BY 3.0 | https://opengameart.org/content/feel-good-island | [2026-10-01](https://web.archive.org/web/20261001203833/https://opengameart.org/content/feel-good-island) | özgün parça da CC0; yeniden lisanslama geçerli |
@@ -99,7 +99,7 @@ dosyalardan 2 Ekim 2026'da alındı. Paket kısa adları `SESLER.md`'deki "Kayna
 | tren_cufcuf.ogg | buhar | steam hisses - Marker #3.wav | `f064442e7f7974f7f526f5d7dafc62015ea2d0ad7b1ca252e2841df4709ebe24` |
 | tren_cufcuf.ogg | buhar | steam hisses - Marker #4.wav | `f3e7573a11cc6403974eaba2467b19fd10c14bf712f879db84ee597934048398` |
 | tren_fren.ogg | buhar | steam hisses - Marker #3.wav | `f064442e7f7974f7f526f5d7dafc62015ea2d0ad7b1ca252e2841df4709ebe24` |
-| muzik_menu.ogg | m_menu | HappyClappyLoop.wav | `1ca66b4e4d41e14a4ccfcc3b758e061cf283b9d5e332c4ea8e00f94f4deb6554` |
+| muzik_menu.ogg | m_ev | children_soundtrack_3.wav | `454bdfb568427867405bdcfa3969b39b5be92e885bbf7383c353c13586fbbd9b` |
 | muzik_ucan_kus.ogg | m_kus | flowerbed_fields.ogg | `99607b996cc43c1891afcbf7c2c8d8aad1009266cea358d4753e3c50b1332d36` |
 | muzik_dondurmaci.ogg | m_dondurma | feel_good_island_loop_0.ogg | `694e109421e0a1d8fa88463659de00acb84a8a83dc9c899215bfd5da5dc9ae9e` |
 | muzik_yol_yap.ogg | m_yol | Cozy Puzzle Clear (Loop)_BPM85.ogg | `4d5d422b2ca3a1b7a49cef1e1a748e4d79b1d18cc067153d090c1e49e33b0f36` |

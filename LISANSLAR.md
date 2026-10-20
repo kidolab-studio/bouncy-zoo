@@ -145,6 +145,11 @@ Projede başka yazı tipi yok. SVG'lerin hiçbirinde yazı ya da yazı tipi adı
     aynı olacak şekilde "All drawings" yapıldı (bütün çizimler özgün). `lisans_denetle.py` artık `.csv` dosyalarını
     da tarıyor; marka listesine "memory", oyuncak markaları (Jenga, Brio, Duplo, Playmobil...), Türk çocuk çizgi
     filmleri (Pepee, Niloya, Rafadan Tayfa, Kral Şakir) ve Algida eklendi.
+13. **Ana menü müziği değiştirildi** (20 Ekim 2026). "Happy Clappy Loop" (OwlishMedia) beğenilmediği için
+    çıkarıldı; yerine OpenGameArt'tan "Children's Game Music 3 - Home" (heartade, CC0,
+    https://opengameart.org/content/childrens-game-music-3-home) kondu. Sayfa ve 12 Aralık 2025 tarihli arşiv
+    kopyası CC0 gösteriyor. Dosya adı aynı kaldı (`ortak/sesler/muzik_menu.ogg`); `SESLER.md`,
+    `LISANS_KANITLARI.md` ve Lisanslar ekranı güncellendi.
 9. **Yeni hayvan sesleri kayıtlara işlendi.** BigSoundBank ve "Ribbit Frog Sounds" kaynakları `CREDITS.md`'ye ve
    Lisanslar ekranına (`ana_menu/lisans_metinleri.gd`) eklendi.
 
