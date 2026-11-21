@@ -3,8 +3,6 @@
 [ext_resource type="Script" path="res://oyunlar/muzik_kutusu/sarki.gd" id="1_sarki"]
 [ext_resource type="Texture2D" path="res://oyunlar/muzik_kutusu/gorseller/sarki_can.svg" id="2_simge"]
 
-; Tembel Çocuk: Frère Jacques, geleneksel halk ezgisi. Son dizedeki pes sol ksilofonda olmadığı için do2-sol-do2
-
 [resource]
 script = ExtResource("1_sarki")
 icon = ExtResource("2_simge")
