@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BathAnimalData" format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/hayvan_verisi.gd" id="1_veri"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/fare_govde.svg" id="2_govde"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/fare_kafa.svg" id="3_kafa"]
+[ext_resource type="AudioStream" path="res://oyunlar/hayvan_banyosu/sesler/fare.wav" id="4_ses"]
+
+[resource]
+script = ExtResource("1_veri")
+id = &"fare"
+body_texture = ExtResource("2_govde")
+head_texture = ExtResource("3_kafa")
+voice = ExtResource("4_ses")
+eye_y = 132.0
+eye_dx = 24.0
+eye_size = Vector2(12, 15)
+mouth_y = 168.0
+mouth_width = 10.0
+cheek_y = 158.0
+cheek_dx = 44.0
+skin_color = Color(0.7647, 0.7333, 0.8510, 1)
+teeth = true

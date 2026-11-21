@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="90" viewBox="0 0 100 90">
+  <defs>
+    <radialGradient id="kalp" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#FF9AB6"/>
+      <stop offset="0.5" stop-color="#FF4F7E"/>
+      <stop offset="1" stop-color="#D81E56"/>
+    </radialGradient>
+  </defs>
+  <path d="M50 84 C18 62 6 46 6 28 C6 14 17 6 29 6 C39 6 46 12 50 20 C54 12 61 6 71 6 C83 6 94 14 94 28 C94 46 82 62 50 84 Z" fill="url(#kalp)" stroke="#8A0E34" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="28" cy="26" rx="10" ry="6" transform="rotate(-30 28 26)" fill="#FFFFFF" opacity="0.75"/>
+</svg>

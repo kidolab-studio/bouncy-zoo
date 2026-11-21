@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#EEC7A7"/><stop offset="0.55" stop-color="#D9823B"/><stop offset="1" stop-color="#B67046"/></radialGradient>
+    <radialGradient id="golge" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#3A2A4A" stop-opacity="0.3"/><stop offset="1" stop-color="#3A2A4A" stop-opacity="0"/></radialGradient>
+  </defs>
+  <path d="M160 222 C226 220 240 150 204 104" fill="none" stroke="#3B2F6B" stroke-width="66" stroke-linecap="round"/>
+  <path d="M160 222 C226 220 240 150 204 104" fill="none" stroke="#D9823B" stroke-width="52" stroke-linecap="round"/>
+  <path d="M160 222 C226 220 240 150 204 104" fill="none" stroke="#E6AE80" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+  <ellipse cx="128" cy="246" rx="80" ry="10" fill="url(#golge)"/>
+  <ellipse cx="128" cy="210" rx="54" ry="34" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="128" cy="216" rx="30" ry="20" fill="#FCE3C0"/>
+  <ellipse cx="102" cy="238" rx="21" ry="11" fill="url(#ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="238" rx="21" ry="11" fill="url(#ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
