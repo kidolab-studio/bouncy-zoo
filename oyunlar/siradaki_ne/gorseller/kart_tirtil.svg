@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="230" viewBox="0 0 280 230">
+  <defs>
+    <radialGradient id="h0" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#D6BCFF"/><stop offset="0.55" stop-color="#A46BFF"/><stop offset="1" stop-color="#8D5EDE"/></radialGradient>
+    <radialGradient id="h1" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFEBA9"/><stop offset="0.55" stop-color="#FFD23F"/><stop offset="1" stop-color="#D4AE49"/></radialGradient>
+    <radialGradient id="h2" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#AECDF8"/><stop offset="0.55" stop-color="#4A8FF0"/><stop offset="1" stop-color="#477AD3"/></radialGradient>
+    <radialGradient id="bas" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#CBEFB6"/><stop offset="0.55" stop-color="#8CDB5C"/><stop offset="1" stop-color="#7AB55F"/></radialGradient>
+    <radialGradient id="goz" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#6A5A96"/><stop offset="0.55" stop-color="#2A1F45"/><stop offset="1" stop-color="#150F26"/></radialGradient>
+    <radialGradient id="yanak" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FF7FA3" stop-opacity="0.85"/><stop offset="1" stop-color="#FF7FA3" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="216" cy="200" rx="10" ry="8" fill="#7F56CB" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="248" cy="200" rx="10" ry="8" fill="#7F56CB" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="232" cy="150" r="42" fill="url(#h0)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="218" cy="130" rx="11" ry="6" transform="rotate(-25 218 130)" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="232" cy="154" r="9" fill="none" stroke="#DCC7FF" stroke-width="4.2"/>
+  <ellipse cx="168" cy="172" rx="10" ry="8" fill="#BA994E" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="200" cy="172" rx="10" ry="8" fill="#BA994E" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="184" cy="122" r="42" fill="url(#h1)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="170" cy="102" rx="11" ry="6" transform="rotate(-25 170 102)" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M167.5 129.6 L175.6 121.2 L184 129.6 L192.4 121.2 L200.5 129.6" fill="none" stroke="#C4A14C" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="122" cy="190" rx="10" ry="8" fill="#456DC1" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="190" rx="10" ry="8" fill="#456DC1" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="138" cy="140" r="42" fill="url(#h2)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="124" cy="120" rx="11" ry="6" transform="rotate(-25 124 120)" fill="#FFFFFF" opacity="0.8"/>
+  <rect x="121.5" y="134.4" width="33" height="6" rx="3" fill="#BAD4F9"/>
+  <rect x="121.5" y="147.6" width="33" height="6" rx="3" fill="#BAD4F9"/>
+  <g transform="translate(2 46) scale(0.92)">
+  <path d="M62 40 Q45.0 20 40 10" fill="none" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="40" cy="10" r="9" fill="#FF7FA3" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M98 40 Q95.0 20 104 6" fill="none" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="104" cy="6" r="9" fill="#FF7FA3" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="84" cy="88" r="62" fill="url(#bas)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="62" cy="52" rx="15" ry="8" transform="rotate(-25 62 52)" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M50 82 Q62 66 74 82" fill="none" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M88 82 Q100 66 112 82" fill="none" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="44" cy="104" rx="13" ry="8" fill="url(#yanak)"/>
+  <ellipse cx="118" cy="104" rx="13" ry="8" fill="url(#yanak)"/>
+  <path d="M66 104 Q80 104 94 104 Q92 124 80 124 Q68 124 66 104 Z" fill="#8A2A4A" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

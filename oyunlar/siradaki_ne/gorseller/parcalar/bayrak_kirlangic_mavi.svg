@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="dolgu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#77ABF4"/><stop offset="1" stop-color="#4883E0"/></linearGradient>
+  </defs>
+  <path d="M24 16 L136 16 L136 150 L80 110 L24 150 Z" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="20" y="10" width="120" height="14" rx="7" fill="#477CD5" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="58" y="53.2" width="44" height="8" rx="4" fill="#BAD4F9"/>
+  <rect x="58" y="70.8" width="44" height="8" rx="4" fill="#BAD4F9"/>
+  <ellipse cx="52" cy="46" rx="12" ry="6" transform="rotate(-20 52 46)" fill="#FFFFFF" opacity="0.6"/>
+</svg>

@@ -324,6 +324,20 @@ def hayvan_banyosu():
     ]
 
 
+def siradaki_ne():
+    # Sıradaki Ne?: üstte kırmızı-mavi boncuk dizisi ve sonda soru işaretli boş yuva, altta gülen renkli tırtıl
+    g = "siradaki_ne/gorseller/"
+    dizi = []
+    # (sağ üst köşe ilerleme rozetine kalır: dizi biraz aşağıda)
+    for k, renk in enumerate(("kirmizi", "mavi", "kirmizi", "mavi")):
+        x = -126 + k * 54
+        dizi.append(parca(g + "parcalar/boncuk_yuvarlak_%s.svg" % renk, 58, (x, -70 + 5 * math.sin(k * 0.9 + 0.4))))
+    return dizi + [
+        parca(g + "yuva.svg", 64, (92, -70)),
+        parca(g + "kart_tirtil.svg", 236, (0, 62)),
+    ]
+
+
 def boyama_kitabi():
     # Boyama Kitabı: yarısı boyanmış kedi sayfası ve boya kalemleri, yanında boya kovası
     g = "boyama_kitabi/gorseller/"
@@ -428,7 +442,7 @@ KARTLAR = {
     "toplama": toplama, "cikarma": cikarma, "araba_yarisi": araba_yarisi, "zipla_zipla": zipla_zipla,
     "sihirli_bahce": sihirli_bahce, "muzik_kutusu": muzik_kutusu, "robot_fabrikasi": robot_fabrikasi,
     "tren_rayi": tren_rayi, "hayvan_besle": hayvan_besle, "boyama_kitabi": boyama_kitabi,
-    "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu,
+    "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu, "siradaki_ne": siradaki_ne,
 }
 
 

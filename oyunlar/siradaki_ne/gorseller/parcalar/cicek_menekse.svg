@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="yaprak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7EDB6A"/><stop offset="1" stop-color="#3E9E46"/></linearGradient>
+    <radialGradient id="dolgu" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#CCB6F8"/><stop offset="0.55" stop-color="#8E5CF0"/><stop offset="1" stop-color="#7C52D3"/></radialGradient>
+  </defs>
+  <path d="M80 154 L80 70" fill="none" stroke="#3B2F6B" stroke-width="15" stroke-linecap="round"/>
+  <path d="M80 154 L80 70" fill="none" stroke="#5CC45A" stroke-width="7" stroke-linecap="round"/>
+  <path d="M80 128 Q54 102 30 108 Q44 134 80 128 Z" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M80 112 Q106 86 130 92 Q116 118 80 112 Z" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="30.7" rx="21" ry="23" transform="rotate(0 80 56)" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="30.7" rx="21" ry="23" transform="rotate(72 80 56)" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="30.7" rx="21" ry="23" transform="rotate(144 80 56)" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="30.7" rx="21" ry="23" transform="rotate(216 80 56)" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="30.7" rx="21" ry="23" transform="rotate(288 80 56)" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="80" cy="56" r="11" fill="#FFD84A" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="66" cy="34" rx="7" ry="4" transform="rotate(-25 66 34)" fill="#FFFFFF" opacity="0.8"/>
+</svg>

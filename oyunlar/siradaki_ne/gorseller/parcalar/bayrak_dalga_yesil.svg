@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="dolgu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FCF89"/><stop offset="1" stop-color="#3FAE63"/></linearGradient>
+  </defs>
+  <path d="M22 16 L138 16 L138 128 Q118 150 99 128 Q80 106 61 128 Q42 150 22 128 Z" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="20" y="10" width="120" height="14" rx="7" fill="#3EA264" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="80,55.2 93.44,72 80,88.8 66.56,72" fill="#B6E7C3"/>
+  <ellipse cx="52" cy="46" rx="12" ry="6" transform="rotate(-20 52 46)" fill="#FFFFFF" opacity="0.6"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <radialGradient id="dolgu" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFEBA9"/><stop offset="0.55" stop-color="#FFD23F"/><stop offset="1" stop-color="#D4AE49"/></radialGradient>
+  </defs>
+  <rect x="26" y="26" width="108" height="108" rx="20" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="54" cy="50" rx="15" ry="8" transform="rotate(-25 54 50)" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M56.9 89.04 L68.24 77.28 L80 89.04 L91.76 77.28 L103.1 89.04" fill="none" stroke="#C4A14C" stroke-width="6.72" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
