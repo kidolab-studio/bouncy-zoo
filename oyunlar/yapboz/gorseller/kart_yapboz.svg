@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="260" viewBox="0 0 300 260">
+  <defs>
+    <radialGradient id="parca" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFD4A9"/><stop offset="0.55" stop-color="#FF9F40"/><stop offset="1" stop-color="#D48649"/></radialGradient>
+    <radialGradient id="parca2" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#B0D8FF"/><stop offset="0.55" stop-color="#4FA8FF"/><stop offset="1" stop-color="#4B8DDE"/></radialGradient>
+    <radialGradient id="goz" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#6A5A96"/><stop offset="0.55" stop-color="#2A1F45"/><stop offset="1" stop-color="#150F26"/></radialGradient>
+    <radialGradient id="yanak" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FF7FA3" stop-opacity="0.85"/><stop offset="1" stop-color="#FF7FA3" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g transform="rotate(-14 90 150)"><path d="M30 90 L140.0 90.0 L140.0 129.6 C140.0 136.2 146.6 138.4 153.2 134.0 C164.2 127.4 173.0 134.0 173.0 145.0 C173.0 156.0 164.2 162.6 153.2 156.0 C146.6 151.6 140.0 153.8 140.0 160.4 L140.0 200.0 L100.4 200.0 C93.8 200.0 91.6 206.6 96.0 213.2 C102.6 224.2 96.0 233.0 85.0 233.0 C74.0 233.0 67.4 224.2 74.0 213.2 C78.4 206.6 76.2 200.0 69.6 200.0 L30.0 200.0 L30.0 90.0 Z" fill="url(#parca2)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <ellipse cx="70" cy="118" rx="16" ry="7" transform="rotate(-40 70 118)" fill="#FFFFFF" opacity="0.7"/>
+  <path d="M110 56 L160.4 56.0 C168.8 56.0 171.6 47.6 166.0 39.2 C157.6 25.2 166.0 14.0 180.0 14.0 C194.0 14.0 202.4 25.2 194.0 39.2 C188.4 47.6 191.2 56.0 199.6 56.0 L250.0 56.0 L250.0 106.4 C250.0 114.8 258.4 117.6 266.8 112.0 C280.8 103.6 292.0 112.0 292.0 126.0 C292.0 140.0 280.8 148.4 266.8 140.0 C258.4 134.4 250.0 137.2 250.0 145.6 L250.0 196.0 L199.6 196.0 C191.2 196.0 188.4 204.4 194.0 212.8 C202.4 226.8 194.0 238.0 180.0 238.0 C166.0 238.0 157.6 226.8 166.0 212.8 C171.6 204.4 168.8 196.0 160.4 196.0 L110.0 196.0 L110.0 56.0 Z" fill="url(#parca)" stroke="#3B2F6B" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="150" cy="92" rx="22" ry="9" transform="rotate(-30 150 92)" fill="#FFFFFF" opacity="0.85"/>
+  <ellipse cx="156" cy="118" rx="11" ry="14" fill="url(#goz)"/>
+  <ellipse cx="152" cy="112" rx="4.5" ry="5" fill="#FFFFFF"/>
+  <ellipse cx="208" cy="118" rx="11" ry="14" fill="url(#goz)"/>
+  <ellipse cx="204" cy="112" rx="4.5" ry="5" fill="#FFFFFF"/>
+  <ellipse cx="138" cy="142" rx="14" ry="8" fill="url(#yanak)"/>
+  <ellipse cx="226" cy="142" rx="14" ry="8" fill="url(#yanak)"/>
+  <path d="M164 138 Q182 140 200 138 Q198 162 182 162 Q166 162 164 138 Z" fill="#8A2A4A" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M173 156 Q182 150 191 156 Q182 162 173 156 Z" fill="#FF7FA3"/>
+</svg>
