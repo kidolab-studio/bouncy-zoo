@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/kabarciklar.gd" id="4_kabarcik"]
 [ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/efektler.gd" id="5_efekt"]
 [ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/yildizlar.gd" id="6_yildiz"]
-[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/alet_rozeti.gd" id="7_rozet"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/alet_rafi.gd" id="7_raf"]
 [ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/alet.gd" id="8_alet"]
 [ext_resource type="Script" path="res://ortak/basili_geri_dugmesi.gd" id="9_geri"]
 [ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/sesler.gd" id="10_sesler"]
@@ -41,8 +41,8 @@ script = ExtResource("5_efekt")
 [node name="Stars" type="Node2D" parent="."]
 script = ExtResource("6_yildiz")
 
-[node name="Badge" type="Node2D" parent="."]
-script = ExtResource("7_rozet")
+[node name="Tray" type="Node2D" parent="."]
+script = ExtResource("7_raf")
 
 [node name="Tool" type="Node2D" parent="."]
 z_index = 30
