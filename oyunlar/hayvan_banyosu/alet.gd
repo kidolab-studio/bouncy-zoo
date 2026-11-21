@@ -1,6 +1,7 @@
 extends Node2D
-# Parmağı izleyen banyo aleti (BathTool): sünger, duş ya da havlu. Ekrana dokununca parmağın altında belirir,
-# parmakla birlikte gezer, parmak kalkınca küçülüp kaybolur. Düğümün konumu parmağın ucu (aletin etki noktası).
+# Sürüklenen banyo aleti (BathTool): sünger, duş ya da havlu. Raftan (alet_rafi.gd) tutulunca rafın yerinden
+# büyüyerek parmağa gelir, parmakla birlikte gezer; bırakılınca küçülerek rafa uçar. Düğümün konumu parmağın ucu
+# (aletin etki noktası).
 # Sünger ve havlu parmağın biraz üstünde, hareket yönüne eğilir ve hızla esner; duş başlığı parmağın üstünde
 # durur ve parmağın olduğu yere su akar.
 
@@ -22,6 +23,7 @@ var _target: Vector2
 var _velocity: Vector2 = Vector2.ZERO
 var _time: float = 0.0
 var _tween: Tween
+var _on_returned: Callable          # rafa dönüş bitince (yarıda kesilirse hemen) çağrılır
 
 
 func _ready() -> void:
@@ -39,13 +41,11 @@ func set_kind(new_kind: int) -> void:
 	if kind == 1:
 		# Duş: başlık parmağın üstünde, suyun çıktığı yer parmaktan water_length yukarıda
 		var size := TEXTURES[kind].get_size()
-		_sprite.offset = size / 2.0 - NOZZLE
+		_sprite.offset = size / 2.0 - NOZZLE * size.x / 240.0     # SVG 2x içe aktarılmış
 		_sprite.position = Vector2(0.0, -water_length())
 	else:
 		_sprite.offset = Vector2.ZERO
 		_sprite.position = Vector2(0.0, -width * 0.18)
-	if active:
-		_pop()
 
 
 func set_width(value: float) -> void:
@@ -57,40 +57,59 @@ func water_length() -> float:
 	return width * 0.75
 
 
-func begin(point: Vector2) -> void:
+# Raftan tutuldu: alet raftaki yerinden (görünen ortası slot'ta, genişliği icon_width) parmağa doğru büyür
+func begin(point: Vector2, slot: Vector2, icon_width: float) -> void:
+	_finish_return()
 	active = true
 	visible = true
-	position = point
+	var s := icon_width / width
+	scale = Vector2.ONE * s
+	position = slot - visual_center() * s
 	_target = point
 	_velocity = Vector2.ZERO
-	_pop()
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(self, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func move(point: Vector2) -> void:
 	_target = point
 
 
-func end() -> void:
+# Bırakıldı: küçülerek raftaki yerine uçar, varınca gizlenir ve done çağrılır
+func return_to(slot: Vector2, icon_width: float, done: Callable) -> void:
 	if not active:
 		return
 	active = false
+	queue_redraw()
+	_on_returned = done
+	var s := icon_width / width
 	if _tween:
 		_tween.kill()
 	_tween = create_tween()
-	_tween.tween_property(self, "scale", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	_tween.tween_callback(hide)
+	_tween.tween_property(self, "position", slot - visual_center() * s, 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_tween.parallel().tween_property(self, "scale", Vector2.ONE * s, 0.28).set_trans(Tween.TRANS_SINE)
+	_tween.parallel().tween_property(_sprite, "rotation", 0.0, 0.2)
+	_tween.tween_callback(_finish_return)
 
 
-func _pop() -> void:
-	if _tween:
-		_tween.kill()
-	scale = Vector2.ONE * 0.4
-	_tween = create_tween()
-	_tween.tween_property(self, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+func _finish_return() -> void:
+	if not active:
+		hide()
+	if _on_returned.is_valid():
+		var done := _on_returned
+		_on_returned = Callable()
+		done.call()
+
+
+# Görselin ortası (düğüm biriminde; duşta başlık parmağın üstünde)
+func visual_center() -> Vector2:
+	return _sprite.position + _sprite.offset * _sprite.scale.x
 
 
 func _process(delta: float) -> void:
-	if not visible:
+	if not active:
 		return
 	_time += delta
 	var previous := position

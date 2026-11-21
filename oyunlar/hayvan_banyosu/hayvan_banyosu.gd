@@ -1,17 +1,17 @@
 extends Control
 # Hayvan Banyosu (BathGame): 3-6 yaş, yatay ekran, hiç yazı yok. Küvette çamura bulanmış bir hayvan durur;
-# çocuk ekrana dokununca parmağı o anki adımın aletine dönüşür: süngerle çamuru köpürtür, duşla köpüğü
+# sağdaki raftan sırası gelen aleti tutup hayvanın üstüne sürükler: süngerle çamuru köpürtür, duşla köpüğü
 # durular, havluyla kurular. Her leke (leke.gd) sırayla çamur → köpük → ıslak → temiz olur. Üç adım bitince
 # hayvan silkinir, sevinir; sonraki hayvan gelir. 10 hayvandan (bölüm) sonra ortak final ekranı (OyunBitti).
-# Skor, süre, can yok; boşluğa sürtmek sadece kabarcık patlatır.
+# Skor, süre, can yok; sırası gelmeyen alete dokununca alet sadece kıpırdar.
 #
-# Ayarlar ayarlar.gd'de. Dokunmayı bu script okur: aynı anda tek parmak alet olur (ikinci parmak yok sayılır),
+# Ayarlar ayarlar.gd'de. Dokunmayı bu script okur: aynı anda tek parmak alet tutar (ikinci parmak yok sayılır),
 # geri düğmesine düşen dokunuş düğmeye gider.
 
 const Animal := preload("res://oyunlar/hayvan_banyosu/hayvan.gd")
 const Spot := preload("res://oyunlar/hayvan_banyosu/leke.gd")
 const Tool := preload("res://oyunlar/hayvan_banyosu/alet.gd")
-const Badge := preload("res://oyunlar/hayvan_banyosu/alet_rozeti.gd")
+const Tray := preload("res://oyunlar/hayvan_banyosu/alet_rafi.gd")
 const Background := preload("res://oyunlar/hayvan_banyosu/arka_plan.gd")
 const Bubbles := preload("res://oyunlar/hayvan_banyosu/kabarciklar.gd")
 const Effects := preload("res://oyunlar/hayvan_banyosu/efektler.gd")
@@ -37,7 +37,7 @@ enum State { TRANSITION, PLAYING, CELEBRATING }
 @onready var bubbles: Bubbles = $Bubbles
 @onready var effects: Effects = $Effects
 @onready var stars: Stars = $Stars
-@onready var badge: Badge = $Badge
+@onready var tray: Tray = $Tray
 @onready var tool: Tool = $Tool
 @onready var back_button: HoldButton = $BackButton
 @onready var sounds: Sounds = $Sounds
@@ -91,19 +91,19 @@ func _bolumden_basla(index: int) -> void:
 	_start_level(index)
 
 
-# Başlangıç ipucu eli: bu adımın ilk lekesinin üstünde ileri geri sürtme
+# Başlangıç ipucu eli: sırası gelen aleti raftan alıp bu adımın ilk lekesine sürükle
 func _ipucu() -> Dictionary:
 	if state != State.PLAYING or _step_busy or _finger != -1 or animal == null:
 		return {}
 	for spot in animal.spots:
 		if spot.needs(step):
-			return IpucuEli.kaydir_yatay(IpucuEli.izle(spot), animal_size * 0.3)
+			return IpucuEli.surukle(tray.slot_position(step), IpucuEli.izle(spot))
 	return {}
 
 
 # --- Yerleşim ---
 
-# Küvet ve hayvan tasarım alanının ortasında, altta; arka plan ekranın tamamını kaplar; rozet sağ altta
+# Küvet ve hayvan tasarım alanının ortasında, altta; arka plan ekranın tamamını kaplar; alet rafı sağda
 func _layout() -> void:
 	var screen := get_viewport_rect().size
 	var area := EkranYardimcisi.tasarim_alani()
@@ -119,10 +119,8 @@ func _layout() -> void:
 		animal.position = _feet()
 		animal.scale = Vector2.ONE * animal_size / animal.size
 	tool.set_width(animal_size * 0.42)
-	badge.radius = clampf(animal_size * 0.19, 60.0, 82.0)
-	badge.position = Vector2(screen.x - EkranYardimcisi.kenar_payi(SIDE_RIGHT, 40.0) - badge.radius - 8.0,
-		screen.y - EkranYardimcisi.kenar_payi(SIDE_BOTTOM, 24.0) - badge.radius * 1.15)
-	badge.queue_redraw()
+	var r := clampf(animal_size * 0.16, 54.0, 70.0)
+	tray.layout(Vector2(screen.x - EkranYardimcisi.kenar_payi(SIDE_RIGHT, 40.0) - r - 14.0, area.get_center().y + 30.0), r)
 	var stars_left := back_button.position.x + back_button.size.x + 40.0
 	var stars_width := minf(screen.x - stars_left - 60.0, 560.0)
 	stars.layout(Vector2(maxf(screen.x / 2.0, stars_left + stars_width / 2.0), back_button.position.y + back_button.size.y / 2.0), stars_width)
@@ -153,11 +151,22 @@ func _input(event: InputEvent) -> void:
 		_touch_move(drag.position)
 
 
+# Raftaki sırası gelen alet tutulur; sırası gelmeyen alet kıpırdar; başka yere dokunmak kabarcık patlatır
 func _touch_down(index: int, point: Vector2) -> void:
+	idle_time = 0.0
+	var slot := tray.slot_at(point)
+	if slot == -1:
+		_pop_bubbles(point, animal_size * 0.08)
+		return
+	if slot != step or state != State.PLAYING or _step_busy:
+		tray.wiggle(slot)
+		return
 	_finger = index
 	_last_point = point
-	idle_time = 0.0
-	tool.begin(point)
+	tool.set_kind(step)
+	tool.begin(point, tray.slot_position(step), tray.icon_width())
+	tray.empty_slot = step
+	sounds.play("pop", randf_range(0.95, 1.1))
 	_apply(point, 0.0)
 
 
@@ -170,11 +179,19 @@ func _touch_move(point: Vector2) -> void:
 	_apply(point, distance)
 
 
+# Parmak kalktı (ya da adım bitti): alet rafa uçar
 func _touch_up() -> void:
 	_finger = -1
-	tool.end()
+	var kind := tool.kind
+	tool.return_to(tray.slot_position(kind), tray.icon_width(), tray.show_slot.bind(kind))
 	if is_instance_valid(animal):
 		animal.unwatch()
+
+
+func _pop_bubbles(point: Vector2, radius: float) -> void:
+	for p in bubbles.pop_near(point, radius):
+		sounds.play("kabarcik", randf_range(0.9, 1.3))
+		effects.sparkle(p, animal_size * 0.2)
 
 
 # Uygulama arka plana giderse ya da pencere odağı kaybolursa parmak bırakılmış sayılır
@@ -186,9 +203,7 @@ func _notification(what: int) -> void:
 
 # Alet bu noktada distance kadar sürtüldü: kabarcıklar patlar, hayvan tepki verir, bu adımın lekeleri temizlenir
 func _apply(point: Vector2, distance: float) -> void:
-	for p in bubbles.pop_near(point, tool.width * 0.3):
-		sounds.play("kabarcik", randf_range(0.9, 1.3))
-		effects.sparkle(p, animal_size * 0.2)
+	_pop_bubbles(point, tool.width * 0.3)
 	if not is_instance_valid(animal):
 		return
 	animal.watch(point)
@@ -239,10 +254,12 @@ func _step_complete() -> bool:
 	return true
 
 
-# Adım bitti: rozet sonraki alete geçer, parmaktaki alet de değişir; üç adım bitince bölüm biter
+# Adım bitti: parmaktaki alet rafa döner, sıradaki alet parlar; üç adım bitince bölüm biter
 func _finish_step() -> void:
 	step += 1
-	badge.advance()
+	tray.advance()
+	if _finger != -1:
+		_touch_up()
 	if step >= Settings.STEPS.size():
 		_finish_level()
 		return
@@ -250,7 +267,6 @@ func _finish_step() -> void:
 	_step_busy = true
 	sounds.play("adim")
 	animal.hop()
-	tool.set_kind(step)
 	await get_tree().create_timer(0.5).timeout
 	if my_run != run_id:
 		return
@@ -277,8 +293,7 @@ func _start_level(index: int) -> void:
 	animal.position = _feet()
 	animal.add_spots(Settings.SPOTS[index])
 	animal.appear(0.15)
-	badge.reset()
-	tool.set_kind(0)
+	tray.reset()
 	bubbles.enabled = true
 	# Suya değdiği an sıçrama
 	await get_tree().create_timer(0.5).timeout
@@ -299,7 +314,7 @@ func _finish_level() -> void:
 	_step_busy = false
 	for spot in animal.spots:
 		spot.state = Spot.State.CLEAN       # F9 kısayolu adımları atlarsa
-	badge.hide_badge()
+	tray.hide_tray()
 	await get_tree().create_timer(0.35).timeout
 	if my_run != run_id:
 		return
@@ -356,7 +371,7 @@ func _clear_level() -> bool:
 	if is_instance_valid(animal):
 		animal.leave(0.0)
 	animal = null
-	badge.hide_badge()
+	tray.hide_tray()
 	bubbles.enabled = false
 	await get_tree().create_timer(0.5).timeout
 	return my_run == run_id
@@ -378,11 +393,12 @@ func _process(delta: float) -> void:
 			level = maxf(level, 0.7)
 	_moved = 0.0
 	sounds.set_loop(Settings.STEPS[tool.kind] if level > 0.0 else "", level, delta)
-	# Uzun süre dokunulmazsa bu adımın lekeleri parlar
+	# Uzun süre dokunulmazsa sırası gelen alet kıpırdar, bu adımın lekeleri parlar
 	if state == State.PLAYING and _finger == -1 and animal:
 		idle_time += delta
 		if idle_time >= Settings.HINT_DELAY:
 			idle_time = 0.0
+			tray.wiggle(step)
 			for spot in animal.spots:
 				if spot.needs(step):
 					spot.pulse()
