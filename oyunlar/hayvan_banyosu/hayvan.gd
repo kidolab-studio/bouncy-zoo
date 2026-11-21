@@ -88,14 +88,17 @@ func add_spots(count: int) -> void:
 	var points: Array[Vector2] = []
 	var on_head: Array[bool] = []
 	var gap := r * Settings.SPOT_GAP
-	for attempt in 2000:
+	var inside := r * 0.6               # leke çevresinin de görselin içinde olması gereken uzaklık
+	for attempt in 4000:
 		if points.size() >= count:
 			break
-		if attempt == 1200:
-			gap *= 0.75                 # yer bulunamadıysa biraz yakın olabilir
+		# Yer bulunamadıysa kurallar gevşer: lekeler biraz yakın, kenara taşabilir (küçük kafalı hayvanlar)
+		if attempt == 1200 or attempt == 2400:
+			gap *= 0.75
+			inside *= 0.5
 		var p := Vector2(randf_range(r, CANVAS - r), randf_range(r, Settings.WATER_LINE))
-		var head := _solid(head_image, p, r * 0.6)
-		if not head and not _solid(body_image, p, r * 0.6):
+		var head := _solid(head_image, p, inside)
+		if not head and not _solid(body_image, p, inside):
 			continue
 		if head and _on_face(p):
 			continue
