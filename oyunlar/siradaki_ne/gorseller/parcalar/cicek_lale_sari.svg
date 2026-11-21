@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="yaprak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7EDB6A"/><stop offset="1" stop-color="#3E9E46"/></linearGradient>
+    <radialGradient id="dolgu" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFEBA9"/><stop offset="0.55" stop-color="#FFD23F"/><stop offset="1" stop-color="#D4AE49"/></radialGradient>
+  </defs>
+  <path d="M80 154 L80 70" fill="none" stroke="#3B2F6B" stroke-width="15" stroke-linecap="round"/>
+  <path d="M80 154 L80 70" fill="none" stroke="#5CC45A" stroke-width="7" stroke-linecap="round"/>
+  <path d="M80 128 Q54 102 30 108 Q44 134 80 128 Z" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M80 112 Q106 86 130 92 Q116 118 80 112 Z" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M46 34 L62 50 L80 26 L98 50 L114 34 Q120 82 80 90 Q40 82 46 34 Z" fill="url(#dolgu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M80 30 Q70 58 80 86 Q90 58 80 30 Z" fill="#E2BA46" opacity="0.5"/>
+  <ellipse cx="60" cy="54" rx="6" ry="12" transform="rotate(15 60 54)" fill="#FFFFFF" opacity="0.7"/>
+</svg>

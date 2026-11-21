@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="110" viewBox="0 0 120 110">
+  <defs>
+    <radialGradient id="kanat" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFCDE6"/><stop offset="0.55" stop-color="#FF8FC8"/><stop offset="1" stop-color="#D47AB4"/></radialGradient>
+    <radialGradient id="kanat2" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFDFAF"/><stop offset="0.55" stop-color="#FFB84D"/><stop offset="1" stop-color="#D49A54"/></radialGradient>
+  </defs>
+  <ellipse cx="34" cy="44" rx="26" ry="30" transform="rotate(-20 34 44)" fill="url(#kanat)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="40" cy="80" rx="17" ry="20" transform="rotate(20 40 80)" fill="url(#kanat2)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="32" cy="42" r="8" fill="#FFFFFF" opacity="0.7"/>
+  <ellipse cx="86" cy="44" rx="26" ry="30" transform="rotate(20 86 44)" fill="url(#kanat)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="80" cy="80" rx="17" ry="20" transform="rotate(-20 80 80)" fill="url(#kanat2)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="88" cy="42" r="8" fill="#FFFFFF" opacity="0.7"/>
+  <ellipse cx="60" cy="62" rx="8" ry="34" fill="#5A3E8A" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M60 30 Q52 14 42 10" fill="none" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M60 30 Q68 14 78 10" fill="none" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
