@@ -10,11 +10,13 @@ Oyuncunun fark edeceği her değişiklik (yeni oyun, yeni özellik, hata düzelt
 
 ### Türkçe
 - Yeni oyun: Hayvan Banyosu! Çamurlu hayvanları süngerle köpürt, duşla durula, havluyla kurula.
+- Yeni oyun: Sıradaki Ne? Boncuk kolyede, parti bayraklarında, çiçek bahçesinde, tırtılda ve hayvan geçidinde örüntüyü bul, eksik parçayı yerine sürükle.
 - Müzik Kutusu: Nota defterindeki şarkılarda çalınacak tuşlar artık görünüyor.
 - Müzik Kutusu: Dans eden penguen dönerken artık incecik kalmıyor.
 
 ### English
 - New game: Animal Bath! Scrub the muddy animals with a sponge, rinse them with the shower and dry them with a towel.
+- New game: What Comes Next? Spot the pattern in a bead necklace, party flags, a flower bed, a caterpillar and an animal parade, then drag the missing piece into place.
 - Music Box: The songbook now shows which keys to play.
 - Music Box: The dancing penguin no longer gets stuck looking paper-thin after a spin.
 
