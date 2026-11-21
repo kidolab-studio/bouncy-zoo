@@ -6,6 +6,7 @@
 - Repo: [kidolab-studio/bouncy-zoo](https://github.com/kidolab-studio/bouncy-zoo) (eski adresi `mem1nce/mini-games`).
 - Gizlilik politikası ayrı repoda yayınlanır (`kidolab-studio/legal`, GitHub Pages): https://kidolab-studio.github.io/legal/bouncy-zoo/privacy-policy
 - Durum: Google Play kapalı testi bitmek üzere, üretime geçiş hazırlığı yapılıyor.
+- **Değişiklik günlüğü**: oyuncunun fark edeceği her değişiklikte (yeni oyun, özellik, hata düzeltmesi) `CHANGELOG.md`'nin "Yayınlanmamış" bölümüne Türkçe + İngilizce birer madde ekle, aynı PR'da. Yayında bu maddeler Play Console'daki "Bu sürümdeki yenilikler" alanına gider (kurallar dosyanın başında).
 - **Bu aşamanın kuralı**: sadece küçük ve güvenli düzeltmeler yap. Büyük yeniden yapılandırma, yeni özellik veya riskli değişiklik yapma; gerekiyorsa önce kullanıcıya sor. Her düzeltmeden sonra ilgili oyunu açıp çalıştığını kontrol et.
 
 Küçük çocuklar (4-8 yaş) için basit eğitici mini oyunlar. Oyun fikirlerini kullanıcı verir, birlikte geliştiririz.
