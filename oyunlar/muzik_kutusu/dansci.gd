@@ -21,6 +21,7 @@ var _face_happy: Texture2D
 var _hop: float = 0.0
 var _hop_tween: Tween
 var _spin: float = 0.0                    # dönüş (2B'de gövde yatayda çevrilir)
+var _spin_tween: Tween
 var _squash: Vector2 = Vector2.ONE
 var _time: float = 0.0
 var _phase: float = 0.0
@@ -63,9 +64,20 @@ func kick(strength: float = 1.0) -> void:
 	_hop_tween.tween_property(self, "_hop", height, 0.14).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	_hop_tween.tween_property(self, "_hop", 0.0, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	_hop_tween.tween_callback(_land)
-	if move == Move.SPIN and randf() < 0.35:
-		var turn := create_tween()
-		turn.tween_property(self, "_spin", _spin + TAU, 0.45).set_trans(Tween.TRANS_SINE)
+	if move == Move.SPIN and randf() < 0.35 and not (_spin_tween and _spin_tween.is_running()):
+		_turn(0.45)
+
+
+# Tek dönüş tween'i ve her dönüş tam turda biter: üst üste binen dönüşler _spin'i yarım turda bırakınca
+# gövde (genişliği cos(_spin)) incecik kalıyordu
+func _turn(duration: float) -> void:
+	if _spin_tween:
+		_spin_tween.kill()
+	var target := ceilf(_spin / TAU) * TAU
+	if target - _spin < PI:
+		target += TAU
+	_spin_tween = create_tween()
+	_spin_tween.tween_property(self, "_spin", target, duration).set_trans(Tween.TRANS_SINE)
 
 
 func _land() -> void:
@@ -83,7 +95,7 @@ func celebrate() -> void:
 	_hop_tween.tween_property(self, "_hop", 90.0, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	_hop_tween.tween_property(self, "_hop", 0.0, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	_hop_tween.tween_callback(_land)
-	create_tween().tween_property(self, "_spin", _spin + TAU, 0.6).set_trans(Tween.TRANS_SINE)
+	_turn(0.6)
 
 
 func is_dancing() -> bool:
