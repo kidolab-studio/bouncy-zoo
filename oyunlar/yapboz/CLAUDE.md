@@ -1,0 +1,27 @@
+# Yapboz
+
+4-8 yaş, **yatay** ekran, hiç yazı yok, kategori Bulmaca. Klasik (çıkıntılı / girintili) yapboz. Bölüm başında resmin tamamı görünür, sonra parçalara ayrılıp tahtanın iki yanındaki tepsilere uçar. Tahtada soluk resim ve kesik çizgili parça hatları ipucu verir (soluk resim bölüm zorlaştıkça azalır). Çocuk parçayı tahtaya **sürükler**: kendi yerine yakın bırakılırsa kayıp oturur ("tık", ışıltı); başka yere bırakılırsa sallanıp tepsiye döner. Parçalar döndürülmez. Bitince tam resim parlar ve zıplar, resme özel ses çalar (möö, kabarcık, ...), sonra sonraki bölüm. Son bölümden sonra ortak final ekranı (`OyunBitti`). Skor, süre, can yok. Sahibi: emirsalihgmrk.
+
+**Durum (aşamalı geliştirme):** oyun henüz **ana menüde yok** (F6 ile açılır). Şimdilik 4 bölüm (2x2, 3x2, 3x3, 4x3; her zorluktan bir resim). Hedef 12 bölüm / 12 resim (her parça sayısından üçer):
+
+| Parça | Resimler (koyu: hazır) |
+|---|---|
+| 4 (2x2) | **Çiftlik** · Kırmızı tren · Meyve sepeti |
+| 6 (3x2) | **Deniz altı** · Uzay · Orman (ayı, arı kovanı) |
+| 9 (3x3) | **Sıcak hava balonları** · Ağaç ev · Doğum günü pastası |
+| 12 (4x3) | **Kasaba** · Dinozorlar · Kutup |
+
+Resimler bitince ayrı bir PR'da: `ana_menu/oyun_listesi.gd` kaydı (`bulmaca`, `"yeni": true`, `ilerleme` rozeti: `{"anahtar": "ilerleme/bolum", "ekle": 1, "en_fazla": 12}`), `ana_menu/svg_uret.py` kart fonksiyonu (`kart_yapboz.svg`), çeviri (`Yapboz` → `Jigsaw Puzzle`), `ortak/testler/ekran_uyumu_testi.gd` ADIMLAR ve `oyun_bitti_testi.gd` OYUNLAR satırları, oynanış testinde menüden karta dokunarak açma, `ana_menu/testler/menu_testi.gd` `HAZIRLANAN` listesinden `yapboz`'u silme, CHANGELOG.
+
+- **Ayarların yeri (tek yer): `ayarlar.gd`**: `PICTURES` (resim → bitiş sesi, arka plan rengi), `LEVELS` (`picture`, `cols`, `rows`, `ghost`), çıkıntı ölçüleri (`NECK`, `HEAD`, `NECK_HEIGHT`, `FILLET`, `KNOB_SHIFT`, `KNOB_SIZE_JITTER`, `KNOB_REACH`), yerleşim (`TOP`, `GAP`, `BOARD_MAX_HEIGHT` / `MIN`, `MIN_TRAY_PIECE`, `TRAY_FILL`, `TRAY_JITTER`), sürükleme (`GRAB_PADDING`, `DRAG_GROW`, `DRAG_LIFT`, `SNAP`), süreler. `problems()` tabloyu denetler (açılışta çalışır).
+- **Yapı**:
+  - `yapboz.gd/.tscn` (JigsawGame): bölüm akışı (`_start_level` → resmi göster → parçalar dağılır → oyna → `_on_completed` → kutlama → sonraki bölüm), sürükleme olayları (bırakılan nokta parçanın `target`'ına `SNAP` kadar yakınsa oturur), yıldızlar, geri düğmesi, `IpucuEli` (oturmamış ilk parçayı yerine sürükle), `OyunBitti` (+ F9 kısayolu: kalan parçaları oturtur), kayıt.
+  - `kesici.gd` (sahneden bağımsız): resmi parçalara böler. Her iç kenarda rastgele yönlü çıkıntı (Hermite boyun + yuvarlak baş), komşular aynı eğriyi ters yönde paylaşır. Çıktı: parça başına çokgen (resim koordinatında, 1200x900) ve hücre. `problems()` çokgenleri denetler.
+  - `yerlesim.gd` (sahneden bağımsız): tahta ortada (4:3), tepsi yuvaları iki yanda; hepsi `tasarim_alani()` içinde. Tahta olabildiğince büyük; tepsideki parça `MIN_TRAY_PIECE`'ten küçük kalacaksa tahta küçülür. Tahtaya bakan çıkıntı tahtaya binmez (`KNOB_REACH`).
+  - `parca.gd` (JigsawPiece): ortak `ortak/suruklenebilir.gd`'yi extends eder. Görsel: `Polygon2D` (doku = resim, `uv` = çokgen noktaları), altında gölge, üstünde kenar çizgisi. **Ölçek:** parçanın kendi ölçeği tepside 1, görseli (`_art`) tepsi oranında küçük; tutulunca DragInput onu tahta boyuna büyütür (`drag_scale = DRAG_GROW / tray_ratio`), oturunca ölçeği `full_scale()`. Böylece ortak `return_home()` olduğu gibi kullanılır. `seat`, `scatter`, `glow`, `grab_distance` (hücre dikdörtgeni, en az `MIN_TOUCH`).
+  - `tahta.gd` (JigsawBoard): tepsi panelleri, çerçeve, soluk resim, kesik çizgili hatlar, tam resim (z 5, parçaların üstünde; parlama şeridi `clip_children` ile resme kırpılır). Parçalar bu düğümün çocuğu, koordinatları ekranla aynı.
+  - `arka_plan.gd` (resme göre pastel renk + puantiye, ekranı kaplar), `efektler.gd` (Sıradaki Ne?'den kopya), `yildizlar.gd` (kopya), `sesler.gd` (ortak ses havuzu).
+- **Görseller** `gorseller/svg_uret.py` (Besle'nin `svg_uret.py`'sini içe aktarır, o dosyaya dokunmaz; hayvanlar oradaki çizimler + yüz): `resimler/<ad>.svg` (1200x900; her hücrede ayırt edici bir ayrıntı olsun, büyük düz alan bırakma), `kart_yapboz.svg` (gülen yapboz parçası: final karakteri, ileride menü kartı). İçe aktarma: resimler 1x + mipmap (tahtada ~0,6 ölçekle görünür), diğerleri 2x + mipmap. Yeni resim: `svg_uret.py`'de bir fonksiyon, `ayarlar.gd` `PICTURES` + `LEVELS`, bitiş sesi `sesler/ses_uret.py` + `sesler.gd`. Çizdikten sonra PNG'ye alıp bak. **SVG notları:** her `clipPath` / gradyan `defs`'e eklenmeli (eksik bir clipPath bütün resmi bozar); aynı çizim birden çok kez kullanılırsa kimlikler `Pic.uid` / `prefixed` ile ayrılır.
+- **Sesler** `sesler/ses_uret.py` (ortak `sentez.py`): tut, otur, geri, dagil, bolum_sonu, final ve resim sesleri (inek, deniz, balon, kasaba). Dışarıdan ses yok. WAV `compress/mode=0`.
+- **Kayıt**: `user://yapboz.cfg` (`[ilerleme] bolum`, 0'dan).
+- **Testler**: `testler/kesici_testi.gd` (headless; tablo, 5 ızgara × 300 kesim: çokgenler, alan toplamı, ortak kenarlar; 7 ekran oranı × çentikli / çentiksiz × her bölüm yerleşimi), `testler/oynanis_testi.gd` (pencereli, `--fixed-fps 60 --resolution 1280x720 -- <klasör>`; bütün bölümleri sürükleyerek oynar: boşluğa ve başka parçanın yerine bırakma, ikinci parmak, oturan parça, geçişte tutma, kayıt, final ve baştan oyna, çift dokunuşlu geri; her bölümün başı, sürükleme anı ve bitişinin ekran görüntüsü). Kayıtları yedekleyip geri yazar.
