@@ -10,7 +10,8 @@
 # - bolum_sonu, final: kutlamalar
 # - Resim bitince çalan sesler (ayarlar.gd PICTURES sound): inek (möö), deniz (fokurdayan kabarcıklar),
 #   balon (ateşin "fışş"ı ve yükselen çanlar), kasaba (dostça "düt düt" ve bisiklet zili), tren (düdük ve
-#   "çuf çuf"), meyve (kıtır ısırık ve çanlar), uzay (yükselen "fiuuu" ve parıltılar), orman (kuş cıvıltısı)
+#   "çuf çuf"), meyve (kıtır ısırık ve çanlar), uzay (yükselen "fiuuu" ve parıltılar), orman (kuş cıvıltısı),
+#   agac_ev (kayan düdükle "viii"), pasta (parti düdüğü ve ezgi), dinozor (sevimli "raar"), kutup (buzlu çanlar)
 
 import math
 import os
@@ -202,6 +203,65 @@ def forest_sound() -> list:
     return lowpass(out, 7000)
 
 
+def glide_tone(points: list, seconds: float) -> list:
+    # Perdesi noktalar arasında kayan yumuşak ton (kayan düdük)
+    out = []
+    phase = 0.0
+    for i in range(int(RATE * seconds)):
+        t = i / RATE
+        phase += 2 * math.pi * glide(points, t) / RATE
+        out.append((math.sin(phase) + 0.3 * math.sin(2 * phase)) * smooth_env(t, seconds, 0.03, 0.12))
+    return out
+
+
+def treehouse() -> list:
+    # Kaydıraktan "viii": yükselip inen kayan düdük, sonra küçük çanlar
+    out = silence(1.2)
+    mix(out, glide_tone([(0, 520), (0.35, 1250), (0.7, 680)], 0.7), 0.0, 0.5)
+    for k, name in enumerate(["G6", "C7", "E7"]):
+        mix(out, bell(note(name), 0.5, 7.0), 0.72 + k * 0.08, 0.25)
+    return lowpass(out, 6000)
+
+
+def party() -> list:
+    # Parti düdüğü (titrek, vızıltılı ama yumuşak) ve kısa neşeli ezgi
+    out = silence(1.4)
+    horn = []
+    phase = 0.0
+    s = 0.45
+    for i in range(int(RATE * s)):
+        t = i / RATE
+        phase += 2 * math.pi * glide([(0, 420), (0.12, 560), (0.45, 540)], t) * (1 + 0.02 * math.sin(2 * math.pi * 12 * t)) / RATE
+        horn.append(sum(math.sin(h * phase) / h for h in (1, 2, 3, 4)) * smooth_env(t, s, 0.02, 0.1))
+    mix(out, lowpass(horn, 2500), 0.0, 0.4)
+    mix(out, melody(["C6", "E6", "G6", "C7"], 0.1, 0.5), 0.5, 0.5)
+    return out
+
+
+def dinosaur() -> list:
+    # Sevimli, korkutmayan "raar": alçak ama yumuşak ses teli, "a" ünlüsü, sonra kıkırdayan çanlar
+    s = 0.6
+    out = silence(1.1)
+    roar = voice(
+        s,
+        lambda t: glide([(0, 150), (0.2, 210), (0.6, 130)], t),
+        lambda t: smooth_env(t, s, 0.06, 0.25),
+        lambda t: [(glide([(0, 500), (0.2, 750)], t), 110, 1.0), (1150, 140, 0.5), (2500, 220, 0.1)],
+        breath=0.15, seed=9)
+    mix(out, lowpass(roar, 2500), 0.0, 1.0)
+    for k, name in enumerate(["E6", "G6"]):
+        mix(out, bell(note(name), 0.4, 8.0), 0.7 + k * 0.1, 0.15)
+    return out
+
+
+def arctic_sound() -> list:
+    # Buzlu çanlar (yukarıdan aşağı dökülür) ve yumuşak rüzgâr
+    out = envelope(bandpass(noise(1.2, 12), 400, 1800), 0.3, 2.5)
+    for k, name in enumerate(["C8", "G7", "E7", "C7", "G6"]):
+        mix(out, bell(note(name), 0.6, 6.0), 0.1 + k * 0.09, 0.3)
+    return out
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     save("tut.wav", grab())
@@ -218,6 +278,10 @@ if __name__ == "__main__":
     save("meyve.wav", fruit(), TARGET * 0.8)
     save("uzay.wav", space_sound(), TARGET * 0.8)
     save("orman.wav", forest_sound(), TARGET * 0.6)
+    save("agac_ev.wav", treehouse(), TARGET * 0.7)
+    save("pasta.wav", party(), TARGET * 0.8)
+    save("dinozor.wav", dinosaur(), TARGET * 0.8)
+    save("kutup.wav", arctic_sound(), TARGET * 0.7)
     if not check_all(HERE):
         print("\nDenetim: SORUN VAR")
         sys.exit(1)

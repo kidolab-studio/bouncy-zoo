@@ -13,7 +13,11 @@ const PICTURES := {
 	"uzay": {"sound": "uzay", "color": Color("ddd5f7")},
 	"orman": {"sound": "orman", "color": Color("dff2cc")},
 	"balonlar": {"sound": "balon", "color": Color("ffe0ec")},
+	"agac_ev": {"sound": "agac_ev", "color": Color("d9f1c8")},
+	"pasta": {"sound": "pasta", "color": Color("ffe1d0")},
 	"kasaba": {"sound": "kasaba", "color": Color("e3dbff")},
+	"dinozor": {"sound": "dinozor", "color": Color("fff0c9")},
+	"kutup": {"sound": "kutup", "color": Color("d6e6ff")},
 }
 const PICTURE_SIZE := Vector2(1200.0, 900.0)
 
@@ -21,7 +25,7 @@ const PICTURE_SIZE := Vector2(1200.0, 900.0)
 ##   picture  PICTURES'ta bir ad
 ##   cols     sütun sayısı (2-4), rows: satır sayısı (2-3)
 ##   ghost    tahtadaki soluk resmin görünürlüğü (0-1; bölüm zorlaştıkça azalır)
-## Şimdilik 8 bölüm; resimler geldikçe 12'ye çıkacak (her parça sayısından üçer).
+## 12 bölüm: her parça sayısından (4, 6, 9, 12) üç resim.
 const LEVELS: Array[Dictionary] = [
 	{"picture": "ciftlik", "cols": 2, "rows": 2, "ghost": 0.45},
 	{"picture": "tren", "cols": 2, "rows": 2, "ghost": 0.42},
@@ -29,8 +33,12 @@ const LEVELS: Array[Dictionary] = [
 	{"picture": "deniz", "cols": 3, "rows": 2, "ghost": 0.38},
 	{"picture": "uzay", "cols": 3, "rows": 2, "ghost": 0.36},
 	{"picture": "orman", "cols": 3, "rows": 2, "ghost": 0.34},
-	{"picture": "balonlar", "cols": 3, "rows": 3, "ghost": 0.3},
-	{"picture": "kasaba", "cols": 4, "rows": 3, "ghost": 0.24},
+	{"picture": "balonlar", "cols": 3, "rows": 3, "ghost": 0.32},
+	{"picture": "agac_ev", "cols": 3, "rows": 3, "ghost": 0.3},
+	{"picture": "pasta", "cols": 3, "rows": 3, "ghost": 0.28},
+	{"picture": "kasaba", "cols": 4, "rows": 3, "ghost": 0.26},
+	{"picture": "dinozor", "cols": 4, "rows": 3, "ghost": 0.24},
+	{"picture": "kutup", "cols": 4, "rows": 3, "ghost": 0.22},
 ]
 
 ## Çıkıntı (birimi: hücrenin kısa kenarı). Komşu çıkıntılar çakışmasın diye toplamı küçük tutuldu.
