@@ -9,7 +9,8 @@
 # - dagil: bölüm başında parçalar tepsilere uçarken (hışırtılı "fırr")
 # - bolum_sonu, final: kutlamalar
 # - Resim bitince çalan sesler (ayarlar.gd PICTURES sound): inek (möö), deniz (fokurdayan kabarcıklar),
-#   balon (ateşin "fışş"ı ve yükselen çanlar), kasaba (dostça "düt düt" ve bisiklet zili)
+#   balon (ateşin "fışş"ı ve yükselen çanlar), kasaba (dostça "düt düt" ve bisiklet zili), tren (düdük ve
+#   "çuf çuf"), meyve (kıtır ısırık ve çanlar), uzay (yükselen "fiuuu" ve parıltılar), orman (kuş cıvıltısı)
 
 import math
 import os
@@ -134,6 +135,73 @@ def town() -> list:
     return out
 
 
+def whistle_tone(seconds: float, freqs: tuple) -> list:
+    out = []
+    for i in range(int(RATE * seconds)):
+        t = i / RATE
+        v = sum(math.sin(2 * math.pi * f * t * (1 + 0.004 * math.sin(2 * math.pi * 5 * t))) for f in freqs)
+        out.append(v * smooth_env(t, seconds, 0.05, 0.12))
+    return out
+
+
+def train() -> list:
+    # Tren düdüğü (iki ton, yumuşak) ve ardından "çuf çuf"
+    out = silence(1.3)
+    mix(out, whistle_tone(0.32, (660, 830)), 0.0, 0.3)
+    mix(out, whistle_tone(0.45, (660, 830)), 0.38, 0.3)
+    mix(out, envelope(lowpass(noise(0.8, 4), 2500), 0.02, 2.0), 0.0, 0.05)
+    for k in range(4):
+        mix(out, envelope(bandpass(noise(0.12, 30 + k), 300, 2000), 0.005, 25.0), 0.9 + k * 0.1, 0.35)
+    return lowpass(out, 5000)
+
+
+def fruit() -> list:
+    # Kıtır ısırık (kısa gürültü patlamaları), sonra tatlı "mmm" çanları
+    out = silence(1.1)
+    for k in range(3):
+        mix(out, envelope(bandpass(noise(0.06, 40 + k), 1500, 6000), 0.001, 70.0), k * 0.05, 0.5)
+    mix(out, melody(["E5", "G5", "C6"], 0.11, 0.6), 0.3, 0.6)
+    return out
+
+
+def space_sound() -> list:
+    # Yükselen "fiuuu" (titrek) ve parıldayan yıldızlar
+    out = silence(1.3)
+    n = int(RATE * 0.7)
+    phase = 0.0
+    zap = []
+    for i in range(n):
+        t = i / RATE
+        f = 300 + 900 * (t / 0.7) ** 1.5
+        f *= 1 + 0.03 * math.sin(2 * math.pi * 9 * t)
+        phase += 2 * math.pi * f / RATE
+        zap.append(math.sin(phase) * smooth_env(t, 0.7, 0.05, 0.2))
+    mix(out, zap, 0.0, 0.5)
+    for k, name in enumerate(["C7", "G6", "E7", "C8"]):
+        mix(out, bell(note(name), 0.5, 7.0), 0.55 + k * 0.1, 0.25)
+    return out
+
+
+def chirp(f0: float, f1: float, seconds: float) -> list:
+    out = []
+    phase = 0.0
+    for i in range(int(RATE * seconds)):
+        t = i / RATE
+        f = f0 + (f1 - f0) * t / seconds
+        phase += 2 * math.pi * f / RATE
+        out.append(math.sin(phase) * math.sin(math.pi * t / seconds))
+    return out
+
+
+def forest_sound() -> list:
+    # Kuş cıvıltısı: hızlı, tiz kıvrılmalar
+    out = silence(1.1)
+    for k, (start, f0, f1) in enumerate(((0.0, 2600, 3600), (0.09, 2800, 3900), (0.18, 2600, 3600),
+                                          (0.45, 3400, 2400), (0.6, 2400, 3800), (0.72, 2500, 3900))):
+        mix(out, chirp(f0, f1, 0.07), start, 0.4)
+    return lowpass(out, 7000)
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     save("tut.wav", grab())
@@ -146,6 +214,10 @@ if __name__ == "__main__":
     save("deniz.wav", sea(), TARGET * 0.8)
     save("balon.wav", balloon(), TARGET * 0.8)
     save("kasaba.wav", town(), TARGET * 0.8)
+    save("tren.wav", train(), TARGET * 0.8)
+    save("meyve.wav", fruit(), TARGET * 0.8)
+    save("uzay.wav", space_sound(), TARGET * 0.8)
+    save("orman.wav", forest_sound(), TARGET * 0.6)
     if not check_all(HERE):
         print("\nDenetim: SORUN VAR")
         sys.exit(1)
