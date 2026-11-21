@@ -29,6 +29,7 @@ const OYUNLAR := {
 	"cikarma": {"giris": [], "bolum": "level_index"},
 	"hayvan_besle": {"giris": [], "bolum": "level_index"},
 	"buyukten_kucuge": {"giris": [], "bolum": "level_index"},
+	"hayvan_banyosu": {"giris": [], "bolum": "level_index"},
 }
 
 var gecis: Node

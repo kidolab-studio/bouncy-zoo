@@ -58,6 +58,7 @@ const ADIMLAR := {
 	"hayvan_besle": [],
 	"boyama_kitabi": ["screen.new_button", 60, "cek", "screen._cards.0", 120, "cek"],
 	"buyukten_kucuge": [],
+	"hayvan_banyosu": [],
 }
 
 var gecis: Node

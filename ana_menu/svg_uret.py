@@ -308,6 +308,22 @@ def hayvan_besle():
     ]
 
 
+def hayvan_banyosu():
+    # Hayvan Banyosu: köpüklü küvette başında köpük olan mutlu köpek, yanında sünger ve uçuşan kabarcıklar.
+    # Küvetin iki parçası suyun merkezinden (320, 64) aynı noktaya oturur; köpeğin ayakları suyun içinde.
+    g = "hayvan_banyosu/gorseller/"
+    su = (0, 34)
+    return [
+        parca(g + "kuvet_arka.svg", 300, su, merkez=(320, 64)),
+        parca(g + "kart_kopek.svg", 200, (0, 44), merkez=(128, 246)),
+        parca(g + "kuvet_on.svg", 300, su, merkez=(320, 64)),
+        parca(g + "sunger.svg", 92, (104, -92), 0.3),
+        parca(g + "kabarcik.svg", 40, (-112, -60)),
+        parca(g + "kabarcik.svg", 26, (-90, -108)),
+        parca(g + "kabarcik.svg", 30, (120, -10)),
+    ]
+
+
 def boyama_kitabi():
     # Boyama Kitabı: yarısı boyanmış kedi sayfası ve boya kalemleri, yanında boya kovası
     g = "boyama_kitabi/gorseller/"
@@ -412,7 +428,7 @@ KARTLAR = {
     "toplama": toplama, "cikarma": cikarma, "araba_yarisi": araba_yarisi, "zipla_zipla": zipla_zipla,
     "sihirli_bahce": sihirli_bahce, "muzik_kutusu": muzik_kutusu, "robot_fabrikasi": robot_fabrikasi,
     "tren_rayi": tren_rayi, "hayvan_besle": hayvan_besle, "boyama_kitabi": boyama_kitabi,
-    "buyukten_kucuge": buyukten_kucuge,
+    "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu,
 }
 
 
