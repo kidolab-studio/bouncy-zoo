@@ -888,6 +888,624 @@ def town() -> None:
     pic.save("kasaba")
 
 
+# --- 2. Kırmızı tren (2x2) ---
+
+def pine(pic: Pic, x: float, y: float, s: float, color: str = "#3FAE5A") -> None:
+    # Çam ağacı; (x, y) gövdenin dibi
+    gid = pic.uid("cam")
+    defs = linear(gid, [(0, light(color, 0.25)), (1, dark(color, 0.1))])
+    b = f'  <rect x="{x - 10 * s:g}" y="{y - 40 * s:g}" width="{20 * s:g}" height="{40 * s:g}" fill="#9C6040" {st(4)}/>\n'
+    for k, (w, top, bottom) in enumerate(((80, 120, 30), (64, 170, 80), (46, 215, 130))):
+        b += f'  <path d="M{x - w * s:g} {y - bottom * s:g} L{x:g} {y - top * s - 40 * s:g} L{x + w * s:g} {y - bottom * s:g} Q{x:g} {y - bottom * s + 12 * s:g} {x - w * s:g} {y - bottom * s:g} Z" fill="url(#{gid})" {st(5)}/>\n'
+    b += shine(x - 20 * s, y - 150 * s, 8 * s, 18 * s, 25, 0.5)
+    pic.add(b, defs)
+
+
+def rails(y: float) -> str:
+    b = ""
+    for x in range(-20, W + 40, 46):
+        b += f'  <rect x="{x}" y="{y - 6}" width="28" height="30" rx="4" fill="#B07A4A" {st(3.5)}/>\n'
+    for dy in (0, 16):
+        b += f'  <rect x="-10" y="{y + dy - 4}" width="{W + 20}" height="9" rx="4" fill="#9AA6C6" {st(3.5)}/>\n'
+    return b
+
+
+def wheel(x: float, y: float, r: float, color: str = "#FF5A6E") -> str:
+    b = f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="{OUT}"/>\n'
+    b += f'  <circle cx="{x:g}" cy="{y:g}" r="{r * 0.78:g}" fill="{color}"/>\n'
+    for a in range(0, 180, 45):
+        rad = math.radians(a)
+        b += f'  <path d="M{x + r * 0.7 * math.cos(rad):.1f} {y + r * 0.7 * math.sin(rad):.1f} L{x - r * 0.7 * math.cos(rad):.1f} {y - r * 0.7 * math.sin(rad):.1f}" stroke="{dark(color, 0.35)}" stroke-width="{max(3, r * 0.1):g}"/>\n'
+    b += f'  <circle cx="{x:g}" cy="{y:g}" r="{r * 0.22:g}" fill="#FFD23F" {st(3)}/>\n'
+    return b
+
+
+def wagon(pic: Pic, x: float, y: float, w: float, color: str, riders: list) -> None:
+    # Açık vagon, içinde hayvanlar; (x, y) vagon gövdesinin sol alt köşesi (tekerlerin üstü)
+    gid = pic.uid("vagon")
+    defs = linear(gid, [(0, light(color, 0.25)), (1, dark(color, 0.1))])
+    h = 110
+    for k, name in enumerate(riders):
+        animal_head(pic, name, x + w * (k + 0.5) / len(riders), y - h - 40, 0.55)
+    b = f'  <rect x="{x:g}" y="{y - h:g}" width="{w:g}" height="{h:g}" rx="12" fill="url(#{gid})" {st()}/>\n'
+    b += f'  <rect x="{x - 8:g}" y="{y - h - 10:g}" width="{w + 16:g}" height="20" rx="8" fill="{dark(color, 0.15)}" {st(5)}/>\n'
+    for k in range(3):
+        px = x + 22 + k * (w - 44) / 2
+        b += f'  <circle cx="{px:g}" cy="{y - h / 2 + 6:g}" r="13" fill="#FFD23F" {st(3.5)}/>\n'
+    b += shine(x + 40, y - h + 26, 26, 6, 0, 0.6)
+    b += wheel(x + w * 0.24, y + 18, 36, "#4A6FE0") + wheel(x + w * 0.76, y + 18, 36, "#4A6FE0")
+    pic.add(b, defs)
+
+
+def locomotive(pic: Pic, x: float, y: float) -> None:
+    # Kırmızı buharlı lokomotif, sağa gider; (x, y) gövdenin sol alt köşesi. Yüzü yok (tanınmış bir karakteri
+    # çağrıştırmasın diye).
+    g1, g2 = pic.uid("lok"), pic.uid("kazan")
+    defs = linear(g1, [(0, "#FF7A6E"), (1, "#D9413E")]) + linear(g2, [(0, "#FF8A7A"), (0.5, "#FF5A5A"), (1, "#C93A3E")])
+    # Sürücü panda kabinde
+    animal_head(pic, "panda", x + 75, y - 158, 0.46)
+    b = ""
+    # Kabin
+    b += f'  <path d="M{x:g} {y:g} L{x:g} {y - 230:g} L{x + 150:g} {y - 230:g} L{x + 150:g} {y:g} Z M{x + 26:g} {y - 200:g} L{x + 26:g} {y - 130:g} L{x + 124:g} {y - 130:g} L{x + 124:g} {y - 200:g} Z" fill="url(#{g1})" fill-rule="evenodd" {st()}/>\n'
+    b += f'  <rect x="{x - 18:g}" y="{y - 256:g}" width="186" height="30" rx="10" fill="#7A2B40" {st()}/>\n'
+    # Kazan
+    b += f'  <rect x="{x + 150:g}" y="{y - 150:g}" width="250" height="120" rx="20" fill="url(#{g2})" {st()}/>\n'
+    for k in range(3):
+        bx = x + 200 + k * 70
+        b += f'  <rect x="{bx:g}" y="{y - 150:g}" width="14" height="120" fill="#FFD23F" {st(3.5)}/>\n'
+    # Baca ve kubbe
+    b += f'  <path d="M{x + 320:g} {y - 150:g} L{x + 314:g} {y - 230:g} L{x + 296:g} {y - 254:g} L{x + 380:g} {y - 254:g} L{x + 362:g} {y - 230:g} L{x + 356:g} {y - 150:g} Z" fill="#4A4F70" {st()}/>\n'
+    b += f'  <path d="M{x + 220:g} {y - 150:g} Q{x + 222:g} {y - 192:g} {x + 250:g} {y - 192:g} Q{x + 278:g} {y - 192:g} {x + 280:g} {y - 150:g} Z" fill="#FFD23F" {st(5)}/>\n'
+    # Ön: far ve tampon
+    b += f'  <circle cx="{x + 404:g}" cy="{y - 112:g}" r="20" fill="#FFF3A8" {st(5)}/>\n'
+    b += f'  <path d="M{x + 400:g} {y - 30:g} L{x + 400:g} {y + 6:g} L{x + 460:g} {y + 40:g} L{x + 460:g} {y + 10:g} Z" fill="#FFD23F" {st(5)}/>\n'
+    b += f'  <rect x="{x - 10:g}" y="{y - 40:g}" width="420" height="40" rx="10" fill="#3B2F6B"/>\n'
+    b += shine(x + 200, y - 130, 60, 7, 0, 0.55) + shine(x + 30, y - 214, 30, 6, 0, 0.5)
+    b += wheel(x + 70, y + 8, 62) + wheel(x + 220, y + 26, 44) + wheel(x + 330, y + 26, 44)
+    b += f'  <path d="M{x + 70:g} {y + 8:g} L{x + 330:g} {y + 26:g}" stroke="#C9D3E8" stroke-width="10" stroke-linecap="round"/>\n'
+    b += f'  <path d="M{x + 70:g} {y + 8:g} L{x + 330:g} {y + 26:g}" fill="none" {st(3)}/>\n'
+    pic.add(b, defs)
+
+
+def steam(x: float, y: float, s: float) -> str:
+    shapes = "".join(f'<circle cx="{x + dx * s:g}" cy="{y + dy * s:g}" r="{r * s:g}"/>' for dx, dy, r in
+                     ((0, 0, 30), (-26, 10, 22), (26, 8, 24), (6, -20, 24)))
+    return (f'  <g fill="#D9E2F2" stroke="#D9E2F2" stroke-width="{10 * s:g}">{shapes}</g>\n'
+            f'  <g fill="#FFFFFF">{shapes}</g>\n' + shine(x - 8 * s, y - 14 * s, 10 * s, 5 * s, -20, 0.9))
+
+
+def signal(x: float, y: float, s: float) -> str:
+    b = f'  <rect x="-6" y="-200" width="12" height="200" fill="#7A84A8" {st(4)}/>\n'
+    b += f'  <rect x="-30" y="-230" width="60" height="44" rx="14" fill="#4A4F70" {st(5)}/>\n'
+    b += f'  <circle cx="-12" cy="-208" r="11" fill="#5CC95C" {st(3)}/>\n  <circle cx="12" cy="-208" r="11" fill="#FF5A6E" opacity="0.35" {st(3)}/>\n'
+    return at(b, x, y, s)
+
+
+def train() -> None:
+    pic = Pic()
+    pic.defs += linear("gok", [(0, "#8ED2FF"), (1, "#E2F5FF")])
+    pic.defs += linear("dag", [(0, "#B9A8F0"), (1, "#9C8BDF")])
+    pic.defs += linear("tepe1", [(0, "#B6EA94"), (1, "#8ED36E")]) + linear("cayir", [(0, "#8ED96A"), (1, "#5DB64C")])
+    pic.add(f'  <rect width="{W}" height="{H}" fill="url(#gok)"/>\n')
+    pic.add(cloud(220, 110, 0.9) + cloud(640, 70, 0.7))
+    pic.add(bird_v(470, 150, 0.9) + bird_v(510, 172, 0.7) + bird_v(860, 230, 0.8))
+    # Dağlar ve tepeler
+    pic.add('  <path d="M-20 520 L180 260 L300 400 L420 300 L620 520 Z" fill="url(#dag)"/>\n')
+    pic.add('  <path d="M180 260 L140 312 L170 306 L188 326 L210 300 L232 306 Z M420 300 L388 342 L410 338 L424 354 L440 336 L458 342 Z" fill="#FFFFFF"/>\n')
+    pic.add('  <path d="M700 520 L900 330 L1040 450 L1120 380 L1240 520 Z" fill="url(#dag)" opacity="0.9"/>\n')
+    pic.add('  <path d="M0 560 Q300 470 620 540 Q900 480 1200 540 L1200 900 L0 900 Z" fill="url(#tepe1)"/>\n')
+    for tx, ty, ts in ((70, 560, 1.0), (180, 580, 0.8), (520, 560, 0.7), (600, 575, 0.55), (1150, 570, 0.8)):
+        pine(pic, tx, ty, ts)
+    pic.add('  <path d="M0 640 Q600 610 1200 640 L1200 900 L0 900 Z" fill="url(#cayir)"/>\n')
+    pic.add(signal(40, 780, 0.9))
+    # Buhar bacadan sağ üste yükselir
+    pic.add(steam(1010, 440, 0.8) + steam(1050, 350, 1.1) + steam(1100, 240, 1.4) + steam(1140, 110, 1.6))
+    pic.add(rails(790))
+    wagon(pic, 70, 740, 240, "#4FA8FF", ["ayi", "fare"])
+    wagon(pic, 360, 740, 250, "#5CC95C", ["kedi", "tavsan"])
+    pic.add(f'  <path d="M310 712 L360 712 M610 712 L660 712" {st(8)}/>\n')
+    locomotive(pic, 660, 740)
+    rng = random.Random(21)
+    for k in range(18):
+        fx, fy = rng.uniform(20, 1180), rng.uniform(840, 885)
+        pic.add(tuft(fx + 16, fy + 30, 0.8))
+        pic.add(flower(fx, fy, 0.85, ["#FF6FA8", "#FFD23F", "#FFFFFF", "#A46BFF", "#FF8A3D"][k % 5]))
+    pic.add(butterfly(300, 470, 0.9, "#FFB84D", "#FF8FC8", 10))
+    pic.save("tren")
+
+
+# --- 3. Meyve sepeti (2x2) ---
+
+def apple(pic: Pic, x: float, y: float, r: float, color: str = "#FF4F5E", happy: bool = False) -> None:
+    gid = pic.uid("elma")
+    defs = ten(gid, color)
+    b = f'  <path d="M{x:g} {y - r * 0.75:g} Q{x + r * 0.05:g} {y - r * 1.15:g} {x + r * 0.2:g} {y - r * 1.25:g}" fill="none" stroke="#8E5532" stroke-width="{r * 0.12:g}" stroke-linecap="round"/>\n'
+    b += f'  <ellipse cx="{x + r * 0.45:g}" cy="{y - r * 1.05:g}" rx="{r * 0.35:g}" ry="{r * 0.16:g}" transform="rotate(-25 {x + r * 0.45:g} {y - r * 1.05:g})" fill="#5DBB4F" {st(4)}/>\n'
+    b += (f'  <path d="M{x:g} {y - r * 0.7:g} C{x + r * 0.5:g} {y - r * 1.05:g} {x + r * 1.1:g} {y - r * 0.6:g} {x + r:g} {y + r * 0.05:g} '
+          f'C{x + r * 0.95:g} {y + r * 0.75:g} {x + r * 0.4:g} {y + r * 1.05:g} {x:g} {y + r * 0.85:g} '
+          f'C{x - r * 0.4:g} {y + r * 1.05:g} {x - r * 0.95:g} {y + r * 0.75:g} {x - r:g} {y + r * 0.05:g} '
+          f'C{x - r * 1.1:g} {y - r * 0.6:g} {x - r * 0.5:g} {y - r * 1.05:g} {x:g} {y - r * 0.7:g} Z" fill="url(#{gid})" {st()}/>\n')
+    b += shine(x - r * 0.45, y - r * 0.3, r * 0.2, r * 0.1, -40, 0.85)
+    if happy:
+        b += eye(x - r * 0.3, y + r * 0.05, r * 0.16, (0, 0)) + eye(x + r * 0.3, y + r * 0.05, r * 0.16, (0, 0))
+        b += smile(x, y + r * 0.35, r * 0.2, 4)
+        b += "".join(f'  <ellipse cx="{x + dx * r:g}" cy="{y + r * 0.35:g}" rx="{r * 0.13:g}" ry="{r * 0.07:g}" fill="#FFFFFF" opacity="0.45"/>\n' for dx in (-0.55, 0.55))
+    pic.add(b, defs)
+
+
+def orange(pic: Pic, x: float, y: float, r: float) -> None:
+    gid = pic.uid("portakal")
+    defs = ten(gid, "#FF9F40")
+    b = f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="url(#{gid})" {st()}/>\n'
+    rng = random.Random(int(x))
+    for k in range(10):
+        a, d = rng.uniform(0, math.tau), rng.uniform(0.2, 0.8) * r
+        b += f'  <circle cx="{x + d * math.cos(a):.1f}" cy="{y + d * math.sin(a):.1f}" r="2.5" fill="#E07B28" opacity="0.6"/>\n'
+    b += f'  <ellipse cx="{x + r * 0.15:g}" cy="{y - r * 0.92:g}" rx="{r * 0.3:g}" ry="{r * 0.12:g}" transform="rotate(20 {x + r * 0.15:g} {y - r * 0.92:g})" fill="#5DBB4F" {st(4)}/>\n'
+    b += shine(x - r * 0.4, y - r * 0.4, r * 0.22, r * 0.1, -40, 0.85)
+    pic.add(b, defs)
+
+
+def banana(x: float, y: float, s: float, rot: float = 0) -> str:
+    b = f'  <path d="M-80 -10 Q-20 60 80 -20 Q86 -30 80 -36 Q-10 30 -70 -26 Z" fill="#FFE066" {st(5)}/>\n'
+    b += f'  <path d="M-66 -10 Q-10 36 70 -18" fill="none" stroke="#F0B43A" stroke-width="4" stroke-linecap="round"/>\n'
+    b += f'  <path d="M80 -36 L92 -44" {st(8)}/>\n  <path d="M-80 -10 L-88 -16" {st(8)}/>\n'
+    b += shine(-30, -2, 18, 4, 20, 0.7)
+    return at(b, x, y, s, rot)
+
+
+def grapes(pic: Pic, x: float, y: float, s: float) -> None:
+    gid = pic.uid("uzum")
+    defs = ten(gid, "#A46BFF")
+    b = f'  <path d="M{x:g} {y - 70 * s:g} Q{x + 6 * s:g} {y - 96 * s:g} {x + 20 * s:g} {y - 104 * s:g}" fill="none" stroke="#8E5532" stroke-width="{6 * s:g}" stroke-linecap="round"/>\n'
+    b += f'  <path d="M{x:g} {y - 80 * s:g} Q{x - 40 * s:g} {y - 110 * s:g} {x - 60 * s:g} {y - 80 * s:g} Q{x - 30 * s:g} {y - 70 * s:g} {x:g} {y - 80 * s:g} Z" fill="#5DBB4F" {st(4)}/>\n'
+    for row, (n, dy) in enumerate(((4, -50), (3, -18), (3, 12), (2, 40), (1, 66))):
+        for k in range(n):
+            gx = x + (k - (n - 1) / 2) * 30 * s
+            b += f'  <circle cx="{gx:g}" cy="{y + dy * s:g}" r="{17 * s:g}" fill="url(#{gid})" {st(4)}/>\n'
+            b += f'  <circle cx="{gx - 5 * s:g}" cy="{y + (dy - 6) * s:g}" r="{4 * s:g}" fill="#FFFFFF" opacity="0.8"/>\n'
+    pic.add(b, defs)
+
+
+def pear(pic: Pic, x: float, y: float, s: float) -> None:
+    gid = pic.uid("armut")
+    defs = ten(gid, "#B5E35A")
+    b = f'  <path d="M{x:g} {y - 70 * s:g} Q{x + 2 * s:g} {y - 92 * s:g} {x + 12 * s:g} {y - 100 * s:g}" fill="none" stroke="#8E5532" stroke-width="{6 * s:g}" stroke-linecap="round"/>\n'
+    b += (f'  <path d="M{x:g} {y - 72 * s:g} C{x + 26 * s:g} {y - 72 * s:g} {x + 24 * s:g} {y - 30 * s:g} {x + 40 * s:g} {y - 6 * s:g} '
+          f'C{x + 66 * s:g} {y + 30 * s:g} {x + 50 * s:g} {y + 70 * s:g} {x:g} {y + 70 * s:g} C{x - 50 * s:g} {y + 70 * s:g} {x - 66 * s:g} {y + 30 * s:g} {x - 40 * s:g} {y - 6 * s:g} '
+          f'C{x - 24 * s:g} {y - 30 * s:g} {x - 26 * s:g} {y - 72 * s:g} {x:g} {y - 72 * s:g} Z" fill="url(#{gid})" {st()}/>\n')
+    b += shine(x - 22 * s, y + 10 * s, 10 * s, 20 * s, 15, 0.7)
+    pic.add(b, defs)
+
+
+def strawberry(x: float, y: float, s: float, rot: float = 0) -> str:
+    b = f'  <path d="M0 -28 C30 -30 40 -6 30 14 C20 34 6 44 0 46 C-6 44 -20 34 -30 14 C-40 -6 -30 -30 0 -28 Z" fill="#FF4F5E" {st(4.5)}/>\n'
+    for px, py in ((-14, -10), (0, -14), (14, -10), (-18, 8), (0, 4), (18, 8), (-8, 24), (8, 24)):
+        b += f'  <ellipse cx="{px}" cy="{py}" rx="2.5" ry="3.5" fill="#FFE8A0"/>\n'
+    b += f'  <path d="M-22 -26 L-8 -32 L0 -44 L8 -32 L22 -26 L8 -22 L0 -18 L-8 -22 Z" fill="#5DBB4F" {st(3.5)}/>\n'
+    return at(b, x, y, s, rot)
+
+
+def watermelon(x: float, y: float, s: float, rot: float = 0) -> str:
+    b = f'  <path d="M-90 0 A90 90 0 0 0 90 0 Z" fill="#3FAE5A" {st(5)}/>\n'
+    b += '  <path d="M-80 0 A80 80 0 0 0 80 0 Z" fill="#E8FFD0"/>\n'
+    b += '  <path d="M-72 0 A72 72 0 0 0 72 0 Z" fill="#FF5A6E"/>\n'
+    b += f'  <path d="M-90 0 L90 0" {st(5)}/>\n'
+    for px, py in ((-40, 16), (-10, 30), (20, 22), (44, 10), (0, 52), (-30, 44), (34, 42)):
+        b += f'  <ellipse cx="{px}" cy="{py}" rx="4" ry="7" fill="{OUT}"/>\n'
+    return at(b, x, y, s, rot)
+
+
+def pineapple(pic: Pic, x: float, y: float, s: float) -> None:
+    gid = pic.uid("ananas")
+    defs = ten(gid, "#FFC233")
+    b = ""
+    for a, h in ((-30, 90), (-12, 110), (6, 120), (24, 100), (40, 80)):
+        b += f'  <path d="M{x:g} {y - 70 * s:g} Q{x + (a - 20) * s:g} {y - (70 + h * 0.6) * s:g} {x + a * s * 1.6:g} {y - (70 + h) * s:g} Q{x + (a + 10) * s:g} {y - (70 + h * 0.4) * s:g} {x + 10 * s:g} {y - 70 * s:g} Z" fill="#5DBB4F" {st(4)}/>\n'
+    b += f'  <ellipse cx="{x:g}" cy="{y:g}" rx="{58 * s:g}" ry="{80 * s:g}" fill="url(#{gid})" {st()}/>\n'
+    clip = pic.uid("ananaskes")
+    defs += f'    <clipPath id="{clip}"><ellipse cx="{x:g}" cy="{y:g}" rx="{58 * s:g}" ry="{80 * s:g}"/></clipPath>\n'
+    lines = ""
+    for k in range(-5, 6):
+        lines += f'<path d="M{x + k * 26 * s - 90 * s:g} {y - 90 * s:g} L{x + k * 26 * s + 90 * s:g} {y + 90 * s:g}"/><path d="M{x + k * 26 * s + 90 * s:g} {y - 90 * s:g} L{x + k * 26 * s - 90 * s:g} {y + 90 * s:g}"/>'
+    b += f'  <g clip-path="url(#{clip})" stroke="#D98A1E" stroke-width="{4 * s:g}">{lines}</g>\n'
+    b += f'  <ellipse cx="{x:g}" cy="{y:g}" rx="{58 * s:g}" ry="{80 * s:g}" fill="none" {st()}/>\n'
+    b += shine(x - 26 * s, y - 34 * s, 10 * s, 22 * s, 20, 0.6)
+    pic.add(b, defs)
+
+
+def ladybug(x: float, y: float, s: float, rot: float = 0) -> str:
+    b = f'  <circle cx="0" cy="-26" r="14" fill="{OUT}"/>\n'
+    b += f'  <ellipse cx="0" cy="0" rx="30" ry="32" fill="#FF4F5E" {st(4)}/>\n  <path d="M0 -30 L0 32" {st(3.5)}/>\n'
+    for px, py, r in ((-14, -10, 6), (14, -10, 6), (-16, 12, 5), (16, 12, 5)):
+        b += f'  <circle cx="{px}" cy="{py}" r="{r}" fill="{OUT}"/>\n'
+    b += f'  <circle cx="-5" cy="-30" r="3" fill="#FFFFFF"/><circle cx="5" cy="-30" r="3" fill="#FFFFFF"/>\n'
+    return at(b, x, y, s, rot)
+
+
+def bee(x: float, y: float, s: float, rot: float = 0) -> str:
+    b = ""
+    for sx in (-1, 1):
+        b += f'  <ellipse cx="{sx * 10}" cy="-24" rx="12" ry="16" transform="rotate({sx * 25} {sx * 10} -24)" fill="#FFFFFF" fill-opacity="0.85" {st(3)}/>\n'
+    b += f'  <ellipse cx="0" cy="0" rx="28" ry="20" fill="#FFD23F" {st(4)}/>\n'
+    b += f'  <path d="M-6 -19 Q-2 0 -6 19 M8 -18 Q12 0 8 18" stroke="{OUT}" stroke-width="7"/>\n'
+    b += f'  <path d="M-28 0 L-38 0" {st(4)}/>\n'
+    b += eye(16, -4, 5, (0.2, 0)) + smile(18, 6, 4, 2.5)
+    return at(b, x, y, s, rot)
+
+
+def basket(pic: Pic, x: float, y: float, w: float, h: float) -> tuple:
+    # Hasır sepet; (x, y) alt orta. Arka kenar ve ön gövde ayrı (meyveler arasına girer)
+    g1 = pic.uid("sepet")
+    defs = linear(g1, [(0, "#E8B070"), (1, "#B97A44")])
+    top = y - h
+    back = f'  <ellipse cx="{x:g}" cy="{top:g}" rx="{w / 2:g}" ry="{h * 0.14:g}" fill="#8E5532" {st(5)}/>\n'
+    back += f'  <path d="M{x - w * 0.36:g} {top:g} Q{x:g} {top - h * 1.0:g} {x + w * 0.36:g} {top:g}" fill="none" stroke="{OUT}" stroke-width="22" stroke-linecap="round"/>\n'
+    back += f'  <path d="M{x - w * 0.36:g} {top:g} Q{x:g} {top - h * 1.0:g} {x + w * 0.36:g} {top:g}" fill="none" stroke="#D99A5A" stroke-width="12" stroke-linecap="round"/>\n'
+    front = f'  <path d="M{x - w / 2:g} {top:g} Q{x:g} {top + h * 0.28:g} {x + w / 2:g} {top:g} L{x + w * 0.4:g} {y:g} Q{x:g} {y + h * 0.12:g} {x - w * 0.4:g} {y:g} Z" fill="url(#{g1})" {st()}/>\n'
+    for k in range(1, 4):
+        yy = top + k * h / 4
+        ww = w / 2 - (w * 0.1) * k / 4
+        front += f'  <path d="M{x - ww:g} {yy:g} Q{x:g} {yy + h * 0.22:g} {x + ww:g} {yy:g}" fill="none" stroke="#8E5532" stroke-width="4"/>\n'
+    for k in range(-4, 5):
+        front += f'  <path d="M{x + k * w * 0.1:g} {top + h * 0.12:g} L{x + k * w * 0.085:g} {y + h * 0.05:g}" stroke="#8E5532" stroke-width="3" opacity="0.6"/>\n'
+    front += f'  <path d="M{x - w / 2:g} {top:g} Q{x:g} {top + h * 0.28:g} {x + w / 2:g} {top:g}" fill="none" stroke="#F2C88A" stroke-width="14"/>\n'
+    front += f'  <path d="M{x - w / 2:g} {top:g} Q{x:g} {top + h * 0.28:g} {x + w / 2:g} {top:g}" fill="none" {st(4)}/>\n'
+    return back, front, defs
+
+
+def fruits() -> None:
+    pic = Pic()
+    pic.defs += linear("gok", [(0, "#9ED8FF"), (1, "#E6F7FF")])
+    pic.defs += linear("cayir", [(0, "#A6E47C"), (1, "#6CC453")])
+    pic.add(f'  <rect width="{W}" height="{H}" fill="url(#gok)"/>\n')
+    pic.add(cloud(760, 100, 0.85) + cloud(1060, 200, 0.6))
+    sun(pic, 1080, 90, 54)
+    pic.add('  <path d="M0 440 Q300 380 600 430 Q900 380 1200 420 L1200 900 L0 900 Z" fill="url(#cayir)"/>\n')
+    for tx, ty, ts in ((700, 440, 0.32), (760, 446, 0.25), (1150, 430, 0.3)):
+        tree(pic, tx, ty, ts)
+    # Sol üstte kiraz dalı
+    pic.add(tube("M-20 60 Q160 120 330 90 Q420 76 470 40", "#9C6040", 22))
+    for lx, ly, a in ((120, 80, 30), (220, 120, -20), (330, 70, 20), (420, 90, -30)):
+        pic.add(f'  <ellipse cx="{lx}" cy="{ly}" rx="38" ry="16" transform="rotate({a} {lx} {ly})" fill="#5DBB4F" {st(4)}/>\n')
+    for cx, cy in ((170, 200), (210, 215), (300, 180), (340, 190)):
+        pic.add(f'  <path d="M{cx} {cy} Q{cx + 10} {cy - 60} {(cx // 100) * 100 + 60} {108 if cx < 250 else 92}" fill="none" stroke="#6E9A3A" stroke-width="5"/>\n')
+        pic.add(f'  <circle cx="{cx}" cy="{cy}" r="22" fill="#E8283E" {st(4.5)}/>\n' + shine(cx - 7, cy - 7, 6, 3, -30, 0.9))
+    pic.add(butterfly(430, 300, 1.0, "#7FD3FF", "#FFE066", -12) + bee(900, 300, 1.0, 10) + bee(990, 360, 0.7, -8))
+    # Piknik örtüsü (kareli)
+    clip = "ortukes"
+    pic.defs += f'    <clipPath id="{clip}"><path d="M-40 640 L1240 600 L1240 920 L-40 920 Z"/></clipPath>\n'
+    squares = ""
+    for row in range(-2, 8):
+        for col in range(-2, 22):
+            if (row + col) % 2 == 0:
+                squares += f'<rect x="{col * 70 - row * 6}" y="{600 + row * 50}" width="70" height="50"/>'
+    pic.add(f'  <path d="M-40 640 L1240 600 L1240 920 L-40 920 Z" fill="#FFFFFF"/>\n  <g clip-path="url(#{clip})" fill="#FF6F7E" opacity="0.85">{squares}</g>\n')
+    pic.add(f'  <path d="M-40 640 L1240 600" {st()}/>\n')
+    # Sepet ve meyveler
+    back, front, defs = basket(pic, 600, 800, 460, 230)
+    pic.add(back, defs)
+    grapes(pic, 460, 500, 1.1)
+    pineapple(pic, 610, 410, 1.0)
+    pear(pic, 770, 490, 1.0)
+    apple(pic, 515, 525, 62, "#FF4F5E", True)
+    orange(pic, 690, 530, 58)
+    pic.add(front)
+    # Muz sepetin kenarında
+    pic.add(banana(640, 600, 1.25, -4))
+    # Örtüdeki meyveler
+    pic.add(watermelon(170, 760, 1.25, -8))
+    apple(pic, 960, 760, 50, "#8ED94A")
+    apple(pic, 1080, 800, 46, "#FF4F5E")
+    pic.add(strawberry(330, 840, 1.0, -15) + strawberry(260, 860, 0.85, 20) + strawberry(880, 860, 0.9, 10))
+    pic.add(ladybug(1110, 660, 0.9, 20) + ladybug(80, 650, 0.7, -30))
+    pic.add(flower(60, 520, 0.9, "#FF6FA8") + flower(1150, 500, 0.9, "#A46BFF") + flower(400, 480, 0.8, "#FFFFFF") + flower(980, 470, 0.8, "#FFD23F"))
+    pic.save("meyve")
+
+
+# --- 5. Uzay (3x2) ---
+
+def head_svg(pic: Pic, name: str, x: float, y: float, s: float) -> str:
+    # animal_head gibi, ama çizimi döndürür (kırpılmış bir pencerenin içine konmak için)
+    bd, b, hd, h = besle.ANIMALS[name]()
+    p = pic.uid("k") + "_"
+    pic.defs += prefixed(hd + besle.EYE_DEFS, p)
+    return at(prefixed(h + face(name), p), x - 128 * s, y - 132 * s, s)
+
+
+def sparkle_star(x: float, y: float, r: float, color: str = "#FFE680") -> str:
+    d = f"M{x:g} {y - r:g} Q{x + r * 0.18:g} {y - r * 0.18:g} {x + r:g} {y:g} Q{x + r * 0.18:g} {y + r * 0.18:g} {x:g} {y + r:g} Q{x - r * 0.18:g} {y + r * 0.18:g} {x - r:g} {y:g} Q{x - r * 0.18:g} {y - r * 0.18:g} {x:g} {y - r:g} Z"
+    return f'  <path d="{d}" fill="{color}"/>\n'
+
+
+def moon(pic: Pic, x: float, y: float, r: float) -> None:
+    gid = pic.uid("ay")
+    defs = radial(gid, [(0, "#FFFBE0"), (0.6, "#F4E7A8"), (1, "#D9C77A")])
+    b = f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="url(#{gid})" {st()}/>\n'
+    for dx, dy, cr in ((-0.45, -0.35, 0.2), (0.4, -0.45, 0.13), (0.5, 0.35, 0.18), (-0.3, 0.55, 0.1), (0.05, -0.7, 0.08)):
+        b += f'  <circle cx="{x + dx * r:g}" cy="{y + dy * r:g}" r="{cr * r:g}" fill="#E2D08A" stroke="#CDB86A" stroke-width="3"/>\n'
+    # Uykulu gülen yüz
+    for dx in (-0.28, 0.22):
+        b += f'  <path d="M{x + (dx - 0.1) * r:g} {y + 0.02 * r:g} Q{x + dx * r:g} {y + 0.12 * r:g} {x + (dx + 0.1) * r:g} {y + 0.02 * r:g}" fill="none" {st(5)}/>\n'
+    b += smile(x - 0.03 * r, y + 0.24 * r, 0.12 * r, 4.5)
+    b += "".join(f'  <ellipse cx="{x + dx * r:g}" cy="{y + 0.22 * r:g}" rx="{r * 0.1:g}" ry="{r * 0.06:g}" fill="#FF9FB0" opacity="0.6"/>\n' for dx in (-0.48, 0.42))
+    pic.add(b, defs)
+
+
+def ringed_planet(pic: Pic, x: float, y: float, r: float) -> None:
+    g1 = pic.uid("gezegen")
+    defs = ten(g1, "#FF9F6A")
+    rx, ry = r * 1.75, r * 0.45
+
+    def ring(sweep: int) -> str:
+        # Halkanın yarısı: sweep 1 üst (arka) yay, 0 alt (ön) yay
+        arc = f"M{x - rx:g} {y:g} A{rx:g} {ry:g} 0 0 {sweep} {x + rx:g} {y:g}"
+        return (f'  <g transform="rotate(-18 {x:g} {y:g})" fill="none"><path d="{arc}" stroke="{OUT}" stroke-width="26"/>'
+                f'<path d="{arc}" stroke="#FFD87A" stroke-width="14"/></g>\n')
+    b = ring(1)
+    b += f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="url(#{g1})" {st()}/>\n'
+    for dy, w in ((-0.4, 0.8), (0.05, 0.95), (0.45, 0.8)):
+        b += f'  <path d="M{x - r * w:g} {y + dy * r:g} Q{x:g} {y + (dy + 0.12) * r:g} {x + r * w:g} {y + dy * r:g}" fill="none" stroke="#E87A4A" stroke-width="{r * 0.1:g}" stroke-linecap="round" opacity="0.7"/>\n'
+    b += ring(0)
+    b += shine(x - r * 0.45, y - r * 0.5, r * 0.22, r * 0.1, -35, 0.8)
+    pic.add(b, defs)
+
+
+def small_planet(pic: Pic, x: float, y: float, r: float, color: str, spots: str) -> None:
+    gid = pic.uid("gezegen")
+    defs = ten(gid, color)
+    b = f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="url(#{gid})" {st()}/>\n'
+    for dx, dy, cr in ((-0.35, -0.2, 0.25), (0.3, 0.3, 0.2), (0.25, -0.45, 0.12)):
+        b += f'  <circle cx="{x + dx * r:g}" cy="{y + dy * r:g}" r="{cr * r:g}" fill="{spots}" opacity="0.7"/>\n'
+    b += shine(x - r * 0.4, y - r * 0.45, r * 0.2, r * 0.09, -35, 0.8)
+    pic.add(b, defs)
+
+
+def earth(pic: Pic, x: float, y: float, r: float) -> None:
+    gid, clip = pic.uid("dunya"), pic.uid("dunyakes")
+    defs = ten(gid, "#4FA8FF") + f'    <clipPath id="{clip}"><circle cx="{x:g}" cy="{y:g}" r="{r:g}"/></clipPath>\n'
+    b = f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="url(#{gid})"/>\n'
+    land = (f'<path d="M{x - r * 0.8:g} {y - r * 0.3:g} Q{x - r * 0.4:g} {y - r * 0.8:g} {x:g} {y - r * 0.5:g} Q{x + r * 0.1:g} {y - r * 0.1:g} {x - r * 0.3:g} {y + r * 0.1:g} Q{x - r * 0.6:g} {y + r * 0.3:g} {x - r * 0.8:g} {y - r * 0.3:g} Z"/>'
+            f'<path d="M{x + r * 0.2:g} {y + r * 0.3:g} Q{x + r * 0.7:g} {y:g} {x + r * 0.9:g} {y + r * 0.4:g} Q{x + r * 0.6:g} {y + r * 0.9:g} {x + r * 0.2:g} {y + r * 0.3:g} Z"/>')
+    b += f'  <g clip-path="url(#{clip})" fill="#5CC95C">{land}</g>\n'
+    b += f'  <circle cx="{x:g}" cy="{y:g}" r="{r:g}" fill="none" {st()}/>\n'
+    b += shine(x - r * 0.4, y - r * 0.45, r * 0.2, r * 0.09, -35, 0.8)
+    pic.add(b, defs)
+
+
+def rocket(pic: Pic, x: float, y: float, s: float, rot: float) -> None:
+    # Roket (yerel: burun y = -260, taban y = 160); penceresinde tavşan
+    g1, g2, clip, nose = pic.uid("roket"), pic.uid("alev"), pic.uid("pencere"), pic.uid("burun")
+    defs = linear(g1, [(0, "#C9D3E8"), (0.4, "#FFFFFF"), (1, "#AEB9D6")], 1, 0)
+    defs += linear(g2, [(0, "#FFF3A8"), (0.5, "#FFB627"), (1, "#FF5A3E")])
+    body = "M0 -260 C90 -180 100 -40 80 160 L-80 160 C-100 -40 -90 -180 0 -260 Z"
+    defs += f'    <clipPath id="{nose}"><path d="{body}"/></clipPath>\n'
+    b = f'  <path d="M-50 190 Q-60 290 0 380 Q60 290 50 190 Z" fill="url(#{g2})" {st(5)}/>\n'
+    b += '  <path d="M-24 190 Q-28 250 0 300 Q28 250 24 190 Z" fill="#FFFBE0"/>\n'
+    b += f'  <path d="M-60 160 L-50 196 L50 196 L60 160 Z" fill="#7A84A8" {st(5)}/>\n'
+    for sx in (-1, 1):
+        b += f'  <path d="M{sx * 78} 40 Q{sx * 150} 90 {sx * 160} 200 L{sx * 82} 160 Z" fill="#FF5A6E" {st()}/>\n'
+    b += f'  <path d="{body}" fill="url(#{g1})"/>\n'
+    b += f'  <g clip-path="url(#{nose})"><rect x="-120" y="-280" width="240" height="110" fill="#FF5A6E"/><rect x="-120" y="100" width="240" height="20" fill="#4A8FF0"/>'
+    b += f'<path d="M-100 -170 L100 -170" fill="none" {st(5)}/></g>\n'
+    b += f'  <path d="{body}" fill="none" {st()}/>\n'
+    b += f'  <path d="M0 120 L0 196" {st(5)}/>\n'
+    # Pencere ve tavşan
+    pic.defs += f'    <clipPath id="{clip}"><circle cx="0" cy="-40" r="52"/></clipPath>\n'
+    b += f'  <circle cx="0" cy="-40" r="64" fill="#4A6FE0" {st()}/>\n  <circle cx="0" cy="-40" r="52" fill="#BFE6FF"/>\n'
+    b += f'  <g clip-path="url(#{clip})">\n{head_svg(pic, "tavsan", 0, -20, 0.5)}  </g>\n'
+    b += '  <path d="M-34 -70 A40 40 0 0 1 10 -84" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.8"/>\n'
+    b += f'  <circle cx="0" cy="-40" r="52" fill="none" {st(5)}/>\n'
+    b += shine(-46, -120, 10, 28, 15, 0.7)
+    pic.add(at(b, x, y, s, rot), defs)
+
+
+def astronaut(pic: Pic, x: float, y: float, s: float, rot: float) -> None:
+    # Astronot kedi (yerel: kask ortası 0, -60)
+    g1, clip = pic.uid("giysi"), pic.uid("kask")
+    defs = linear(g1, [(0, "#FFFFFF"), (1, "#C9D3E8")])
+    pic.defs += f'    <clipPath id="{clip}"><circle cx="0" cy="-60" r="66"/></clipPath>\n'
+    b = f'  <rect x="-84" y="-30" width="40" height="120" rx="14" fill="#9AA6C6" {st(5)}/>\n'
+    for sx, a in ((-1, 30), (1, -40)):
+        b += tube(f"M{sx * 50} 10 Q{sx * 100} {20 if sx < 0 else -10} {sx * 110} {60 if sx < 0 else -40}", "#F4F7FF", 34)
+        b += f'  <circle cx="{sx * 112}" cy="{64 if sx < 0 else -44}" r="18" fill="#FF8A3D" {st(4)}/>\n'
+    for sx in (-1, 1):
+        b += tube(f"M{sx * 24} 90 L{sx * 34} 150", "#F4F7FF", 36)
+        b += f'  <rect x="{sx * 34 - 24}" y="140" width="48" height="26" rx="10" fill="#FF8A3D" {st(4)}/>\n'
+    b += f'  <rect x="-60" y="-10" width="120" height="120" rx="40" fill="url(#{g1})" {st()}/>\n'
+    b += f'  <rect x="-32" y="20" width="64" height="40" rx="8" fill="#BFE6FF" {st(4)}/>\n'
+    for k, c in enumerate(["#FF5A6E", "#FFD23F", "#5CC95C"]):
+        b += f'  <circle cx="{-18 + k * 18}" cy="40" r="6" fill="{c}"/>\n'
+    b += f'  <circle cx="0" cy="-60" r="76" fill="#F4F7FF" {st()}/>\n  <circle cx="0" cy="-60" r="66" fill="#2A2160"/>\n'
+    b += f'  <g clip-path="url(#{clip})">\n{head_svg(pic, "kedi", 0, -46, 0.6)}  </g>\n'
+    b += '  <path d="M-46 -96 A56 56 0 0 1 4 -120" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.75"/>\n'
+    b += f'  <circle cx="0" cy="-60" r="66" fill="none" {st(5)}/>\n'
+    pic.add(at(b, x, y, s, rot), defs)
+
+
+def ufo(pic: Pic, x: float, y: float, s: float) -> None:
+    g1, g2 = pic.uid("ufo"), pic.uid("uzayli")
+    defs = linear(g1, [(0, "#D7C9FF"), (1, "#8C7BD6")]) + ten(g2, "#7FE07A")
+    b = f'  <path d="M-60 40 L-110 190 L110 190 L60 40 Z" fill="#FFF3A8" opacity="0.22"/>\n'
+    # Uzaylı
+    b += tube("M-22 -82 Q-34 -118 -44 -126", "#7FE07A", 8, 5) + tube("M22 -82 Q34 -118 44 -126", "#7FE07A", 8, 5)
+    b += f'  <circle cx="-44" cy="-128" r="9" fill="#FF8FC8" {st(3.5)}/>\n  <circle cx="44" cy="-128" r="9" fill="#FF8FC8" {st(3.5)}/>\n'
+    b += f'  <ellipse cx="0" cy="-50" rx="50" ry="46" fill="url(#{g2})" {st()}/>\n'
+    b += eye(-18, -58, 14, (0.1, 0.1)) + eye(18, -58, 14, (0.1, 0.1))
+    b += f'  <path d="M-16 -30 Q0 -16 16 -30 Q10 -18 0 -18 Q-10 -18 -16 -30 Z" fill="#8A2A4A" {st(3.5)}/>\n'
+    # Cam kubbe ve gövde
+    b += '  <path d="M-80 0 Q-80 -110 0 -110 Q80 -110 80 0 Z" fill="#BFE6FF" fill-opacity="0.35"/>\n'
+    b += f'  <path d="M-80 0 Q-80 -110 0 -110 Q80 -110 80 0" fill="none" {st()}/>\n'
+    b += '  <path d="M-56 -60 Q-50 -90 -20 -98" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.8"/>\n'
+    b += f'  <ellipse cx="0" cy="10" rx="160" ry="44" fill="url(#{g1})" {st()}/>\n'
+    b += f'  <ellipse cx="0" cy="-2" rx="96" ry="16" fill="#B6A6F0" {st(4)}/>\n'
+    for k, c in enumerate(["#FFD23F", "#FF5A6E", "#5CC95C", "#4FA8FF", "#FFD23F"]):
+        b += f'  <circle cx="{-110 + k * 55}" cy="{22 + (6 if k in (1, 3) else 0) - (6 if k == 2 else 0)}" r="10" fill="{c}" {st(3.5)}/>\n'
+    pic.add(at(b, x, y, s, -8), defs)
+
+
+def comet(x: float, y: float, s: float) -> str:
+    b = '  <path d="M0 -18 Q-140 -30 -260 -60 Q-150 0 -260 60 Q-140 30 0 18 Z" fill="#FFFFFF" opacity="0.35"/>\n'
+    b += '  <path d="M0 -12 Q-110 -20 -200 -36 Q-110 0 -200 36 Q-110 20 0 12 Z" fill="#FFE680" opacity="0.6"/>\n'
+    b += f'  <circle cx="0" cy="0" r="22" fill="#FFF3A8" {st(5)}/>\n'
+    return at(b, x, y, s, 22)
+
+
+def space() -> None:
+    pic = Pic()
+    pic.defs += linear("uzay", [(0, "#1B1440"), (0.6, "#2E2468"), (1, "#45348E")])
+    pic.add(f'  <rect width="{W}" height="{H}" fill="url(#uzay)"/>\n')
+    # Bulutsular
+    for cx, cy, rx, ry, c in ((260, 520, 300, 160, "#A46BFF"), (900, 420, 340, 180, "#FF6FB5"), (700, 820, 400, 140, "#4FA8FF")):
+        pic.add(f'  <ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="{c}" opacity="0.18"/>\n')
+    rng = random.Random(31)
+    for k in range(120):
+        pic.add(f'  <circle cx="{rng.uniform(0, W):.1f}" cy="{rng.uniform(0, H):.1f}" r="{rng.uniform(1.2, 3.2):.1f}" fill="#FFFFFF" opacity="{rng.uniform(0.5, 1):.2f}"/>\n')
+    for k in range(16):
+        pic.add(sparkle_star(rng.uniform(20, W - 20), rng.uniform(20, H - 20), rng.uniform(10, 22)))
+    pic.add(comet(560, 90, 0.9))
+    moon(pic, 190, 180, 105)
+    ringed_planet(pic, 1010, 210, 100)
+    small_planet(pic, 470, 790, 56, "#5DD39E", "#3FA878")
+    earth(pic, 1120, 830, 70)
+    small_planet(pic, 760, 420, 26, "#FF8FC8", "#E86AA0")
+    rocket(pic, 620, 340, 1.05, 18)
+    astronaut(pic, 210, 640, 0.95, -14)
+    ufo(pic, 960, 610, 0.95)
+    pic.save("uzay")
+
+
+# --- 6. Orman (3x2) ---
+
+def owl(x: float, y: float, s: float) -> str:
+    b = ""
+    for sx in (-1, 1):
+        b += f'  <path d="M{sx * 30} -60 L{sx * 44} -96 L{sx * 10} -70 Z" fill="#A86A3E" {st(4.5)}/>\n'
+    b += f'  <ellipse cx="0" cy="0" rx="58" ry="72" fill="#A86A3E" {st()}/>\n'
+    b += f'  <ellipse cx="0" cy="22" rx="36" ry="44" fill="#F2D2A6"/>\n'
+    for px, py in ((-14, 10), (8, 14), (-6, 34), (16, 38), (-16, 54), (6, 58)):
+        b += f'  <path d="M{px - 6} {py} L{px} {py + 6} L{px + 6} {py}" fill="none" stroke="#C99A6A" stroke-width="3" stroke-linecap="round"/>\n'
+    for sx in (-1, 1):
+        b += f'  <path d="M{sx * 50} -10 Q{sx * 74} 30 {sx * 46} 60 Q{sx * 40} 20 {sx * 50} -10 Z" fill="#8E5532" {st(4)}/>\n'
+        b += f'  <circle cx="{sx * 24}" cy="-30" r="24" fill="#F2D2A6" {st(4)}/>\n'
+        b += eye(sx * 24, -30, 15, (0.05, 0.1))
+    b += f'  <path d="M-8 -14 L8 -14 L0 2 Z" fill="#FFB43A" {st(3.5)}/>\n'
+    for sx in (-1, 1):
+        b += f'  <path d="M{sx * 18} 70 l-6 10 M{sx * 18} 70 l0 12 M{sx * 18} 70 l6 10" stroke="#FFB43A" stroke-width="5" stroke-linecap="round"/>\n'
+    return at(b, x, y, s)
+
+
+def beehive(x: float, y: float, s: float) -> str:
+    b = f'  <path d="M0 -150 L0 -110" {st(6)}/>\n'
+    for k, (w, yy) in enumerate(((40, -100), (64, -66), (80, -26), (74, 14), (50, 48))):
+        b += f'  <ellipse cx="0" cy="{yy}" rx="{w}" ry="26" fill="{"#FFC233" if k % 2 == 0 else "#F0A82A"}" {st(5)}/>\n'
+    b += f'  <ellipse cx="0" cy="-6" rx="18" ry="14" fill="{OUT}"/>\n'
+    b += shine(-36, -60, 14, 6, -20, 0.7)
+    b += f'  <path d="M30 40 Q34 70 30 84 Q24 74 26 60" fill="#FFB627" {st(3.5)}/>\n'
+    return at(b, x, y, s)
+
+
+def mushroom(x: float, y: float, s: float, color: str = "#FF4F5E") -> str:
+    b = f'  <path d="M-22 0 Q-26 -50 -16 -70 L16 -70 Q26 -50 22 0 Z" fill="#FFF4E0" {st(5)}/>\n'
+    b += f'  <path d="M-80 -60 Q-80 -150 0 -150 Q80 -150 80 -60 Q40 -70 0 -70 Q-40 -70 -80 -60 Z" fill="{color}" {st()}/>\n'
+    for px, py, r in ((-44, -96, 12), (0, -124, 14), (42, -98, 11), (-14, -84, 8), (22, -80, 7)):
+        b += f'  <circle cx="{px}" cy="{py}" r="{r}" fill="#FFFFFF"/>\n'
+    b += shine(-40, -126, 14, 6, -30, 0.7)
+    return at(b, x, y, s)
+
+
+def hedgehog(x: float, y: float, s: float) -> str:
+    spikes = "M-90 0"
+    for k in range(13):
+        a = math.pi + k * math.pi / 12
+        r1, r2 = 90, 116
+        spikes += f" L{r2 * math.cos(a - 0.12):.1f} {r2 * math.sin(a - 0.12) * 0.9:.1f} L{r1 * math.cos(a + 0.06):.1f} {r1 * math.sin(a + 0.06) * 0.9:.1f}"
+    spikes += " L90 0 Z"
+    b = f'  <path d="{spikes}" fill="#8E5532" {st(5)}/>\n'
+    b += f'  <path d="M40 0 Q60 -60 110 -20 Q130 -4 112 6 Q80 14 40 0 Z" fill="#F2D2A6" {st(5)}/>\n'
+    b += f'  <circle cx="122" cy="-6" r="9" fill="{OUT}"/>\n'
+    b += eye(84, -24, 9, (0.2, 0))
+    b += f'  <ellipse cx="96" cy="-6" rx="8" ry="5" fill="#FF9FB0" opacity="0.7"/>\n'
+    for px in (-40, 0, 50):
+        b += f'  <ellipse cx="{px}" cy="2" rx="14" ry="8" fill="#C7864F" {st(3.5)}/>\n'
+    return at(b, x, y, s)
+
+
+def frog(x: float, y: float, s: float) -> str:
+    b = f'  <ellipse cx="0" cy="20" rx="120" ry="34" fill="#5DBB4F" {st(5)}/>\n'
+    b += f'  <path d="M0 20 L60 4 L70 24 Z" fill="#7BD3F5"/>\n'
+    b += f'  <ellipse cx="0" cy="-10" rx="58" ry="42" fill="#7FD06A" {st()}/>\n'
+    for sx in (-1, 1):
+        b += f'  <circle cx="{sx * 30}" cy="-46" r="22" fill="#7FD06A" {st(5)}/>\n'
+        b += eye(sx * 30, -48, 13, (0, 0.05))
+        b += f'  <ellipse cx="{sx * 54}" cy="18" rx="22" ry="12" fill="#6CC453" {st(4)}/>\n'
+    b += smile(0, -8, 26, 5)
+    b += "".join(f'  <ellipse cx="{sx * 40}" cy="-6" rx="10" ry="6" fill="#FF9FB0" opacity="0.6"/>\n' for sx in (-1, 1))
+    return at(b, x, y, s)
+
+
+def honey_pot(x: float, y: float, s: float) -> str:
+    b = f'  <path d="M-46 -60 Q-70 -20 -50 20 Q-40 40 0 40 Q40 40 50 20 Q70 -20 46 -60 Z" fill="#C7864F" {st()}/>\n'
+    b += f'  <rect x="-52" y="-74" width="104" height="20" rx="8" fill="#A86A3E" {st(5)}/>\n'
+    b += f'  <path d="M-48 -64 Q-40 -40 -30 -56 Q-20 -30 -8 -56 Q4 -36 16 -56 Q28 -40 40 -60 Q48 -66 48 -70 L-48 -70 Z" fill="#FFC233" {st(4)}/>\n'
+    b += f'  <path d="M-30 -10 L30 -10 L30 14 L-30 14 Z" fill="#FFF3DC" {st(3.5)}/>\n'
+    b += f'  <path d="M-8 2 Q0 -8 8 2 Q0 10 -8 2 Z" fill="#FFC233"/>\n'
+    return at(b, x, y, s)
+
+
+def forest() -> None:
+    pic = Pic()
+    pic.defs += linear("gok", [(0, "#D7F5B8"), (1, "#F6FCE6")])
+    pic.defs += linear("zemin", [(0, "#8ED96A"), (1, "#5DB64C")])
+    pic.defs += linear("gol", [(0, "#8FDCFF"), (1, "#4FB2EE")])
+    pic.defs += linear("kutuk", [(0, "#B9784A"), (1, "#7A4528")], 1, 0)
+    pic.add(f'  <rect width="{W}" height="{H}" fill="url(#gok)"/>\n')
+    # Işık huzmeleri ve uzak ağaçlar
+    for x0 in (560, 760, 940):
+        pic.add(f'  <path d="M{x0} 0 L{x0 + 70} 0 L{x0 - 80} 900 L{x0 - 200} 900 Z" fill="#FFFBD0" opacity="0.4"/>\n')
+    for k, tx in enumerate(range(260, 1200, 150)):
+        pic.add(f'  <rect x="{tx}" y="200" width="34" height="520" fill="#BFE3A0"/>\n  <circle cx="{tx + 17}" cy="210" r="{90 + (k % 2) * 20}" fill="#B2DE90"/>\n')
+    pic.add('  <path d="M0 690 Q300 650 600 690 Q900 640 1200 680 L1200 900 L0 900 Z" fill="url(#zemin)"/>\n')
+    # Sol: büyük ağaç, kovuğunda baykuş
+    pic.add(f'  <path d="M40 900 Q70 600 60 0 L230 0 Q220 600 260 900 Z" fill="url(#kutuk)" {st()}/>\n')
+    for yy in (120, 420, 620):
+        pic.add(f'  <path d="M100 {yy} Q120 {yy + 40} 104 {yy + 90}" fill="none" stroke="#6E3E22" stroke-width="5" stroke-linecap="round"/>\n')
+    pic.add(f'  <ellipse cx="150" cy="300" rx="74" ry="96" fill="#4A2A18" {st()}/>\n')
+    pic.add(owl(150, 300, 0.95))
+    # Üst: dallar ve yapraklar
+    pic.add(tube("M200 120 Q500 150 760 90 Q900 60 1210 70", "#9C6040", 30))
+    pic.add(tube("M760 300 Q900 280 1210 250", "#9C6040", 26))
+    rng = random.Random(41)
+    for k in range(26):
+        lx, ly = rng.uniform(230, 1200), rng.choice([rng.uniform(40, 150), rng.uniform(230, 300)])
+        if ly > 200 and lx < 760:
+            continue
+        a = rng.uniform(-40, 40)
+        pic.add(f'  <ellipse cx="{lx:.0f}" cy="{ly:.0f}" rx="34" ry="15" transform="rotate({a:.0f} {lx:.0f} {ly:.0f})" fill="{rng.choice(["#5DBB4F", "#7FD06A", "#4FA544"])}" {st(4)}/>\n')
+    pic.add(beehive(560, 280, 1.0))
+    pic.add(bee(450, 260, 0.8, -10) + bee(680, 330, 0.9, 12) + bee(620, 190, 0.7, 5))
+    animal(pic, "sincap", 1000, 250, 0.75)
+    pic.add(butterfly(860, 430, 0.9, "#FF8FC8", "#FFB84D", 15))
+    # Alt: mantarlar, kirpi, ayı ve bal, gölet ve kurbağa
+    for bx, by, br in ((330, 700, 70), (420, 690, 56), (790, 700, 64), (870, 690, 50), (250, 720, 48)):
+        pic.add(f'  <circle cx="{bx}" cy="{by}" r="{br}" fill="#6CC453" {st(5)}/>\n' + shine(bx - br * 0.4, by - br * 0.45, br * 0.25, br * 0.1, -30, 0.4))
+    pic.add(mushroom(110, 860, 0.7) + mushroom(200, 880, 0.45, "#FF8A3D"))
+    pic.add(hedgehog(380, 860, 0.8))
+    animal(pic, "ayi", 600, 880, 1.45)
+    pic.add(honey_pot(800, 860, 0.85))
+    pic.add(f'  <ellipse cx="1030" cy="830" rx="190" ry="60" fill="url(#gol)" {st()}/>\n')
+    pic.add('  <path d="M900 820 Q960 806 1020 820 M1040 846 Q1100 834 1150 846" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.7"/>\n')
+    for cx in (870, 1190):
+        pic.add(tube(f"M{cx} 860 Q{cx + 6} 760 {cx - 4} 680", "#5DBB4F", 8, 5))
+        pic.add(f'  <rect x="{cx - 14}" y="650" width="22" height="56" rx="11" fill="#8E5532" {st(4)}/>\n')
+    pic.add(frog(1040, 800, 0.75))
+    for k in range(10):
+        fx = rng.uniform(260, 860)
+        pic.add(tuft(fx, rng.uniform(860, 895), 0.9))
+    pic.add(flower(460, 860, 0.8, "#FFFFFF") + flower(880, 700, 0.8, "#FF6FA8") + flower(300, 870, 0.7, "#FFD23F"))
+    pic.save("orman")
+
+
 # --- Karakter: gülen yapboz parçası (menü kartı ve final ekranı) ---
 
 def piece_path(x: float, y: float, s: float, tabs: tuple) -> str:
@@ -942,3 +1560,7 @@ if __name__ == "__main__":
     sea()
     balloons()
     town()
+    train()
+    fruits()
+    space()
+    forest()

@@ -1,6 +1,6 @@
 extends "res://ortak/ses_havuzu.gd"
 # Yapboz sesleri (ortak ses havuzu). Hepsi sesler/ses_uret.py ile sentezlendi.
-# Resim bitince çalan ses ayarlar.gd PICTURES "sound" alanında (inek, deniz, balon, kasaba).
+# Resim bitince çalan ses ayarlar.gd PICTURES "sound" alanında (inek, tren, meyve, deniz, ...).
 
 const STREAMS := {
 	"tut": preload("res://oyunlar/yapboz/sesler/tut.wav"),
@@ -13,9 +13,13 @@ const STREAMS := {
 	"deniz": preload("res://oyunlar/yapboz/sesler/deniz.wav"),
 	"balon": preload("res://oyunlar/yapboz/sesler/balon.wav"),
 	"kasaba": preload("res://oyunlar/yapboz/sesler/kasaba.wav"),
+	"tren": preload("res://oyunlar/yapboz/sesler/tren.wav"),
+	"meyve": preload("res://oyunlar/yapboz/sesler/meyve.wav"),
+	"uzay": preload("res://oyunlar/yapboz/sesler/uzay.wav"),
+	"orman": preload("res://oyunlar/yapboz/sesler/orman.wav"),
 }
 const VOLUMES := {"tut": -10.0, "otur": -7.0, "geri": -12.0, "dagil": -12.0, "bolum_sonu": -6.0, "final": -5.0,
-	"inek": -5.0, "deniz": -6.0, "balon": -6.0, "kasaba": -6.0}
+	"inek": -5.0, "deniz": -6.0, "balon": -6.0, "kasaba": -6.0, "tren": -6.0, "meyve": -6.0, "uzay": -6.0, "orman": -7.0}
 
 
 func _init() -> void:

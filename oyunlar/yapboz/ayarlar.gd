@@ -7,7 +7,11 @@ extends RefCounted
 ##   color  arka planın rengi (resmin havasına uygun pastel)
 const PICTURES := {
 	"ciftlik": {"sound": "inek", "color": Color("ffe9c7")},
+	"tren": {"sound": "tren", "color": Color("d5e7ff")},
+	"meyve": {"sound": "meyve", "color": Color("ffdfe4")},
 	"deniz": {"sound": "deniz", "color": Color("cdeefa")},
+	"uzay": {"sound": "uzay", "color": Color("ddd5f7")},
+	"orman": {"sound": "orman", "color": Color("dff2cc")},
 	"balonlar": {"sound": "balon", "color": Color("ffe0ec")},
 	"kasaba": {"sound": "kasaba", "color": Color("e3dbff")},
 }
@@ -17,10 +21,14 @@ const PICTURE_SIZE := Vector2(1200.0, 900.0)
 ##   picture  PICTURES'ta bir ad
 ##   cols     sütun sayısı (2-4), rows: satır sayısı (2-3)
 ##   ghost    tahtadaki soluk resmin görünürlüğü (0-1; bölüm zorlaştıkça azalır)
-## Şimdilik 4 bölüm (her zorluktan bir); resimler geldikçe 12'ye çıkacak.
+## Şimdilik 8 bölüm; resimler geldikçe 12'ye çıkacak (her parça sayısından üçer).
 const LEVELS: Array[Dictionary] = [
-	{"picture": "ciftlik", "cols": 2, "rows": 2, "ghost": 0.42},
-	{"picture": "deniz", "cols": 3, "rows": 2, "ghost": 0.36},
+	{"picture": "ciftlik", "cols": 2, "rows": 2, "ghost": 0.45},
+	{"picture": "tren", "cols": 2, "rows": 2, "ghost": 0.42},
+	{"picture": "meyve", "cols": 2, "rows": 2, "ghost": 0.4},
+	{"picture": "deniz", "cols": 3, "rows": 2, "ghost": 0.38},
+	{"picture": "uzay", "cols": 3, "rows": 2, "ghost": 0.36},
+	{"picture": "orman", "cols": 3, "rows": 2, "ghost": 0.34},
 	{"picture": "balonlar", "cols": 3, "rows": 3, "ghost": 0.3},
 	{"picture": "kasaba", "cols": 4, "rows": 3, "ghost": 0.24},
 ]
