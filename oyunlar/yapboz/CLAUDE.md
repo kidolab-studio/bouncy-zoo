@@ -2,7 +2,7 @@
 
 4-8 yaş, **yatay** ekran, hiç yazı yok, kategori Bulmaca. Klasik (çıkıntılı / girintili) yapboz. Bölüm başında resmin tamamı görünür, sonra parçalara ayrılıp tahtanın iki yanındaki tepsilere uçar. Tahtada soluk resim ve kesik çizgili parça hatları ipucu verir (soluk resim bölüm zorlaştıkça azalır). Çocuk parçayı tahtaya **sürükler**: kendi yerine yakın bırakılırsa kayıp oturur ("tık", ışıltı); başka yere bırakılırsa sallanıp tepsiye döner. Parçalar döndürülmez. Bitince tam resim parlar ve zıplar, resme özel ses çalar (möö, kabarcık, ...), sonra sonraki bölüm. Son bölümden sonra ortak final ekranı (`OyunBitti`). Skor, süre, can yok. Sahibi: emirsalihgmrk.
 
-**Durum (aşamalı geliştirme):** oyun henüz **ana menüde yok** (F6 ile açılır). 12 bölüm, 12 resim (her parça sayısından üçer):
+**Durum:** ana menüde (Bulmaca, "Yeni" rozeti). 12 bölüm, 12 resim (her parça sayısından üçer):
 
 | Parça | Resimler |
 |---|---|
