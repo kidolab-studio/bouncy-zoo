@@ -15,8 +15,11 @@ const S := "res://oyunlar/muzik_kutusu/sesler/"
 
 ## Şarkı modundaki şarkılar sırayla (yeni şarkı: sarkilar/ içine .tres ve buraya bir satır)
 const SONGS: Array[MusicSong] = [
+	# Küçük Yıldız: Ah vous dirai-je, maman (Twinkle Twinkle Little Star), geleneksel halk ezgisi
 	preload("res://oyunlar/muzik_kutusu/sarkilar/kucuk_yildiz.tres"),
+	# Tembel Çocuk: Frère Jacques, geleneksel halk ezgisi. Son dizedeki pes sol ksilofonda olmadığı için do2-sol-do2
 	preload("res://oyunlar/muzik_kutusu/sarkilar/tembel_cocuk.tres"),
+	# Kuzucuk: Mary Had a Little Lamb, geleneksel ezgi
 	preload("res://oyunlar/muzik_kutusu/sarkilar/kuzucuk.tres"),
 ]
 const BAR_TEXTURES: Array[Texture2D] = [

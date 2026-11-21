@@ -8,7 +8,8 @@ const NOTE_NAMES: PackedStringArray = ["do", "re", "mi", "fa", "sol", "la", "si"
 
 ## Ksilofonun defter düğmesinde görünen küçük resim
 @export var icon: Texture2D
-# notes / beats varsayılanı [] olmamalı: [] ile dışa aktarılan oyunda (Godot 4.7.2) .tres'teki değerler boş geliyor
+# Şarkı .tres dosyalarına ";" yorum satırı yazma: dışa aktarmada .tres ikiliye çevrilirken (Godot 4.7.2)
+# notes / beats boş geliyor, telefonda defter şarkıyı seçiyor ama notalar çıkmıyor. Açıklamayı ksilofon.gd SONGS'a yaz.
 ## Notalar sırayla: "do", "re", "mi", "fa", "sol", "la", "si", "do2" (ince do)
 @export var notes: PackedStringArray = PackedStringArray()
 ## Her notanın süresi (vuruş; 1 = dörtlük, 0.5 = sekizlik, 2 = ikilik). notes ile aynı uzunlukta.

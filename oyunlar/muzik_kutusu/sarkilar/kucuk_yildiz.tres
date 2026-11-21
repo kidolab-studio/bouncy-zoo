@@ -3,8 +3,6 @@
 [ext_resource type="Script" path="res://oyunlar/muzik_kutusu/sarki.gd" id="1_sarki"]
 [ext_resource type="Texture2D" path="res://oyunlar/muzik_kutusu/gorseller/sarki_yildiz.svg" id="2_simge"]
 
-; Küçük Yıldız: Ah vous dirai-je, maman (Twinkle Twinkle Little Star), geleneksel halk ezgisi
-
 [resource]
 script = ExtResource("1_sarki")
 icon = ExtResource("2_simge")

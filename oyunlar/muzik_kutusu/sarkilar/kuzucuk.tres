@@ -3,8 +3,6 @@
 [ext_resource type="Script" path="res://oyunlar/muzik_kutusu/sarki.gd" id="1_sarki"]
 [ext_resource type="Texture2D" path="res://oyunlar/muzik_kutusu/gorseller/sarki_kuzu.svg" id="2_simge"]
 
-; Kuzucuk: Mary Had a Little Lamb, geleneksel ezgi
-
 [resource]
 script = ExtResource("1_sarki")
 icon = ExtResource("2_simge")
