@@ -9,6 +9,8 @@ extends SceneTree
 
 const MENU := "res://ana_menu/ana_menu.tscn"
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
+## Hazırlanan, henüz menüye eklenmemiş oyunların klasörleri (menüye eklenince buradan sil)
+const HAZIRLANAN := ["yapboz"]
 
 var failures := 0
 var gecis: Node
@@ -35,7 +37,7 @@ func _initialize() -> void:
 func _listeyi_denetle() -> void:
 	var hatalar := OyunListesi.dogrula()
 	_expect(hatalar.is_empty(), "liste geçerli: %s" % [hatalar])
-	var klasorler := DirAccess.get_directories_at("res://oyunlar")
+	var klasorler := Array(DirAccess.get_directories_at("res://oyunlar")).filter(func(k: String) -> bool: return k not in HAZIRLANAN)
 	_expect(klasorler.size() == OyunListesi.OYUNLAR.size(), "oyunlar/ klasöründeki her oyun listede (%d klasör, %d kayıt)" % [klasorler.size(), OyunListesi.OYUNLAR.size()])
 	for oyun in OyunListesi.OYUNLAR:
 		_expect(oyun["klasor"] in klasorler, "%s klasörü var" % oyun["ad"])

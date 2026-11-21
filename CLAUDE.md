@@ -30,7 +30,7 @@ Bu repoyu iki kişi kullanıyor (git kullanıcı adları): **mem1nce** ve **emir
 ### Sahiplik ve genel kurallar
 
 - Oyun sahipleri:
-  - **emirsalihgmrk**: `golge_eslestirme`, `kostebek`, `toplama`, `cikarma`, `zipla_zipla`, `muzik_kutusu`, `hayvan_besle`, `boyama_kitabi`, `buyukten_kucuge`, `hayvan_banyosu`, `siradaki_ne`
+  - **emirsalihgmrk**: `golge_eslestirme`, `kostebek`, `toplama`, `cikarma`, `zipla_zipla`, `muzik_kutusu`, `hayvan_besle`, `boyama_kitabi`, `buyukten_kucuge`, `hayvan_banyosu`, `siradaki_ne`, `yapboz`
   - **mem1nce**: `ucan_kus`, `dondurmaci`, `yol_yap`, `hafiza`, `meyve_topla`, `araba_yarisi`, `sihirli_bahce`, `robot_fabrikasi`, `tren_rayi`, `balik_tutma`, `kule_yapma`
 - Herkes sadece kendi oyun klasöründe çalışır. Başkasına ait oyunun dosyalarını açıkça istenmedikçe değiştirme.
 - Ortak dosyalar: `project.godot`, `res://ana_menu/`, `res://ortak/`, `CLAUDE.md`. Bunlarda değişiklikleri küçük tut.

@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://oyunlar/yapboz/yapboz.gd" id="1_oyun"]
+[ext_resource type="Script" path="res://oyunlar/yapboz/arka_plan.gd" id="2_arka"]
+[ext_resource type="Script" path="res://oyunlar/yapboz/efektler.gd" id="3_efekt"]
+[ext_resource type="Script" path="res://oyunlar/yapboz/yildizlar.gd" id="4_yildiz"]
+[ext_resource type="Script" path="res://ortak/basili_geri_dugmesi.gd" id="5_geri"]
+[ext_resource type="Script" path="res://oyunlar/yapboz/sesler.gd" id="6_sesler"]
+[ext_resource type="Script" path="res://ortak/surukleme_girdisi.gd" id="7_girdi"]
+
+[node name="Yapboz" type="Control"]
+texture_filter = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_oyun")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("2_arka")
+
+[node name="Board" type="Node2D" parent="."]
+
+[node name="Effects" type="Node2D" parent="."]
+z_index = 20
+script = ExtResource("3_efekt")
+
+[node name="Stars" type="Node2D" parent="."]
+script = ExtResource("4_yildiz")
+
+[node name="BackButton" type="Control" parent="."]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 20.0
+offset_right = 136.0
+offset_bottom = 120.0
+mouse_filter = 2
+script = ExtResource("5_geri")
+
+[node name="Sounds" type="Node" parent="."]
+script = ExtResource("6_sesler")
+
+[node name="DragInput" type="Node" parent="."]
+script = ExtResource("7_girdi")
