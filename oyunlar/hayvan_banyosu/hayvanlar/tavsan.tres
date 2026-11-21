@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BathAnimalData" format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/hayvan_verisi.gd" id="1_veri"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/tavsan_govde.svg" id="2_govde"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/tavsan_kafa.svg" id="3_kafa"]
+[ext_resource type="AudioStream" path="res://oyunlar/hayvan_banyosu/sesler/tavsan.wav" id="4_ses"]
+
+[resource]
+script = ExtResource("1_veri")
+id = &"tavsan"
+body_texture = ExtResource("2_govde")
+head_texture = ExtResource("3_kafa")
+voice = ExtResource("4_ses")
+eye_y = 128.0
+eye_dx = 26.0
+eye_size = Vector2(13, 16)
+mouth_y = 158.0
+mouth_width = 11.0
+cheek_y = 154.0
+cheek_dx = 46.0
+skin_color = Color(0.9725, 0.9333, 0.9725, 1)
+teeth = true

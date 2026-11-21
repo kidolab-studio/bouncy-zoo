@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BathAnimalData" format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/hayvan_verisi.gd" id="1_veri"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/sincap_govde.svg" id="2_govde"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/hayvanlar/sincap_kafa.svg" id="3_kafa"]
+[ext_resource type="AudioStream" path="res://oyunlar/hayvan_banyosu/sesler/sincap.wav" id="4_ses"]
+
+[resource]
+script = ExtResource("1_veri")
+id = &"sincap"
+body_texture = ExtResource("2_govde")
+head_texture = ExtResource("3_kafa")
+voice = ExtResource("4_ses")
+eye_y = 128.0
+eye_dx = 24.0
+eye_size = Vector2(12, 15)
+mouth_y = 160.0
+mouth_width = 11.0
+cheek_y = 156.0
+cheek_dx = 44.0
+skin_color = Color(0.8510, 0.5098, 0.2314, 1)
+teeth = true

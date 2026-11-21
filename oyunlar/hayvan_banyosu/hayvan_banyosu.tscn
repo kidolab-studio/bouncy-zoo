@@ -1,0 +1,61 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/hayvan_banyosu.gd" id="1_oyun"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/arka_plan.gd" id="2_arka"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_banyosu/gorseller/kuvet_on.svg" id="3_kuvet"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/kabarciklar.gd" id="4_kabarcik"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/efektler.gd" id="5_efekt"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/yildizlar.gd" id="6_yildiz"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/alet_rozeti.gd" id="7_rozet"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/alet.gd" id="8_alet"]
+[ext_resource type="Script" path="res://ortak/basili_geri_dugmesi.gd" id="9_geri"]
+[ext_resource type="Script" path="res://oyunlar/hayvan_banyosu/sesler.gd" id="10_sesler"]
+
+[node name="HayvanBanyosu" type="Control"]
+texture_filter = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_oyun")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("2_arka")
+
+[node name="Animal" type="Node2D" parent="."]
+
+[node name="TubFront" type="Sprite2D" parent="."]
+texture = ExtResource("3_kuvet")
+centered = false
+
+[node name="Bubbles" type="Node2D" parent="."]
+script = ExtResource("4_kabarcik")
+
+[node name="Effects" type="Node2D" parent="."]
+z_index = 20
+script = ExtResource("5_efekt")
+
+[node name="Stars" type="Node2D" parent="."]
+script = ExtResource("6_yildiz")
+
+[node name="Badge" type="Node2D" parent="."]
+script = ExtResource("7_rozet")
+
+[node name="Tool" type="Node2D" parent="."]
+z_index = 30
+script = ExtResource("8_alet")
+
+[node name="BackButton" type="Control" parent="."]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 20.0
+offset_right = 136.0
+offset_bottom = 120.0
+mouse_filter = 2
+script = ExtResource("9_geri")
+
+[node name="Sounds" type="Node" parent="."]
+script = ExtResource("10_sesler")

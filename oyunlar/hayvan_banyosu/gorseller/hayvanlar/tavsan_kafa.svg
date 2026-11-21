@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#F8EEF8"/><stop offset="1" stop-color="#E2D0EC"/></radialGradient>
+    <linearGradient id="ic" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC6DA"/><stop offset="1" stop-color="#FF97BC"/></linearGradient>
+  </defs>
+  <ellipse cx="102" cy="62" rx="19" ry="52" transform="rotate(-10 102 100)" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="102" cy="66" rx="9" ry="38" transform="rotate(-10 102 100)" fill="url(#ic)"/>
+  <ellipse cx="154" cy="62" rx="19" ry="52" transform="rotate(10 154 100)" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="66" rx="9" ry="38" transform="rotate(10 154 100)" fill="url(#ic)"/>
+  <ellipse cx="128" cy="136" rx="68" ry="58" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M121 146 Q128 142 135 146 L128 154 Z" fill="#FF7FA3" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M90 150 L64 144 M90 158 L66 164 M166 150 L192 144 M166 158 L190 164" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="94" cy="104" rx="15" ry="7" transform="rotate(-30 94 104)" fill="#FFFFFF" opacity="0.8"/>
+</svg>

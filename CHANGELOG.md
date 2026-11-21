@@ -9,10 +9,12 @@ Oyuncunun fark edeceği her değişiklik (yeni oyun, yeni özellik, hata düzelt
 ## Yayınlanmamış
 
 ### Türkçe
+- Yeni oyun: Hayvan Banyosu! Çamurlu hayvanları süngerle köpürt, duşla durula, havluyla kurula.
 - Müzik Kutusu: Nota defterindeki şarkılarda çalınacak tuşlar artık görünüyor.
 - Müzik Kutusu: Dans eden penguen dönerken artık incecik kalmıyor.
 
 ### English
+- New game: Animal Bath! Scrub the muddy animals with a sponge, rinse them with the shower and dry them with a towel.
 - Music Box: The songbook now shows which keys to play.
 - Music Box: The dancing penguin no longer gets stuck looking paper-thin after a spin.
 

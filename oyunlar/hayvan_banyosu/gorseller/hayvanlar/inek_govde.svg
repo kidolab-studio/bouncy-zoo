@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FAF7FC"/><stop offset="0.55" stop-color="#F4EEF8"/><stop offset="1" stop-color="#CBC4D9"/></radialGradient>
+    <radialGradient id="golge" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#3A2A4A" stop-opacity="0.3"/><stop offset="1" stop-color="#3A2A4A" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="128" cy="246" rx="80" ry="10" fill="url(#golge)"/>
+  <ellipse cx="128" cy="210" rx="54" ry="34" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="102" cy="238" rx="21" ry="11" fill="url(#ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="238" rx="21" ry="11" fill="url(#ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="160" cy="206" rx="16" ry="12" fill="#5A4A6E"/>
+  <ellipse cx="100" cy="198" rx="10" ry="8" fill="#5A4A6E"/>
+</svg>
