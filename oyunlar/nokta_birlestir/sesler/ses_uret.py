@@ -10,7 +10,8 @@
 # - Resim bitince çalan sesler (ayarlar.gd PICTURES sound): ev (kapı zili "ding-dong"), yelkenli (dalga
 #   hışırtısı ve gemi düdüğü "tuut"), tac (kısa tören borusu), yildiz (pırıl pırıl çanlar), roket (gürleyip
 #   yükselen "fiuuu"), semsiye (yağmur damlaları ve tatlı çan), fener (dalga ve yumuşak sis düdüğü), ucak
-#   (süzülen motor uğultusu), lokomotif (düdük ve "çuf çuf")
+#   (süzülen motor uğultusu), lokomotif (düdük ve "çuf çuf"), kale (tören borusu ve çanlar), gemi (gemi çanı ve
+#   dalgalar), robot ("bip-bop" ezgisi)
 
 import os
 import random
@@ -168,6 +169,38 @@ def train_whistle() -> list:
     return out
 
 
+def castle_fanfare() -> list:
+    # Kale: "ta-da-taa-taa" borusu ve çan sesleri
+    out = silence(1.7)
+    for start, name, s in ((0.0, "C5", 0.14), (0.16, "E5", 0.14), (0.32, "G5", 0.3), (0.66, "E5", 0.14), (0.82, "G5", 0.14), (0.98, "C6", 0.5)):
+        f = note(name)
+        tone = voice(s, lambda t, f=f: f, lambda t, s=s: smooth_env(t, s, 0.015, 0.08),
+                     lambda t: [(900, 160, 1.0), (1700, 220, 0.6), (2800, 300, 0.25)], breath=0.02, seed=9)
+        mix(out, tone, start, 0.8)
+    for k, name in enumerate(["G6", "C7", "E7", "G7"]):
+        mix(out, bell(note(name), 0.5, 7.0), 1.1 + k * 0.06, 0.18)
+    return out
+
+
+def ship_bell() -> list:
+    # Gemi çanı "ding-ding" ve dalga hışırtısı
+    out = envelope(lowpass(noise(1.6, 27), 900), 0.4, 1.8)
+    for start in (0.1, 0.45):
+        mix(out, bell(note("A5"), 1.0, 3.5), start, 0.8)
+        mix(out, bell(note("A6") * 1.01, 0.6, 5.0), start, 0.25)
+    return out
+
+
+def robot_beeps() -> list:
+    # Robot: tatlı "bip-bop" ezgisi (kısa, kendiliğinden sönen çanlar), sonda yükselen "viyu"
+    out = silence(1.5)
+    for k, name in enumerate(["C6", "G5", "E6", "C6", "G6"]):
+        mix(out, bell(note(name), 0.4, 12.0), k * 0.15, 0.5)
+    mix(out, sweep(500, 1400, 0.4, 0.02, 4.0, 1.2), 0.85, 0.35)
+    mix(out, bell(note("C7"), 0.4, 8.0), 1.2, 0.2)
+    return out
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     save("nokta.wav", dot(), TARGET * 0.8)
@@ -184,6 +217,9 @@ if __name__ == "__main__":
     save("fener.wav", foghorn(), TARGET * 0.8)
     save("ucak.wav", plane(), TARGET * 0.7)
     save("lokomotif.wav", train_whistle(), TARGET * 0.8)
+    save("kale.wav", castle_fanfare(), TARGET * 0.8)
+    save("gemi.wav", ship_bell(), TARGET * 0.8)
+    save("robot.wav", robot_beeps(), TARGET * 0.7)
     if not check_all(HERE):
         print("\nDenetim: SORUN VAR")
         sys.exit(1)

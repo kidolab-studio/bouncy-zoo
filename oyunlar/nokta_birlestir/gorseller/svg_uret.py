@@ -749,6 +749,225 @@ def locomotive() -> None:
     save_picture("lokomotif", dots, curves, (600, 830), scene, obj)
 
 
+def flag(x: float, y: float, color: str, s: float = 1.0) -> str:
+    # Direk ucunda küçük flama; (x, y) direğin dibi
+    return (f'  <path d="M{x:g} {y:g} V{y - 46 * s:g}" {st(6)}/>\n'
+            f'  <path d="M{x + 2:g} {y - 46 * s:g} Q{x + 30 * s:g} {y - 44 * s:g} {x + 52 * s:g} {y - 34 * s:g} Q{x + 30 * s:g} {y - 28 * s:g} {x + 2:g} {y - 22 * s:g} Z" fill="{color}" {st(4)}/>\n')
+
+
+def arch_window(x: float, y: float, w: float, h: float, glass: str = "#FFE68A") -> str:
+    # Kemerli pencere; (x, y) alt kenarın ortası
+    r = w / 2
+    return (f'  <path d="M{x - r:g} {y:g} V{y - h + r:g} Q{x - r:g} {y - h:g} {x:g} {y - h:g} Q{x + r:g} {y - h:g} {x + r:g} {y - h + r:g} V{y:g} Z" fill="{glass}" {st(5)}/>\n'
+            f'  <path d="M{x:g} {y - h + 4:g} V{y - 2:g}" stroke="#E5A92E" stroke-width="4"/>\n')
+
+
+# --- 10. Kale (20 nokta) ---
+
+def castle() -> None:
+    dots = [(190, 60), (290, 300), (300, 490), (500, 490), (480, 300), (600, 90), (720, 300), (700, 490), (900, 490), (910, 300),
+            (1010, 60), (1140, 300), (1120, 560), (1120, 845), (700, 845), (600, 670), (500, 845), (80, 845), (80, 560), (60, 300)]
+    curves = [None] * 20
+    curves[14], curves[15] = (700, 670), (500, 670)       # kapı kemeri
+    scene = Pic()
+    sky(scene, "#8FD3FF", "#E8F7FF")
+    scene.add(cloud(400, 110, 0.7) + cloud(820, 170, 0.6) + cloud(1080, 120, 0.8))
+    gh = scene.uid("tepe")
+    scene.add(f'  <path d="M0 640 Q300 560 600 620 Q900 560 1200 630 L1200 900 L0 900 Z" fill="url(#{gh})"/>\n',
+              linear(gh, [(0, "#B6EA94"), (1, "#86CF66")]))
+    grass_strip(scene, 800, 23)
+    gy = scene.uid("yol")
+    scene.add(f'  <path d="M520 845 L680 845 Q720 880 760 900 L440 900 Q480 880 520 845 Z" fill="url(#{gy})"/>\n',
+              linear(gy, [(0, "#F3DDB0"), (1, "#E2BD82")]))
+    rng = random.Random(31)
+    for _ in range(8):
+        fx = rng.choice([rng.uniform(30, 400), rng.uniform(800, 1170)])
+        scene.add(flower(fx, rng.uniform(820, 860), rng.uniform(0.9, 1.1), rng.choice(["#FF6FA8", "#FFD23F", "#A46BFF", "#FFFFFF"])))
+
+    obj = Pic()
+    body = ("M60 300 L290 300 L300 490 L500 490 L480 300 L720 300 L700 490 L900 490 L910 300 L1140 300 L1120 560 L1120 845 "
+            "L700 845 Q700 670 600 670 Q500 670 500 845 L80 845 L80 560 Z")
+    obj.add("", linear("tas", [(0, "#EDE8F7"), (1, "#C9C0E0")]) + clip_def("kalekirp", body)
+            + linear("mavicati", [(0, "#7FB8FF"), (1, "#3F6FD8")], 1, 0) + linear("kirmizicati", [(0, "#FF7A8A"), (1, "#D9364F")], 1, 0)
+            + linear("tahta", [(0, "#C98B5A"), (1, "#8A5232")], 1, 0))
+    # Kapı (kemerin içinde) ve burç dişleri (duvarın üstünde)
+    obj.add(f'  <path d="M512 845 Q512 690 600 684 Q688 690 688 845 Z" fill="url(#tahta)" {st(5)}/>\n')
+    for x in (560, 600, 640):
+        obj.add(f'  <path d="M{x} {700 if x == 600 else 712} V845" stroke="#7A4528" stroke-width="5"/>\n')
+    obj.add(f'  <path d="M520 760 H680" stroke="#5A4E8A" stroke-width="8"/>\n  <circle cx="660" cy="790" r="8" fill="#FFD23F" {st(4)}/>\n')
+    for x0 in (300, 700):
+        for k in range(3):
+            obj.add(f'  <rect x="{x0 + 16 + k * 66}" y="448" width="40" height="46" rx="4" fill="url(#tas)" {st(5)}/>\n')
+    # Taş gövde: tuğla sıraları gövdeye kırpılır
+    obj.add(f'  <path d="{body}" fill="url(#tas)" {st()}/>\n')
+    bricks = ""
+    for row, y in enumerate(range(330, 845, 52)):
+        bricks += f'<path d="M60 {y} H1140" stroke="#B5ABCF" stroke-width="4"/>'
+        x = 80 + (row % 2) * 45
+        while x < 1140:
+            bricks += f'<path d="M{x} {y} V{y + 52}" stroke="#B5ABCF" stroke-width="4"/>'
+            x += 90
+    obj.add(f'  <g clip-path="url(#kalekirp)">{bricks}<rect x="60" y="790" width="1100" height="60" fill="#B5ABCF" opacity="0.5"/></g>\n')
+    obj.add(f'  <path d="M500 845 Q500 670 600 670 Q700 670 700 845" fill="none" stroke="#B5ABCF" stroke-width="22"/>\n')
+    obj.add(f'  <path d="{body}" fill="none" {st()}/>\n')
+    # Pencereler
+    for x, y, w, h in ((185, 450, 70, 100), (1015, 450, 70, 100), (185, 680, 60, 80), (1015, 680, 60, 80), (600, 450, 70, 100),
+                       (400, 660, 56, 76), (800, 660, 56, 76)):
+        obj.add(arch_window(x, y, w, h))
+    # Külah çatılar ve flamalar
+    for tip, left, right, fill in (((190, 60), 60, 290, "mavicati"), ((600, 90), 480, 720, "kirmizicati"), ((1010, 60), 910, 1140, "mavicati")):
+        cid = obj.uid("catikirp")
+        roof = f"M{tip[0]} {tip[1]} L{right} 300 L{left} 300 Z"
+        obj.add(f'  <path d="{roof}" fill="url(#{fill})" {st()}/>\n', clip_def(cid, roof))
+        stripes = "".join(f'<path d="M{tip[0]} {tip[1]} L{left + (right - left) * k / 5:g} 300" stroke="#FFFFFF" stroke-width="6" opacity="0.35"/>' for k in range(1, 5))
+        obj.add(f'  <g clip-path="url(#{cid})">{stripes}</g>\n')
+        obj.add(f'  <rect x="{left - 6}" y="292" width="{right - left + 12}" height="20" rx="8" fill="#5A4E8A" {st(5)}/>\n')
+        obj.add(shine(tip[0] - (right - left) * 0.18, 200, 10, 34, 20, 0.5))
+    obj.add(flag(190, 60, "#FFD23F") + flag(600, 90, "#4FD18B", 1.1) + flag(1010, 60, "#FF5A6E"))
+    save_picture("kale", dots, curves, (600, 845), scene, obj)
+
+
+# --- 11. Büyük gemi (20 nokta) ---
+
+def ship() -> None:
+    dots = [(60, 480), (150, 300), (170, 110), (370, 110), (370, 330), (560, 330), (550, 50), (760, 50), (760, 330), (950, 330),
+            (940, 120), (1130, 130), (1150, 330), (1160, 540), (1000, 820), (800, 850), (600, 850), (400, 850), (200, 830), (60, 700)]
+    curves = [None, None, None, (400, 220), None, None, None, (790, 190), None, None,
+              None, (1162, 230), (1175, 435), (1130, 760), None, None, None, None, (90, 800), None]
+    scene = Pic()
+    sky(scene, "#8ED4FF", "#FFF2DC", 640)
+    sun(scene, 110, 120, 52)
+    scene.add(cloud(470, 70, 0.5) + cloud(1060, 470, 0.5))
+    scene.add(f'  <path d="M0 640 L120 570 L220 610 L330 540 L460 640 Z" fill="#B7C4E8" opacity="0.8"/>\n')
+    gs = scene.uid("deniz")
+    scene.add(f'  <rect y="630" width="{W}" height="{H - 630}" fill="url(#{gs})"/>\n', linear(gs, [(0, "#6CCBF5"), (1, "#2F8FD6")]))
+    for k, y in enumerate((660, 720, 790, 860)):
+        x = -40 + (k % 2) * 60
+        waves = ""
+        while x < W + 60:
+            waves += f'<path d="M{x} {y} q25 -14 50 0 q25 14 50 0" fill="none" stroke="#FFFFFF" stroke-width="{4 + k}" stroke-linecap="round" opacity="{0.35 + k * 0.1:g}"/>'
+            x += 170
+        scene.add(f'  {waves}\n')
+
+    obj = Pic()
+    hull = "M60 540 L1160 540 Q1130 760 1000 820 L800 850 L400 850 L200 830 Q90 800 60 700 Z"
+    obj.add("", linear("gemigovde", [(0, "#B9784A"), (1, "#7A4528")]) + clip_def("gemikirp", hull)
+            + linear("yelken", [(0, "#FFFDF5"), (1, "#F2E3C4")], 1, 0))
+    # Direkler (yelkenlerin arkasında) ve flamalar
+    for x, top in ((260, 70), (655, 20), (1040, 84)):
+        obj.add(f'  <path d="M{x} 545 V{top}" stroke="{OUT}" stroke-width="22" stroke-linecap="round"/>\n'
+                f'  <path d="M{x} 540 V{top + 4}" stroke="#B9784A" stroke-width="10" stroke-linecap="round"/>\n')
+    obj.add(flag(655, 22, "#FF5A6E", 0.6))
+    # Alt kuşak: arkada gökyüzü rengi ve halatlar, önünde altı kavisli üç yelken (direkler aralarından görünür)
+    lower = "M60 480 L135 330 L1150 330 Q1175 435 1160 540 L60 540 Z"
+    cl = obj.uid("altkirp")
+    ropes = "".join(f'<path d="M{x0} 540 L{x1} 330" stroke="#8A6A4A" stroke-width="5"/>' for x0, x1 in
+                    ((120, 230), (200, 260), (560, 640), (640, 680), (950, 1020), (1040, 1080), (380, 290), (760, 670), (1130, 1060)))
+    obj.add(f'  <path d="{lower}" fill="#D6F0FF"/>\n  <g clip-path="url(#{cl})">{ropes}</g>\n', clip_def(cl, lower))
+    for x in (260, 655, 1040):
+        obj.add(f'  <path d="M{x} 545 V330" stroke="{OUT}" stroke-width="22" stroke-linecap="round"/>\n'
+                f'  <path d="M{x} 540 V330" stroke="#B9784A" stroke-width="10"/>\n')
+    for a, b in ((150, 490), (520, 880), (910, 1140)):
+        m = (a + b) / 2
+        sail = f"M{a} 336 L{b} 336 Q{b + 18} 410 {b - 8} 470 Q{m} 515 {a + 8} 470 Q{a - 14} 410 {a} 336 Z"
+        obj.add(f'  <path d="{sail}" fill="url(#yelken)" {st()}/>\n')
+        obj.add(f'  <path d="M{a + 30} 380 Q{m} 410 {b - 30} 380 M{a + 40} 430 Q{m} 462 {b - 40} 430" fill="none" stroke="#E2CFA6" stroke-width="5"/>\n')
+        obj.add(f'  <rect x="{a - 12}" y="326" width="{b - a + 24}" height="18" rx="8" fill="#B9784A" {st(5)}/>\n')
+    # Üst yelkenler: kırmızı çizgili; ortadakinde yıldız
+    for d, cx in (("M150 300 L170 110 L370 110 Q400 220 370 330 L135 330 Z", 270), ("M560 330 L550 50 L760 50 Q790 190 760 330 Z", 660),
+                  ("M950 330 L940 120 L1130 130 Q1162 230 1150 330 Z", 1045)):
+        cid = obj.uid("yelkenkirp")
+        obj.add(f'  <path d="{d}" fill="url(#yelken)" {st()}/>\n', clip_def(cid, d))
+        obj.add(f'  <g clip-path="url(#{cid})"><rect x="{cx - 150}" y="150" width="300" height="40" fill="#FF5A6E"/>'
+                f'<rect x="{cx - 150}" y="250" width="300" height="40" fill="#FF5A6E"/></g>\n')
+        obj.add(f'  <path d="{d}" fill="none" {st()}/>\n')
+    obj.add(yapboz.sparkle_star(660, 120, 34, "#FFD23F"))
+    for x0, x1, y in ((160, 380, 110), (540, 770, 50), (930, 1140, 122)):
+        obj.add(f'  <rect x="{x0}" y="{y - 10}" width="{x1 - x0}" height="20" rx="8" fill="#B9784A" {st(5)}/>\n')
+    # Gövde: tahtalar, altın şerit, lombozlar; kıçta yüksek kamara
+    obj.add(f'  <path d="{hull}" fill="url(#gemigovde)" {st()}/>\n')
+    planks = "".join(f'<path d="M40 {y} H1180" stroke="#6A3A20" stroke-width="4" opacity="0.6"/>' for y in (640, 720, 790))
+    obj.add(f'  <g clip-path="url(#gemikirp)">{planks}<rect x="40" y="580" width="1140" height="26" fill="#FFD23F"/></g>\n')
+    obj.add(f'  <path d="M60 580 H1150 M60 606 H1140" {st(4)}/>\n')
+    for x in range(260, 1000, 120):
+        obj.add(f'  <circle cx="{x}" cy="680" r="24" fill="#FFF3A6" {st(5)}/>\n  <circle cx="{x - 7}" cy="673" r="7" fill="#FFFFFF"/>\n')
+    obj.add(f'  <path d="{hull}" fill="none" {st()}/>\n')
+    obj.add(f'  <path d="M60 480 H210 V545 H60 Z" fill="url(#gemigovde)" {st()}/>\n')
+    for x in (95, 160):
+        obj.add(f'  <rect x="{x - 16}" y="496" width="32" height="34" rx="8" fill="#FFF3A6" {st(4)}/>\n')
+    obj.add(f'  <rect x="50" y="470" width="170" height="16" rx="6" fill="#FFD23F" {st(4)}/>\n')
+    for fx in (300, 520, 760, 960):
+        obj.add(f'  <ellipse cx="{fx}" cy="{846 - (fx % 7)}" rx="70" ry="12" fill="#FFFFFF" opacity="0.85"/>\n')
+    save_picture("gemi", dots, curves, (600, 850), scene, obj)
+
+
+# --- 12. Robot (20 nokta) ---
+
+def robot() -> None:
+    right = [(770, 130), (880, 290), (720, 430), (910, 480), (1120, 560), (1025, 725), (820, 660), (890, 860), (695, 860)]
+    dots = [(600, 40)] + right + [(600, 690)] + [(1200 - x, y) for x, y in reversed(right)]
+    curves = [(750, 40), (790, 240), (790, 350), None, None, (1150, 690), None, None, None, None,
+              None, None, None, None, (50, 690), None, None, (410, 350), (410, 240), (450, 40)]
+    scene = Pic()
+    sky(scene, "#DDF6EC", "#FFF8E6", 760)
+    # Duvarda büyük dişliler ve parıltılar
+    def gear(x: float, y: float, r: float, color: str) -> str:
+        teeth = "".join(f'<rect x="{x - r * 0.18:g}" y="{y - r * 1.25:g}" width="{r * 0.36:g}" height="{r * 0.5:g}" rx="6" transform="rotate({k * 45} {x:g} {y:g})"/>'
+                        for k in range(8))
+        return (f'  <g fill="{color}" opacity="0.55">{teeth}<circle cx="{x:g}" cy="{y:g}" r="{r:g}"/></g>\n'
+                f'  <circle cx="{x:g}" cy="{y:g}" r="{r * 0.4:g}" fill="#FFF8E6" opacity="0.8"/>\n')
+    scene.add(gear(150, 180, 80, "#A8DCC8") + gear(290, 330, 46, "#FFD1A6") + gear(1060, 220, 90, "#B9C8F0") + gear(1080, 520, 50, "#A8DCC8"))
+    for x, y, r in ((180, 560, 18), (980, 380, 16), (560, 120, 0)):
+        if r:
+            scene.add(sparkle(x, y, r, "#FFD23F"))
+    # Zemin: dama karolar
+    gf = scene.uid("zemin")
+    scene.add(f'  <rect y="760" width="{W}" height="{H - 760}" fill="url(#{gf})"/>\n', linear(gf, [(0, "#FFE1B8"), (1, "#F5C58A")]))
+    for row, y in enumerate((760, 830)):
+        for k in range(10):
+            if (k + row) % 2 == 0:
+                scene.add(f'  <rect x="{k * 120}" y="{y}" width="120" height="70" fill="#FFF1DA" opacity="0.7"/>\n')
+    scene.add(f'  <path d="M0 760 H{W}" stroke="#E2A867" stroke-width="6"/>\n')
+
+    obj = Pic()
+    head = "M430 130 Q450 40 600 40 Q750 40 770 130 Q790 240 880 290 Q790 350 720 430 L480 430 Q410 350 320 290 Q410 240 430 130 Z"
+    body = "M480 430 L720 430 L910 480 L820 660 L890 860 L695 860 L600 690 L505 860 L310 860 L380 660 L290 480 Z"
+    arm_r = "M910 480 L1120 560 Q1150 690 1025 725 L820 660 Z"
+    arm_l = "M290 480 L80 560 Q50 690 175 725 L380 660 Z"
+    obj.add("", linear("metal", [(0, "#E6F0FF"), (0.45, "#FFFFFF"), (1, "#B8C6E6")], 1, 0)
+            + linear("kol", [(0, "#7FC4FF"), (1, "#3F8FE0")]) + clip_def("robotkirp", body)
+            + radial("ekran", [(0, "#4A4F8C"), (1, "#23264F")], 0.5, 0.4, 0.8) + besle.EYE_DEFS)
+    # Kollar: mavi, eklem ve yuvarlak eller
+    for arm, joint, hand in ((arm_r, (960, 560), (1075, 650)), (arm_l, (240, 560), (125, 650))):
+        obj.add(f'  <path d="{arm}" fill="url(#kol)" {st()}/>\n')
+        obj.add(f'  <circle cx="{joint[0]}" cy="{joint[1]}" r="26" fill="#FFD23F" {st(5)}/>\n')
+        obj.add(f'  <circle cx="{hand[0]}" cy="{hand[1]}" r="52" fill="#FF8A5C" {st()}/>\n' + shine(hand[0] - 18, hand[1] - 20, 14, 7, -40, 0.8))
+    # Gövde ve bacaklar: metal; ayaklar koyu; göğüste kalpli ekran ve düğmeler
+    obj.add(f'  <path d="{body}" fill="url(#metal)" {st()}/>\n')
+    obj.add('  <g clip-path="url(#robotkirp)"><rect x="280" y="790" width="640" height="80" fill="#5A4E8A"/>'
+            '<rect x="280" y="680" width="640" height="26" fill="#C4CEE8"/></g>\n')
+    obj.add(f'  <path d="{body}" fill="none" {st()}/>\n')
+    obj.add(f'  <rect x="470" y="480" width="260" height="170" rx="30" fill="#DDE6FA" {st()}/>\n')
+    obj.add(f'  <path d="M600 600 C540 560 530 510 570 504 Q592 500 600 524 Q608 500 630 504 C670 510 660 560 600 600 Z" fill="#FF5A7E" {st(5)}/>\n'
+            + shine(578, 524, 8, 5, -40, 0.9))
+    for x, c in ((500, "#4FD18B"), (700, "#FFD23F")):
+        obj.add(f'  <circle cx="{x}" cy="626" r="14" fill="{c}" {st(4)}/>\n')
+    for x in (360, 840):
+        obj.add(f'  <rect x="{x - 40}" y="800" width="80" height="16" rx="8" fill="#8A7FC0"/>\n')
+    # Kafa: kubbe, kulak cıvataları, yüz ekranı, anten
+    obj.add(f'  <path d="M600 40 V18" {st(8)}/>\n  <circle cx="600" cy="16" r="18" fill="#FF5A6E" {st(5)}/>\n')
+    obj.add(f'  <path d="{head}" fill="url(#metal)" {st()}/>\n')
+    for x in (850, 350):
+        obj.add(f'  <circle cx="{x}" cy="290" r="34" fill="#FF8A5C" {st()}/>\n  <path d="M{x - 14} 290 H{x + 14} M{x} 276 V304" {st(5)}/>\n')
+    obj.add(f'  <rect x="480" y="160" width="240" height="200" rx="44" fill="url(#ekran)" {st()}/>\n')
+    for x in (550, 650):
+        obj.add(f'  <ellipse cx="{x}" cy="240" rx="24" ry="30" fill="#7FF0E0"/>\n  <ellipse cx="{x - 7}" cy="230" rx="8" ry="10" fill="#FFFFFF"/>\n')
+    obj.add(f'  <path d="M560 300 Q600 334 640 300" fill="none" stroke="#7FF0E0" stroke-width="9" stroke-linecap="round"/>\n')
+    obj.add("".join(f'  <ellipse cx="{x}" cy="300" rx="18" ry="10" fill="url(#yanak)"/>\n' for x in (515, 685)))
+    obj.add(shine(480, 100, 40, 12, -20, 0.7))
+    save_picture("robot", dots, curves, (600, 860), scene, obj)
+
+
 # --- Kart / final karakteri: gülen kurşun kalem ---
 
 def card_pencil() -> None:
@@ -785,8 +1004,35 @@ def card_pencil() -> None:
     write("kart_kalem.svg", 300, 260, b, defs)
 
 
+def card_star() -> None:
+    # Menü kartı için: noktaları yarıya kadar birleştirilmiş yıldız (rakam yok: SVG'lerde yazı kullanılmaz)
+    cx, cy, outer, inner = 150, 138, 120, 56
+    pts = []
+    for k in range(10):
+        a = math.radians(-90 + k * 36)
+        r = outer if k % 2 == 0 else inner
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    star_d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts) + " Z"
+    defs = radial("kyildiz", [(0, "#FFF7C2"), (1, "#FFE27A")], 0.45, 0.4, 0.75)
+    b = f'  <path d="{star_d}" fill="url(#kyildiz)" opacity="0.6"/>\n'
+    b += f'  <path d="{star_d}" fill="none" stroke="#B9A6F0" stroke-width="5" stroke-dasharray="3 13" stroke-linecap="round"/>\n'
+    done = 6
+    b += f'  <path d="M{pts[0][0]:.1f} {pts[0][1]:.1f} ' + " ".join(f"L{x:.1f} {y:.1f}" for x, y in pts[1:done]) + f'" fill="none" {st(8)}/>\n'
+    colors = ["#FF5A6E", "#FF9F40", "#FFC93D", "#5CC95C", "#4FA8FF", "#A66BFF"]
+    for k, (x, y) in enumerate(pts):
+        if k < done:
+            b += f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="11" fill="{colors[k % 6]}" {st(4)}/>\n'
+        elif k == done:
+            b += f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="22" fill="#FF7A45" opacity="0.3"/>\n'
+            b += f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="15" fill="#FFFFFF" stroke="#FF7A45" stroke-width="6"/>\n'
+        else:
+            b += f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="#FFFFFF" {st(4)}/>\n'
+    write("kart_yildiz.svg", 300, 280, b, defs)
+
+
 if __name__ == "__main__":
     card_pencil()
+    card_star()
     copy("hayvan_besle/gorseller/yildiz.svg", "yildiz.svg")
     copy("hayvan_besle/gorseller/isilti.svg", "isilti.svg")
     house()
@@ -798,4 +1044,7 @@ if __name__ == "__main__":
     lighthouse()
     airplane()
     locomotive()
+    castle()
+    ship()
+    robot()
     save_data()
