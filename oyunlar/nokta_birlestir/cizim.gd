@@ -230,6 +230,14 @@ func animate(kind: String) -> void:
 				_object.position = _object_home + Vector2(sin(t * 70.0) * 4.0, 0.0), 0.0, 1.0, 0.4)
 			tween.tween_property(_object, "position", _object_home - Vector2(0.0, rect.size.y * 0.3), 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 			tween.tween_property(_object, "position", _object_home, 0.7).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		"suzul":
+			# Burnunu kaldırıp ileri yukarı süzülür, sonra yerine döner
+			var ahead := _object_home + Vector2(rect.size.x * 0.08, -rect.size.y * 0.1)
+			tween.tween_property(_object, "rotation", -0.12, 0.35).set_trans(Tween.TRANS_SINE)
+			tween.parallel().tween_property(_object, "position", ahead, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tween.tween_property(_object, "rotation", 0.06, 0.4).set_trans(Tween.TRANS_SINE)
+			tween.parallel().tween_property(_object, "position", _object_home, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tween.tween_property(_object, "rotation", 0.0, 0.25).set_trans(Tween.TRANS_SINE)
 	await tween.finished
 
 
