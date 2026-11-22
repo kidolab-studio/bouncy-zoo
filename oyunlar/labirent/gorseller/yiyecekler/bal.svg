@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC94A"/><stop offset="0.5" stop-color="#FFA41E"/><stop offset="1" stop-color="#E07A10"/></linearGradient>
+    <radialGradient id="kapak" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFBCBC"/><stop offset="0.55" stop-color="#FF6B6B"/><stop offset="1" stop-color="#D45E6B"/></radialGradient>
+  </defs>
+  <rect x="64" y="96" width="128" height="124" rx="38" fill="url(#bal)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="128" cy="160" rx="38" ry="30" fill="#FFF3D0" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="142.0,160.0 135.0,172.1 121.0,172.1 114.0,160.0 121.0,147.9 135.0,147.9" fill="#FFB52E" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M56 100 Q58 72 76 70 H180 Q198 72 200 100 Q188 94 178 104 Q166 92 152 104 Q140 92 128 104 Q116 92 104 104 Q90 92 78 104 Q68 94 56 100 Z" fill="url(#kapak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="86" cy="84" r="5" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="118" cy="80" r="5" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="150" cy="84" r="5" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="178" cy="82" r="5" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M68 70 H188" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M150 104 Q150 124 156 126 Q162 124 160 104 Z" fill="#FFA41E" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="84" cy="138" rx="8" ry="22" transform="rotate(0 84 138)" fill="#FFFFFF" opacity="0.6"/>
+</svg>

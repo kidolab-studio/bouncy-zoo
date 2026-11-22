@@ -33,6 +33,7 @@ const OYUNLAR := {
 	"siradaki_ne": {"giris": [], "bolum": "level_index"},
 	"yapboz": {"giris": [], "bolum": "level_index"},
 	"nokta_birlestir": {"giris": [], "bolum": "level_index"},
+	"labirent": {"giris": [], "bolum": "level_index"},
 }
 
 var gecis: Node

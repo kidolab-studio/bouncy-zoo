@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bambu" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A8E48A"/><stop offset="0.5" stop-color="#6CC454"/><stop offset="1" stop-color="#3E9A3A"/></linearGradient>
+    <linearGradient id="yaprak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BE27A"/><stop offset="1" stop-color="#3E9A3A"/></linearGradient>
+  </defs>
+  <rect x="83" y="40" width="34" height="182" rx="14" fill="url(#bambu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="80" y="85" width="40" height="10" rx="5" fill="#5DB048" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="80" y="137" width="40" height="10" rx="5" fill="#5DB048" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="80" y="189" width="40" height="10" rx="5" fill="#5DB048" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="93" cy="131" rx="3" ry="30" transform="rotate(0 93 131)" fill="#FFFFFF" opacity="0.5"/>
+  <rect x="129" y="60" width="34" height="166" rx="14" fill="url(#bambu)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="126" y="105" width="40" height="10" rx="5" fill="#5DB048" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="126" y="157" width="40" height="10" rx="5" fill="#5DB048" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="139" cy="143" rx="3" ry="30" transform="rotate(0 139 143)" fill="#FFFFFF" opacity="0.5"/>
+  <ellipse cx="76" cy="86" rx="30" ry="11" transform="rotate(-40 76 86)" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="174" cy="110" rx="30" ry="11" transform="rotate(35 174 110)" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="166" cy="150" rx="30" ry="11" transform="rotate(55 166 150)" fill="url(#yaprak)" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

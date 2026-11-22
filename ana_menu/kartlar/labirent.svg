@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="300" viewBox="-160 -150 320 300">
+<g transform="translate(-12.00 -26.00) rotate(-2.86) scale(0.7273 0.7273) translate(-154.00 -121.00) scale(1.0000 1.0000) translate(-0.00 -0.00)">
+  <defs>
+    <radialGradient id="p1_zemin" cx="0.4" cy="0.3" r="0.9"><stop offset="0" stop-color="#E4F8C4"/><stop offset="1" stop-color="#B9E58E"/></radialGradient>
+  </defs>
+  <rect x="4" y="4" width="300" height="234" rx="24" fill="url(#p1_zemin)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M55 55 L121 55 L121 121 L55 121 L55 187 L121 187 L187 187" fill="none" stroke="#F4FFE0" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#3B2F6B" stroke-width="26" stroke-linecap="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#4FAE55" stroke-width="16" stroke-linecap="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#8FD884" stroke-width="5" stroke-linecap="round" transform="translate(-2 -2)"/>
+</g>
+<g transform="translate(52.00 56.00) scale(0.6641 0.6641) translate(-128.00 -128.00) scale(1.0000 1.0000) translate(-0.00 -0.00)">
+  <defs>
+    <radialGradient id="p2_ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#F8EEF8"/><stop offset="1" stop-color="#E2D0EC"/></radialGradient>
+    <linearGradient id="p2_ic" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC6DA"/><stop offset="1" stop-color="#FF97BC"/></linearGradient>
+    <radialGradient id="p2_golge" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#3A2A4A" stop-opacity="0.3"/><stop offset="1" stop-color="#3A2A4A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="p2_goz" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#6A5A96"/><stop offset="0.55" stop-color="#2A1F45"/><stop offset="1" stop-color="#150F26"/></radialGradient>
+    <radialGradient id="p2_yanak" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FF7FA3" stop-opacity="0.85"/><stop offset="1" stop-color="#FF7FA3" stop-opacity="0"/></radialGradient>
+  </defs>
+  <circle cx="182" cy="208" r="17" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="128" cy="246" rx="80" ry="10" fill="url(#p2_golge)"/>
+  <ellipse cx="128" cy="210" rx="54" ry="34" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="128" cy="216" rx="30" ry="20" fill="#FFF4FA"/>
+  <ellipse cx="102" cy="238" rx="21" ry="11" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="238" rx="21" ry="11" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="102" cy="62" rx="19" ry="52" transform="rotate(-10 102 100)" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="102" cy="66" rx="9" ry="38" transform="rotate(-10 102 100)" fill="url(#p2_ic)"/>
+  <ellipse cx="154" cy="62" rx="19" ry="52" transform="rotate(10 154 100)" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="154" cy="66" rx="9" ry="38" transform="rotate(10 154 100)" fill="url(#p2_ic)"/>
+  <ellipse cx="128" cy="136" rx="68" ry="58" fill="url(#p2_ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M121 146 Q128 142 135 146 L128 154 Z" fill="#FF7FA3" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M90 150 L64 144 M90 158 L66 164 M166 150 L192 144 M166 158 L190 164" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="94" cy="104" rx="15" ry="7" transform="rotate(-30 94 104)" fill="#FFFFFF" opacity="0.8"/>
+  <ellipse cx="82" cy="154" rx="17" ry="10" fill="url(#p2_yanak)"/>
+  <ellipse cx="174" cy="154" rx="17" ry="10" fill="url(#p2_yanak)"/>
+  <rect x="122" y="160" width="5.5" height="8" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="128.5" y="160" width="5.5" height="8" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="117.0 158.0 118.4 161.4 119.8 164.4 121.1 166.3 122.5 167.0 123.9 166.3 125.2 164.4 126.6 161.4 128.0 158.0 129.4 161.4 130.8 164.4 132.1 166.3 133.5 167.0 134.9 166.3 136.2 164.4 137.6 161.4 139.0 158.0" fill="none" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="102" cy="128" rx="13" ry="16" fill="url(#p2_goz)"/>
+  <ellipse cx="97.45" cy="120.8" rx="5.46" ry="6.4" fill="#FFFFFF"/>
+  <circle cx="106.55" cy="134.4" r="2.6" fill="#FFFFFF" opacity="0.85"/>
+  <ellipse cx="154" cy="128" rx="13" ry="16" fill="url(#p2_goz)"/>
+  <ellipse cx="149.45" cy="120.8" rx="5.46" ry="6.4" fill="#FFFFFF"/>
+  <circle cx="158.55" cy="134.4" r="2.6" fill="#FFFFFF" opacity="0.85"/>
+</g>
+</svg>
