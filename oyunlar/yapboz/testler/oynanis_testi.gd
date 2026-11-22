@@ -1,8 +1,7 @@
 extends SceneTree
 # Yapboz oynanış testi (pencereli). Proje kökünden:
 #   godot --path . --fixed-fps 60 --resolution 1280x720 -s res://oyunlar/yapboz/testler/oynanis_testi.gd -- <klasör>
-# Ana menüyü açar, oyuna geçer (oyun menüye eklenince karta dokunarak açılacak) ve bütün bölümleri parçaları
-# sürükleyerek oynar. Denetler:
+# Ana menüden karta dokunup oyunu açar ve bütün bölümleri parçaları sürükleyerek oynar. Denetler:
 #   - her bölümde parça sayısı ayarlar.gd'deki ızgara kadar; parçalar ekranın içinde, tepsidekiler tahtanın
 #     dışında;
 #   - boş bir yere ve başka parçanın yerine bırakılan parça tepsiye döner, oturmaz;
@@ -70,22 +69,29 @@ func _finish() -> void:
 
 # --- Açılış ---
 
-# Ana menüden oyuna geçer. Oyun henüz menüde değil: geçiş SahneGecis ile yapılır.
+# Ana menüde Yapboz kartına dokunup oyunu açar
 func _open() -> void:
 	var menu: Node = load(MENU_SCENE).instantiate()
 	root.add_child(menu)
 	current_scene = menu
-	var transition: Node = root.get_node("SahneGecis")
-	for k in 300:
-		await process_frame
-		if not transition.gecis_suruyor:
-			break
-	transition.sahne_degistir(GAME_SCENE)
+	await _frames(90)
+	var index := -1
+	for k in menu.OYUNLAR.size():
+		if menu.OYUNLAR[k]["sahne"] == GAME_SCENE:
+			index = k
+	_check(index >= 0, "ana menüde Yapboz kartı yok")
+	if index < 0:
+		return
+	var card: Control = menu._kartlar[index]
+	menu._konum = clampf(card.position.y - 40.0, 0.0, menu._en_fazla)
+	await _frames(30)
+	await _shot("00_menu")
+	_tap(card.get_global_rect().get_center())
 	for k in 400:
 		await process_frame
-		if current_scene and current_scene.scene_file_path == GAME_SCENE and not transition.gecis_suruyor:
+		if current_scene and current_scene.scene_file_path == GAME_SCENE and not root.get_node("SahneGecis").gecis_suruyor:
 			break
-	_check(current_scene != null and current_scene.scene_file_path == GAME_SCENE, "oyun açılmadı")
+	_check(current_scene != null and current_scene.scene_file_path == GAME_SCENE, "karta dokununca oyun açılmadı")
 	if current_scene and current_scene.scene_file_path == GAME_SCENE:
 		game = current_scene
 		_check(game.has_method("_start_level"), "oyun script'i yüklenemedi")

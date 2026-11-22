@@ -2,16 +2,16 @@
 
 4-8 yaş, **yatay** ekran, hiç yazı yok, kategori Bulmaca. Klasik (çıkıntılı / girintili) yapboz. Bölüm başında resmin tamamı görünür, sonra parçalara ayrılıp tahtanın iki yanındaki tepsilere uçar. Tahtada soluk resim ve kesik çizgili parça hatları ipucu verir (soluk resim bölüm zorlaştıkça azalır). Çocuk parçayı tahtaya **sürükler**: kendi yerine yakın bırakılırsa kayıp oturur ("tık", ışıltı); başka yere bırakılırsa sallanıp tepsiye döner. Parçalar döndürülmez. Bitince tam resim parlar ve zıplar, resme özel ses çalar (möö, kabarcık, ...), sonra sonraki bölüm. Son bölümden sonra ortak final ekranı (`OyunBitti`). Skor, süre, can yok. Sahibi: emirsalihgmrk.
 
-**Durum (aşamalı geliştirme):** oyun henüz **ana menüde yok** (F6 ile açılır). 12 bölüm, 12 resim (her parça sayısından üçer):
+12 bölüm, 12 resim (her parça sayısından üçer):
 
 | Parça | Resimler |
 |---|---|
-| 4 (2x2) | **Çiftlik** · **Kırmızı tren** · **Meyve sepeti** |
-| 6 (3x2) | **Deniz altı** · **Uzay** · **Orman** (ayı, arı kovanı) |
-| 9 (3x3) | **Sıcak hava balonları** · **Ağaç ev** · **Doğum günü pastası** |
-| 12 (4x3) | **Kasaba** · **Dinozorlar** · **Kutup** |
+| 4 (2x2) | Çiftlik · Kırmızı tren · Meyve sepeti |
+| 6 (3x2) | Deniz altı · Uzay · Orman (ayı, arı kovanı) |
+| 9 (3x3) | Sıcak hava balonları · Ağaç ev · Doğum günü pastası |
+| 12 (4x3) | Kasaba · Dinozorlar · Kutup |
 
-Sırada (ayrı bir PR): `ana_menu/oyun_listesi.gd` kaydı (`bulmaca`, `"yeni": true`, `ilerleme` rozeti: `{"anahtar": "ilerleme/bolum", "ekle": 1, "en_fazla": 12}`), `ana_menu/svg_uret.py` kart fonksiyonu (`kart_yapboz.svg`), çeviri (`Yapboz` → `Jigsaw Puzzle`), `ortak/testler/ekran_uyumu_testi.gd` ADIMLAR ve `oyun_bitti_testi.gd` OYUNLAR satırları, oynanış testinde menüden karta dokunarak açma, `ana_menu/testler/menu_testi.gd` `HAZIRLANAN` listesinden `yapboz`'u silme, CHANGELOG.
+Menü: `ana_menu/oyun_listesi.gd` kaydı (İngilizce adı `Jigsaw Puzzle`), kart `ana_menu/svg_uret.py` `yapboz()` (çiftlik resmi + `kart_yapboz.svg`). Yeni resim eklenirse: `svg_uret.py`'de fonksiyon, `ayarlar.gd` `PICTURES` + `LEVELS`, bitiş sesi; testler bölüm sayısını tablodan okur.
 
 - **Ayarların yeri (tek yer): `ayarlar.gd`**: `PICTURES` (resim → bitiş sesi, arka plan rengi), `LEVELS` (`picture`, `cols`, `rows`, `ghost`), çıkıntı ölçüleri (`NECK`, `HEAD`, `NECK_HEIGHT`, `FILLET`, `KNOB_SHIFT`, `KNOB_SIZE_JITTER`, `KNOB_REACH`), yerleşim (`TOP`, `GAP`, `BOARD_MAX_HEIGHT` / `MIN`, `MIN_TRAY_PIECE`, `TRAY_FILL`, `TRAY_JITTER`), sürükleme (`GRAB_PADDING`, `DRAG_GROW`, `DRAG_LIFT`, `SNAP`), süreler. `problems()` tabloyu denetler (açılışta çalışır).
 - **Yapı**:
@@ -24,4 +24,4 @@ Sırada (ayrı bir PR): `ana_menu/oyun_listesi.gd` kaydı (`bulmaca`, `"yeni": t
 - **Görseller** `gorseller/svg_uret.py` (Besle'nin `svg_uret.py`'sini içe aktarır, o dosyaya dokunmaz; hayvanlar oradaki çizimler + yüz): `resimler/<ad>.svg` (1200x900; her hücrede ayırt edici bir ayrıntı olsun, büyük düz alan bırakma), `kart_yapboz.svg` (gülen yapboz parçası: final karakteri, ileride menü kartı). İçe aktarma: resimler 1x + mipmap (tahtada ~0,6 ölçekle görünür), diğerleri 2x + mipmap. Yeni resim: `svg_uret.py`'de bir fonksiyon, `ayarlar.gd` `PICTURES` + `LEVELS`, bitiş sesi `sesler/ses_uret.py` + `sesler.gd`. Çizdikten sonra PNG'ye alıp bak. **SVG notları:** her `clipPath` / gradyan `defs`'e eklenmeli (eksik bir clipPath bütün resmi bozar); aynı çizim birden çok kez kullanılırsa kimlikler `Pic.uid` / `prefixed` ile ayrılır.
 - **Sesler** `sesler/ses_uret.py` (ortak `sentez.py`): tut, otur, geri, dagil, bolum_sonu, final ve resim sesleri (inek, tren, meyve, deniz, uzay, orman, balon, agac_ev, pasta, kasaba, dinozor, kutup). Dışarıdan ses yok. WAV `compress/mode=0`.
 - **Kayıt**: `user://yapboz.cfg` (`[ilerleme] bolum`, 0'dan).
-- **Testler**: `testler/kesici_testi.gd` (headless; tablo, 5 ızgara × 300 kesim: çokgenler, alan toplamı, ortak kenarlar; 7 ekran oranı × çentikli / çentiksiz × her bölüm yerleşimi), `testler/oynanis_testi.gd` (pencereli, `--fixed-fps 60 --resolution 1280x720 -- <klasör>`; bütün bölümleri sürükleyerek oynar: boşluğa ve başka parçanın yerine bırakma, ikinci parmak, oturan parça, geçişte tutma, kayıt, final ve baştan oyna, çift dokunuşlu geri; her bölümün başı, sürükleme anı ve bitişinin ekran görüntüsü). Kayıtları yedekleyip geri yazar.
+- **Testler**: `testler/kesici_testi.gd` (headless; tablo, 5 ızgara × 300 kesim: çokgenler, alan toplamı, ortak kenarlar; 7 ekran oranı × çentikli / çentiksiz × her bölüm yerleşimi), `testler/oynanis_testi.gd` (pencereli, `--fixed-fps 60 --resolution 1280x720 -- <klasör>`; menüdeki karta dokunup açar, bütün bölümleri sürükleyerek oynar: boşluğa ve başka parçanın yerine bırakma, ikinci parmak, oturan parça, geçişte tutma, kayıt, final ve baştan oyna, çift dokunuşlu geri; her bölümün başı, sürükleme anı ve bitişinin ekran görüntüsü). Kayıtları yedekleyip geri yazar.

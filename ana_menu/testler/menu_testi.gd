@@ -10,7 +10,7 @@ extends SceneTree
 const MENU := "res://ana_menu/ana_menu.tscn"
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
 ## Hazırlanan, henüz menüye eklenmemiş oyunların klasörleri (menüye eklenince buradan sil)
-const HAZIRLANAN := ["yapboz"]
+const HAZIRLANAN := []
 
 var failures := 0
 var gecis: Node

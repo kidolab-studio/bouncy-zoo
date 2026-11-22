@@ -60,6 +60,7 @@ const ADIMLAR := {
 	"buyukten_kucuge": [],
 	"hayvan_banyosu": [],
 	"siradaki_ne": [],
+	"yapboz": [],
 }
 
 var gecis: Node

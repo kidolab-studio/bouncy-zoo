@@ -338,6 +338,15 @@ def siradaki_ne():
     ]
 
 
+def yapboz():
+    # Yapboz: arkada hafif eğik çiftlik resmi, önde gülen yapboz parçası (sağ üst köşe ilerleme rozetine kalır)
+    g = "yapboz/gorseller/"
+    return [
+        parca(g + "resimler/ciftlik.svg", 224, (-32, -26), -0.07),
+        parca(g + "kart_yapboz.svg", 210, (40, 66)),
+    ]
+
+
 def boyama_kitabi():
     # Boyama Kitabı: yarısı boyanmış kedi sayfası ve boya kalemleri, yanında boya kovası
     g = "boyama_kitabi/gorseller/"
@@ -443,6 +452,7 @@ KARTLAR = {
     "sihirli_bahce": sihirli_bahce, "muzik_kutusu": muzik_kutusu, "robot_fabrikasi": robot_fabrikasi,
     "tren_rayi": tren_rayi, "hayvan_besle": hayvan_besle, "boyama_kitabi": boyama_kitabi,
     "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu, "siradaki_ne": siradaki_ne,
+    "yapboz": yapboz,
 }
 
 
