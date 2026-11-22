@@ -10,6 +10,7 @@ extends RefCounted
 # bakış uzaklığının dışındadır, hayvan duvarın önünde durur (bumped).
 
 const Settings := preload("res://oyunlar/labirent/ayarlar.gd")
+const SNAP := 0.0001
 
 var map: PackedStringArray
 var origin := Vector2.ZERO        # labirentin sol üst köşesi (ekran)
@@ -144,11 +145,12 @@ func _move_toward(goal: Dictionary, steps: float) -> Vector2i:
 		# Kenarın ortasında, hedef başka yerde: yolun başladığı uca dön
 		target_t = 0.0 if path[0] == from_cell else 1.0
 	t = move_toward(t, target_t, steps)
-	if t >= 1.0:
+	# Kayan nokta toplamı 1'e tam ulaşmayabilir (0,99999...): uca çok yakınsa hücreye varmış say
+	if t >= 1.0 - SNAP:
 		from_cell = to_cell
 		t = 0.0
 		return from_cell
-	if was_moving and t <= 0.0:
+	if was_moving and t <= SNAP:
 		t = 0.0
 		to_cell = from_cell
 		return from_cell
