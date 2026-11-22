@@ -1,6 +1,6 @@
 extends "res://ortak/ses_havuzu.gd"
 # Noktaları Birleştir sesleri (ortak ses havuzu). Hepsi sesler/ses_uret.py ile sentezlendi.
-# Resim bitince çalan ses ayarlar.gd PICTURES "sound" alanında (ev, yelkenli, tac, yildiz, roket, semsiye, fener, ucak, lokomotif).
+# Resim bitince çalan ses ayarlar.gd PICTURES "sound" alanında (ev, yelkenli, tac, yildiz, roket, semsiye, fener, ucak, lokomotif, kale, gemi, robot).
 
 const STREAMS := {
 	"nokta": preload("res://oyunlar/nokta_birlestir/sesler/nokta.wav"),
@@ -17,10 +17,13 @@ const STREAMS := {
 	"fener": preload("res://oyunlar/nokta_birlestir/sesler/fener.wav"),
 	"ucak": preload("res://oyunlar/nokta_birlestir/sesler/ucak.wav"),
 	"lokomotif": preload("res://oyunlar/nokta_birlestir/sesler/lokomotif.wav"),
+	"kale": preload("res://oyunlar/nokta_birlestir/sesler/kale.wav"),
+	"gemi": preload("res://oyunlar/nokta_birlestir/sesler/gemi.wav"),
+	"robot": preload("res://oyunlar/nokta_birlestir/sesler/robot.wav"),
 }
 const VOLUMES := {"nokta": -9.0, "yanlis": -12.0, "kapan": -8.0, "bolum_sonu": -6.0, "final": -5.0,
 	"ev": -6.0, "yelkenli": -6.0, "tac": -6.0, "yildiz": -6.0, "roket": -6.0, "semsiye": -6.0,
-	"fener": -6.0, "ucak": -6.0, "lokomotif": -6.0}
+	"fener": -6.0, "ucak": -6.0, "lokomotif": -6.0, "kale": -6.0, "gemi": -6.0, "robot": -6.0}
 
 
 func _init() -> void:
