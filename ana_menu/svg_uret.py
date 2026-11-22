@@ -347,6 +347,15 @@ def yapboz():
     ]
 
 
+def nokta_birlestir():
+    # Noktaları Birleştir: yarıya kadar birleştirilmiş yıldız, sağ altta onu çizen gülen kalem
+    g = "nokta_birlestir/gorseller/"
+    return [
+        parca(g + "kart_yildiz.svg", 250, (-28, -22)),
+        parca(g + "kart_kalem.svg", 190, (56, 72)),
+    ]
+
+
 def boyama_kitabi():
     # Boyama Kitabı: yarısı boyanmış kedi sayfası ve boya kalemleri, yanında boya kovası
     g = "boyama_kitabi/gorseller/"
@@ -452,7 +461,7 @@ KARTLAR = {
     "sihirli_bahce": sihirli_bahce, "muzik_kutusu": muzik_kutusu, "robot_fabrikasi": robot_fabrikasi,
     "tren_rayi": tren_rayi, "hayvan_besle": hayvan_besle, "boyama_kitabi": boyama_kitabi,
     "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu, "siradaki_ne": siradaki_ne,
-    "yapboz": yapboz,
+    "yapboz": yapboz, "nokta_birlestir": nokta_birlestir,
 }
 
 
