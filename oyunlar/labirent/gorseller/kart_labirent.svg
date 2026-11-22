@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="220" viewBox="0 0 300 220">
+<svg xmlns="http://www.w3.org/2000/svg" width="308" height="242" viewBox="0 0 308 242">
   <defs>
     <radialGradient id="zemin" cx="0.4" cy="0.3" r="0.9"><stop offset="0" stop-color="#E4F8C4"/><stop offset="1" stop-color="#B9E58E"/></radialGradient>
   </defs>
-  <rect x="10" y="10" width="280" height="200" rx="26" fill="url(#zemin)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="M45 45 H115 V115 H255" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 24" opacity="0.9"/>
-  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#3B2F6B" stroke-width="30" stroke-linecap="round"/>
-  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#5BB55A" stroke-width="18" stroke-linecap="round"/>
-  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#8FD884" stroke-width="6" stroke-linecap="round" transform="translate(-3 -4)"/>
+  <rect x="4" y="4" width="300" height="234" rx="24" fill="url(#zemin)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M55 55 L121 55 L121 121 L55 121 L55 187 L121 187 L187 187" fill="none" stroke="#F4FFE0" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#3B2F6B" stroke-width="26" stroke-linecap="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#4FAE55" stroke-width="16" stroke-linecap="round"/>
+  <path d="M22 22 H88 M88 22 H154 M154 22 H220 M220 22 H286 M22 22 V88 M154 22 V88 M286 22 V88 M22 88 H88 M22 88 V154 M154 88 V154 M220 88 V154 M286 88 V154 M88 154 H154 M22 154 V220 M220 154 V220 M286 154 V220 M22 220 H88 M88 220 H154 M154 220 H220 M220 220 H286 " fill="none" stroke="#8FD884" stroke-width="5" stroke-linecap="round" transform="translate(-2 -2)"/>
 </svg>

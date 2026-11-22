@@ -111,22 +111,38 @@ def animal(name: str, happy: bool) -> None:
     write(f"hayvanlar/{name}{'_mutlu' if happy else ''}.svg", 256, 256, body, defs)
 
 
-# Menü kartının arkası: üstten görülen küçük labirent tahtası (çit duvarlar, yol izi, köşede havuç)
+# Menü kartının arkası: üstten görülen küçük labirent (oyundaki gibi çit duvarlar), yol izi ve köşede havuç
+CARD_MAP = [
+    "#########",
+    "#...#...#",
+    "###.#.#.#",
+    "#...#.#.#",
+    "#.###.#.#",
+    "#.....#.#",
+    "#########",
+]
+CARD_TRAIL = [(0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2), (2, 2)]
+
+
 def card_board() -> None:
-    w, h, c = 300, 220, 70
-    x0, y0 = 10, 10
+    c, pad = 66, 22
+    w, h = 4 * c + pad * 2, 3 * c + pad * 2
     defs = radial("zemin", [(0, "#E4F8C4"), (1, "#B9E58E")], 0.4, 0.3, 0.9)
-    body = f'  <rect x="{x0}" y="{y0}" width="{w - 20}" height="{h - 20}" rx="26" fill="url(#zemin)" {st(7)}/>\n'
-    # yol izi: soldan sağa, aşağı, sağa
-    body += (f'  <path d="M{x0 + c * 0.5:g} {y0 + c * 0.5:g} H{x0 + c * 1.5:g} V{y0 + c * 1.5:g} H{x0 + c * 3.5:g}" fill="none" '
-             f'stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 24" opacity="0.9"/>\n')
-    walls = [((1, 0), (1, 1)), ((0, 2), (2, 2)), ((2, 1), (3, 1)), ((2, 1), (2, 2)), ((3, 2), (3, 3))]
+    body = f'  <rect x="4" y="4" width="{w - 8}" height="{h - 8}" rx="24" fill="url(#zemin)" {st(6)}/>\n'
+    trail = " ".join(f"{'M' if k == 0 else 'L'}{pad + (x + 0.5) * c:g} {pad + (y + 0.5) * c:g}" for k, (x, y) in enumerate(CARD_TRAIL))
+    body += f'  <path d="{trail}" fill="none" stroke="#F4FFE0" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>\n'
     lines = ""
-    for (ax, ay), (bx, by) in walls:
-        lines += f"M{x0 + ax * c:g} {y0 + ay * c:g} L{x0 + bx * c:g} {y0 + by * c:g} "
-    body += f'  <path d="{lines}" fill="none" stroke="{OUT}" stroke-width="30" stroke-linecap="round"/>\n'
-    body += f'  <path d="{lines}" fill="none" stroke="#5BB55A" stroke-width="18" stroke-linecap="round"/>\n'
-    body += f'  <path d="{lines}" fill="none" stroke="#8FD884" stroke-width="6" stroke-linecap="round" transform="translate(-3 -4)"/>\n'
+    for y, row in enumerate(CARD_MAP):
+        for x, ch in enumerate(row):
+            if ch != "#" or (x % 2 == 0 and y % 2 == 0):
+                continue
+            px, py = pad + x * c / 2, pad + y * c / 2
+            if x % 2 == 0:
+                lines += f"M{px:g} {py - c / 2:g} V{py + c / 2:g} "
+            else:
+                lines += f"M{px - c / 2:g} {py:g} H{px + c / 2:g} "
+    for width, color, shift in ((26, OUT, ""), (16, "#4FAE55", ""), (5, "#8FD884", ' transform="translate(-2 -2)"')):
+        body += f'  <path d="{lines}" fill="none" stroke="{color}" stroke-width="{width}" stroke-linecap="round"{shift}/>\n'
     write("kart_labirent.svg", w, h, body, defs)
 
 
