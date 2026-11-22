@@ -552,6 +552,203 @@ def umbrella() -> None:
     save_picture("semsiye", dots, curves, (600, 846), scene, obj)
 
 
+def puffs(points: list) -> str:
+    # Beyaz duman / buhar topakları: [(x, y, boy), ...]
+    out = ""
+    for k, (sx, sy, sr) in enumerate(points):
+        puff = "".join(f'<circle cx="{sx + dx * sr:g}" cy="{sy + dy * sr:g}" r="{r * sr:g}"/>' for dx, dy, r in
+                       ((-0.7, 0.2, 0.7), (0, -0.25, 0.95), (0.75, 0.15, 0.75)))
+        out += (f'  <g opacity="{0.95 - k * 0.12:g}"><g fill="#D5DEEE" stroke="#D5DEEE" stroke-width="8">{puff}</g>'
+                f'<g fill="#FFFFFF">{puff}</g></g>\n')
+    return out
+
+
+# --- 7. Deniz feneri (15 nokta) ---
+
+def lighthouse() -> None:
+    dots = [(600, 40), (730, 170), (720, 350), (900, 362), (695, 530), (790, 760), (1100, 700), (980, 862),
+            (220, 862), (100, 700), (410, 760), (505, 530), (300, 362), (480, 350), (470, 170)]
+    curves = [(720, 70), None, None, (730, 420), None, (900, 640), (1130, 830), None,
+              (70, 830), (300, 640), None, (470, 420), None, None, (480, 70)]
+    scene = Pic()
+    gs = scene.uid("aksam")
+    scene.add(f'  <rect width="{W}" height="660" fill="url(#{gs})"/>\n',
+              linear(gs, [(0, "#6E5BC8"), (0.55, "#F49DB4"), (1, "#FFD49A")]))
+    rng = random.Random(15)
+    for _ in range(16):
+        scene.add(yapboz.sparkle_star(rng.uniform(30, 1170), rng.uniform(30, 260), rng.uniform(5, 11), "#FFF6C2"))
+    # Batan güneş, fenerin ışık huzmeleri, uzakta yelkenli
+    scene.add(f'  <circle cx="960" cy="640" r="90" fill="#FFB65C" opacity="0.9"/>\n  <circle cx="960" cy="640" r="66" fill="#FFD27A"/>\n')
+    for side in (-1, 1):
+        x = 600 + side * 640
+        scene.add(f'  <path d="M600 260 L{x} 120 L{x} 420 Z" fill="#FFF3A6" opacity="0.4"/>\n'
+                  f'  <path d="M600 260 L{x} 200 L{x} 330 Z" fill="#FFFBD6" opacity="0.5"/>\n')
+    scene.add(f'  <path d="M170 640 L250 640 L236 656 L184 656 Z M210 640 V586 L244 630 Z" fill="#7A5FB8" opacity="0.7"/>\n')
+    # Deniz
+    gw = scene.uid("deniz")
+    scene.add(f'  <rect y="640" width="{W}" height="{H - 640}" fill="url(#{gw})"/>\n', linear(gw, [(0, "#5FA8D8"), (1, "#2E6FB0")]))
+    scene.add(f'  <rect x="900" y="644" width="120" height="8" rx="4" fill="#FFD27A" opacity="0.7"/>\n'
+              f'  <rect x="925" y="664" width="70" height="6" rx="3" fill="#FFD27A" opacity="0.5"/>\n')
+    for k, y in enumerate((690, 740, 800, 860)):
+        x = -30 + (k % 2) * 60
+        waves = ""
+        while x < W + 60:
+            waves += f'<path d="M{x} {y} q25 -14 50 0 q25 14 50 0" fill="none" stroke="#FFFFFF" stroke-width="{4 + k}" stroke-linecap="round" opacity="{0.3 + k * 0.1:g}"/>'
+            x += 170
+        scene.add(f'  {waves}\n')
+
+    obj = Pic()
+    tower = "M300 362 L900 362 Q730 420 695 530 L795 770 L405 770 L505 530 Q470 420 300 362 Z"
+    defs = (linear("kaya", [(0, "#B8AFC9"), (1, "#7D7397")]) + linear("kule", [(0, "#D9DEEC"), (0.4, "#FFFFFF"), (1, "#C4CAE0")], 1, 0)
+            + linear("kirmizi", [(0, "#FF7A8A"), (1, "#D9364F")], 1, 0) + clip_def("kulekirp", tower)
+            + radial("isik", [(0, "#FFFFFF"), (0.45, "#FFF3A6"), (1, "#FFC83D")], 0.5, 0.5, 0.6))
+    obj.add("", defs)
+    # Kayalık ada, üstünde ot ve yosun
+    rock = "M410 760 L790 760 Q900 640 1100 700 Q1130 830 980 862 L220 862 Q70 830 100 700 Q300 640 410 760 Z"
+    obj.add(f'  <path d="{rock}" fill="url(#kaya)" {st()}/>\n')
+    for d in ("M180 780 Q240 760 300 800", "M880 790 Q960 760 1040 790", "M420 830 Q520 810 600 840", "M700 820 Q800 800 860 830"):
+        obj.add(f'  <path d="{d}" fill="none" stroke="#6A6086" stroke-width="5" stroke-linecap="round"/>\n')
+    obj.add(f'  <path d="M120 712 Q300 652 405 750 L380 752 Q300 690 140 730 Z M1080 708 Q900 655 795 752 L822 754 Q900 690 1060 726 Z" fill="#6CC05A"/>\n')
+    obj.add(tuft(160, 712, 1.0, "#4FA544") + tuft(1050, 714, 1.0, "#4FA544") + tuft(330, 700, 0.8, "#4FA544"))
+    # Kule: yukarı doğru genişleyip balkonu taşır; beyaz, kırmızı bantlı; kapı ve pencereler
+    obj.add(f'  <path d="{tower}" fill="url(#kule)" {st()}/>\n')
+    obj.add('  <g clip-path="url(#kulekirp)"><rect x="280" y="410" width="640" height="46" fill="url(#kirmizi)"/>'
+            '<rect x="280" y="530" width="640" height="46" fill="url(#kirmizi)"/>'
+            '<rect x="280" y="650" width="640" height="46" fill="url(#kirmizi)"/></g>\n')
+    obj.add(f'  <path d="{tower}" fill="none" {st()}/>\n')
+    obj.add(f'  <path d="M565 770 V722 Q565 692 600 692 Q635 692 635 722 V770 Z" fill="#7A4FD8" {st(5)}/>\n'
+            f'  <circle cx="624" cy="737" r="5" fill="#FFD23F"/>\n')
+    for wy in (470, 596):
+        obj.add(f'  <path d="M582 {wy + 36} V{wy + 18} Q582 {wy} 600 {wy} Q618 {wy} 618 {wy + 18} V{wy + 36} Z" fill="#FFE68A" {st(4)}/>\n')
+    obj.add(shine(532, 600, 10, 60, 8, 0.55) + shine(420, 396, 40, 8, 26, 0.5))
+    # Balkon: korkuluk
+    obj.add(f'  <path d="M310 300 H890" {st(8)}/>\n')
+    for x in range(320, 900, 48):
+        obj.add(f'  <path d="M{x} 302 V352" {st(6)}/>\n')
+    obj.add(f'  <rect x="290" y="340" width="620" height="26" rx="6" fill="#8E3B5E" {st()}/>\n')
+    # Işık odası: parlayan cam, çerçeve
+    obj.add(f'  <rect x="480" y="168" width="240" height="176" fill="url(#isik)" {st()}/>\n')
+    obj.add(f'  <path d="M560 172 V340 M640 172 V340" {st(6)}/>\n')
+    obj.add(f'  <circle cx="600" cy="258" r="38" fill="#FFFFFF" opacity="0.85"/>\n')
+    obj.add(shine(512, 200, 8, 26, 0, 0.8))
+    # Kubbe çatı ve topuz
+    obj.add(f'  <path d="M470 170 Q480 70 600 40 Q720 70 730 170 Z" fill="url(#kirmizi)" {st()}/>\n')
+    obj.add(f'  <rect x="460" y="158" width="280" height="22" rx="8" fill="#8E3B5E" {st(5)}/>\n')
+    obj.add(shine(540, 100, 24, 9, -40, 0.6))
+    obj.add(f'  <circle cx="600" cy="30" r="16" fill="#FFD23F" {st(5)}/>\n')
+    save_picture("fener", dots, curves, (600, 760), scene, obj)
+
+
+# --- 8. Uçak (15 nokta) ---
+
+def airplane() -> None:
+    dots = [(1100, 470), (950, 590), (760, 585), (640, 830), (440, 830), (480, 585), (300, 565), (220, 730), (40, 690),
+            (60, 450), (110, 150), (300, 170), (450, 400), (700, 385), (900, 395)]
+    curves = [(1090, 575), None, None, (540, 862), None, None, None, (120, 760), None,
+              None, (205, 130), (330, 330), None, None, (1060, 390)]
+    scene = Pic()
+    sky(scene, "#7CC6FF", "#DDF1FF")
+    sun(scene, 1080, 130, 58)
+    # Aşağıda uzakta tarlalar ve dere
+    gf = scene.uid("tarla")
+    scene.add(f'  <path d="M0 700 Q600 660 1200 700 L1200 900 L0 900 Z" fill="url(#{gf})"/>\n', linear(gf, [(0, "#B9E59A"), (1, "#8ED36E")]))
+    for x0, color in ((0, "#F7DC7A"), (300, "#A6DE85"), (560, "#E8C27A"), (840, "#9BD86F")):
+        scene.add(f'  <path d="M{x0} 760 L{x0 + 260} 740 L{x0 + 300} 900 L{x0 + 20} 900 Z" fill="{color}" opacity="0.8"/>\n')
+    scene.add(f'  <path d="M0 820 Q300 760 560 800 Q820 840 1200 770" fill="none" stroke="#7FC4FF" stroke-width="22" stroke-linecap="round"/>\n')
+    for tx in (120, 470, 760, 1060):
+        scene.add(f'  <circle cx="{tx}" cy="735" r="16" fill="#4FA544"/><circle cx="{tx + 22}" cy="740" r="12" fill="#5DBB4F"/>\n')
+    scene.add(cloud(200, 140, 1.0) + cloud(640, 90, 0.7) + cloud(1050, 330, 0.8) + cloud(160, 520, 0.7) + cloud(820, 640, 0.6))
+
+    obj = Pic()
+    obj.add("", linear("ucakgovde", [(0, "#FFFFFF"), (0.6, "#EEF3FF"), (1, "#C4CEE8")])
+            + linear("kanat", [(0, "#6FC0FF"), (1, "#2D7FE0")]) + linear("kuyruk", [(0, "#FF7A8A"), (1, "#D9364F")])
+            + clip_def("ucakkirp", "M1100 470 Q1090 575 950 590 L300 565 Q150 530 60 450 L450 400 L700 385 L900 395 Q1060 390 1100 470 Z")
+            + besle.EYE_DEFS)
+    # Kuyruk ve yatay dengeleyici (gövdenin arkasında)
+    obj.add(f'  <path d="M60 450 L110 150 Q205 130 300 170 Q330 330 450 400 L430 470 L80 480 Z" fill="url(#kuyruk)" {st()}/>\n')
+    obj.add(yapboz.sparkle_star(200, 290, 40, "#FFFFFF"))
+    obj.add(f'  <path d="M300 565 L220 730 Q120 760 40 690 L100 520 Z" fill="url(#kuyruk)" {st()}/>\n')
+    # Gövde: mavi şerit, pencereler, kokpit camı, gülen yüz
+    body = "M1100 470 Q1090 575 950 590 L300 565 Q150 530 60 450 L450 400 L700 385 L900 395 Q1060 390 1100 470 Z"
+    obj.add(f'  <path d="{body}" fill="url(#ucakgovde)" {st()}/>\n')
+    obj.add('  <g clip-path="url(#ucakkirp)"><path d="M0 500 L1200 520 L1200 548 L0 528 Z" fill="#4FA8FF"/>'
+            '<path d="M0 528 L1200 548 L1200 600 L0 600 Z" fill="#C4CEE8" opacity="0.6"/></g>\n')
+    for x in range(470, 840, 70):
+        y = 448 - (x - 470) * 0.02
+        obj.add(f'  <circle cx="{x}" cy="{y:.0f}" r="20" fill="#9ED8FF" {st(5)}/>\n  <circle cx="{x - 6}" cy="{y - 6:.0f}" r="6" fill="#FFFFFF"/>\n')
+    obj.add(f'  <path d="M905 402 Q1010 398 1056 440 L930 448 Q912 426 905 402 Z" fill="#7FC4FF" {st(5)}/>\n')
+    obj.add(shine(950, 414, 16, 5, -5, 0.8))
+    obj.add(cute_face(1000, 482, 0.55))
+    obj.add(shine(640, 420, 120, 8, -2, 0.6))
+    # Kanat (öne doğru), üstünde şerit
+    obj.add(f'  <path d="M790 560 L760 585 L640 830 Q540 862 440 830 L480 585 L470 560 Z" fill="url(#kanat)" {st()}/>\n')
+    obj.add(f'  <path d="M520 800 L700 700" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.6"/>\n')
+    obj.add(f'  <path d="M480 588 H758" {st(5)}/>\n')
+    save_picture("ucak", dots, curves, (600, 500), scene, obj)
+
+
+# --- 9. Lokomotif (15 nokta) ---
+
+def locomotive() -> None:
+    dots = [(130, 170), (470, 170), (450, 360), (700, 360), (670, 150), (920, 150), (890, 360), (1080, 400),
+            (1140, 640), (1150, 845), (880, 845), (600, 845), (320, 845), (130, 845), (120, 470)]
+    curves = [(300, 130), None, None, None, (795, 125), None, (1020, 355), None,
+              None, None, None, None, None, None, None]
+    scene = Pic()
+    sky(scene, "#9AD6FF", "#EAF8FF")
+    sun(scene, 1080, 110, 54)
+    scene.add(cloud(380, 120, 0.8) + cloud(1060, 300, 0.6))
+    gh = scene.uid("tepe")
+    scene.add(f'  <path d="M0 600 Q260 500 520 580 Q800 500 1200 570 L1200 900 L0 900 Z" fill="url(#{gh})"/>\n',
+              linear(gh, [(0, "#B6EA94"), (1, "#86CF66")]))
+    for tx, ty, s in ((80, 640, 0.6), (1150, 620, 0.55)):
+        yapboz.tree(scene, tx, ty, s)
+    grass_strip(scene, 760, 12)
+    # Raylar ve traversler
+    for x in range(-20, W + 40, 70):
+        scene.add(f'  <rect x="{x}" y="858" width="44" height="22" rx="4" fill="#A0704A" {st(4)}/>\n')
+    scene.add(f'  <rect x="0" y="852" width="{W}" height="12" fill="#8C93B8" {st(4)}/>\n')
+
+    obj = Pic()
+    obj.add("", linear("kabin", [(0, "#FF7A8A"), (1, "#D9364F")]) + linear("kazan", [(0, "#6FC0FF"), (0.5, "#4FA8FF"), (1, "#2D6FD0")])
+            + linear("baca", [(0, "#5A4E8A"), (1, "#3B2F6B")], 1, 0) + linear("tekerlek", [(0, "#FF7A8A"), (1, "#C22B4A")]))
+    # Baca dumanı
+    obj.add(puffs([(820, 108, 20), (900, 70, 26), (1000, 50, 30)]))
+    # Baca
+    obj.add(f'  <path d="M700 360 L670 150 Q795 125 920 150 L890 360 Z" fill="url(#baca)" {st()}/>\n')
+    obj.add(f'  <path d="M674 176 Q795 152 916 176 L912 200 Q795 178 678 200 Z" fill="#FFD23F" {st(4)}/>\n')
+    obj.add(shine(720, 260, 8, 40, 4, 0.4))
+    # Kazan: mavi silindir, altın halkalar, buhar kubbesi, ön kapak ve fener
+    obj.add(f'  <path d="M560 362 Q560 320 600 320 Q640 320 640 362 Z" fill="#FFD23F" {st()}/>\n')
+    obj.add(f'  <path d="M450 360 L890 360 Q1020 355 1080 400 L1080 710 L450 710 Z" fill="url(#kazan)" {st()}/>\n')
+    for x in (620, 850):
+        obj.add(f'  <rect x="{x}" y="362" width="26" height="346" fill="#FFD23F" {st(5)}/>\n')
+    obj.add(shine(700, 400, 160, 10, 0, 0.55))
+    obj.add(f'  <path d="M1080 400 L1140 640 L1080 710 Z" fill="#5A4E8A" {st()}/>\n')
+    obj.add(f'  <circle cx="1060" cy="470" r="34" fill="#FFF3A6" {st()}/>\n  <circle cx="1060" cy="470" r="18" fill="#FFFFFF"/>\n')
+    # Kabin: çatı, pencere
+    obj.add(f'  <path d="M130 200 L456 200 L456 790 L130 790 L120 470 Z" fill="url(#kabin)" {st()}/>\n')
+    obj.add(f'  <path d="M130 170 Q300 130 470 170 L470 210 L130 210 Z" fill="#5A4E8A" {st()}/>\n')
+    obj.add(f'  <rect x="196" y="260" width="200" height="160" rx="24" fill="#BFE6FF" {st()}/>\n')
+    obj.add(f'  <path d="M296 262 V418" stroke="#FFFFFF" stroke-width="8"/>\n' + shine(236, 296, 18, 8, -40, 0.85))
+    obj.add(f'  <path d="M150 520 H436" stroke="#A82240" stroke-width="6" opacity="0.6"/>\n')
+    # Şasi ve ön mahmuz
+    obj.add(f'  <rect x="120" y="700" width="980" height="64" rx="12" fill="#3B2F6B" {st()}/>\n')
+    obj.add(f'  <path d="M1080 700 L1140 640 L1150 845 L1030 845 Z" fill="#FF5A6E" {st()}/>\n')
+    for k in range(3):
+        obj.add(f'  <path d="M{1060 + k * 26} 720 L{1056 + k * 30} 840" stroke="#A82240" stroke-width="6" stroke-linecap="round"/>\n')
+    # Tekerlekler ve biyel kolu
+    for x, y, r in ((740, 767, 78), (460, 767, 78), (1000, 795, 50), (240, 795, 50)):
+        obj.add(f'  <circle cx="{x}" cy="{y}" r="{r}" fill="url(#tekerlek)" {st()}/>\n')
+        for k in range(6):
+            a = math.radians(k * 60)
+            obj.add(f'  <path d="M{x} {y} L{x + (r - 12) * math.cos(a):.1f} {y + (r - 12) * math.sin(a):.1f}" stroke="#FFD9DE" stroke-width="6" stroke-linecap="round"/>\n')
+        obj.add(f'  <circle cx="{x}" cy="{y}" r="{r * 0.28:g}" fill="#FFD23F" {st(5)}/>\n')
+    obj.add(f'  <path d="M460 790 L740 790" stroke="#C9D0E6" stroke-width="16" stroke-linecap="round"/>\n'
+            f'  <path d="M460 790 L740 790" {st(4)} opacity="0.6"/>\n')
+    save_picture("lokomotif", dots, curves, (600, 830), scene, obj)
+
+
 # --- Kart / final karakteri: gülen kurşun kalem ---
 
 def card_pencil() -> None:
@@ -598,4 +795,7 @@ if __name__ == "__main__":
     star()
     rocket()
     umbrella()
+    lighthouse()
+    airplane()
+    locomotive()
     save_data()

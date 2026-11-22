@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="ucakgovde" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#EEF3FF"/><stop offset="1" stop-color="#C4CEE8"/></linearGradient>
+    <linearGradient id="kanat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FC0FF"/><stop offset="1" stop-color="#2D7FE0"/></linearGradient>
+    <linearGradient id="kuyruk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7A8A"/><stop offset="1" stop-color="#D9364F"/></linearGradient>
+    <clipPath id="ucakkirp"><path d="M1100 470 Q1090 575 950 590 L300 565 Q150 530 60 450 L450 400 L700 385 L900 395 Q1060 390 1100 470 Z"/></clipPath>
+    <radialGradient id="goz" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#6A5A96"/><stop offset="0.55" stop-color="#2A1F45"/><stop offset="1" stop-color="#150F26"/></radialGradient>
+    <radialGradient id="yanak" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FF7FA3" stop-opacity="0.85"/><stop offset="1" stop-color="#FF7FA3" stop-opacity="0"/></radialGradient>
+  </defs>
+  <path d="M60 450 L110 150 Q205 130 300 170 Q330 330 450 400 L430 470 L80 480 Z" fill="url(#kuyruk)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M200 250 Q207.2 282.8 240 290 Q207.2 297.2 200 330 Q192.8 297.2 160 290 Q192.8 282.8 200 250 Z" fill="#FFFFFF"/>
+  <path d="M300 565 L220 730 Q120 760 40 690 L100 520 Z" fill="url(#kuyruk)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M1100 470 Q1090 575 950 590 L300 565 Q150 530 60 450 L450 400 L700 385 L900 395 Q1060 390 1100 470 Z" fill="url(#ucakgovde)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <g clip-path="url(#ucakkirp)"><path d="M0 500 L1200 520 L1200 548 L0 528 Z" fill="#4FA8FF"/><path d="M0 528 L1200 548 L1200 600 L0 600 Z" fill="#C4CEE8" opacity="0.6"/></g>
+  <circle cx="470" cy="448" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="464" cy="442" r="6" fill="#FFFFFF"/>
+  <circle cx="540" cy="447" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="534" cy="441" r="6" fill="#FFFFFF"/>
+  <circle cx="610" cy="445" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="604" cy="439" r="6" fill="#FFFFFF"/>
+  <circle cx="680" cy="444" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="674" cy="438" r="6" fill="#FFFFFF"/>
+  <circle cx="750" cy="442" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="744" cy="436" r="6" fill="#FFFFFF"/>
+  <circle cx="820" cy="441" r="20" fill="#9ED8FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="814" cy="435" r="6" fill="#FFFFFF"/>
+  <path d="M905 402 Q1010 398 1056 440 L930 448 Q912 426 905 402 Z" fill="#7FC4FF" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="950" cy="414" rx="16" ry="5" transform="rotate(-5 950 414)" fill="#FFFFFF" opacity="0.8"/>
+  <ellipse cx="983.5" cy="482" rx="7.15" ry="9.35" fill="url(#goz)"/>
+  <ellipse cx="980.75" cy="478.15" rx="2.75" ry="3.025" fill="#FFFFFF"/>
+  <ellipse cx="1016.5" cy="482" rx="7.15" ry="9.35" fill="url(#goz)"/>
+  <ellipse cx="1013.75" cy="478.15" rx="2.75" ry="3.025" fill="#FFFFFF"/>
+  <ellipse cx="969.2" cy="496.3" rx="9.35" ry="5.5" fill="url(#yanak)"/>
+  <ellipse cx="1030.8" cy="496.3" rx="9.35" ry="5.5" fill="url(#yanak)"/>
+  <path d="M989 494.1 Q1000 495.75 1011 494.1 Q1009.35 508.4 1000 508.4 Q990.65 508.4 989 494.1 Z" fill="#8A2A4A" stroke="#3B2F6B" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M994.5 504.55 Q1000 500.7 1005.5 504.55 Q1000 508.4 994.5 504.55 Z" fill="#FF7FA3"/>
+  <ellipse cx="640" cy="420" rx="120" ry="8" transform="rotate(-2 640 420)" fill="#FFFFFF" opacity="0.6"/>
+  <path d="M790 560 L760 585 L640 830 Q540 862 440 830 L480 585 L470 560 Z" fill="url(#kanat)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M520 800 L700 700" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.6"/>
+  <path d="M480 588 H758" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M1100 470 Q1090 575 950 590 L760 585 L640 830 Q540 862 440 830 L480 585 L300 565 L220 730 Q120 760 40 690 L60 450 L110 150 Q205 130 300 170 Q330 330 450 400 L700 385 L900 395 Q1060 390 1100 470 Z" fill="none" stroke="#3B2F6B" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

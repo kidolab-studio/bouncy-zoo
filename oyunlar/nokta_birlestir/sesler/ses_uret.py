@@ -9,7 +9,8 @@
 # - bolum_sonu, final: kutlamalar
 # - Resim bitince çalan sesler (ayarlar.gd PICTURES sound): ev (kapı zili "ding-dong"), yelkenli (dalga
 #   hışırtısı ve gemi düdüğü "tuut"), tac (kısa tören borusu), yildiz (pırıl pırıl çanlar), roket (gürleyip
-#   yükselen "fiuuu"), semsiye (yağmur damlaları ve tatlı çan)
+#   yükselen "fiuuu"), semsiye (yağmur damlaları ve tatlı çan), fener (dalga ve yumuşak sis düdüğü), ucak
+#   (süzülen motor uğultusu), lokomotif (düdük ve "çuf çuf")
 
 import os
 import random
@@ -132,6 +133,41 @@ def rain() -> list:
     return out
 
 
+def foghorn() -> list:
+    # Dalga hışırtısı, alçak ve yumuşak bir "vuuu", sonda parıltı (ışık yanar)
+    out = envelope(lowpass(noise(1.7, 17), 800), 0.4, 1.6)
+    s = 0.9
+    horn = voice(s, lambda t: glide([(0, 150), (0.1, 165), (s, 160)], t), lambda t: smooth_env(t, s, 0.12, 0.3),
+                 lambda t: [(420, 110, 1.0), (900, 160, 0.35), (2200, 300, 0.06)], breath=0.05, seed=12)
+    mix(out, lowpass(horn, 2000), 0.15, 0.9)
+    for k, name in enumerate(["G6", "C7", "E7"]):
+        mix(out, bell(note(name), 0.5, 7.0), 1.05 + k * 0.08, 0.25)
+    return out
+
+
+def plane() -> list:
+    # Yumuşak motor uğultusu yükselip alçalır (süzülme), sonra kısa bir çan
+    s = 1.5
+    out = voice(s, lambda t: glide([(0, 110), (0.6, 150), (s, 120)], t), lambda t: smooth_env(t, s, 0.3, 0.5),
+                lambda t: [(500, 200, 1.0), (1300, 300, 0.3)], buzz=0.6, breath=0.4, seed=3)
+    out = lowpass(out, 1800)
+    mix(out, envelope(bandpass(noise(s, 21), 1500, 5000), 0.5, 1.5), 0.0, 0.15)
+    mix(out, bell(note("E6"), 0.5, 6.0), 1.1, 0.25)
+    return out
+
+
+def train_whistle() -> list:
+    # İki tatlı düdük ("tuu-tuut") ve "çuf çuf"
+    out = silence(1.7)
+    for start, s in ((0.0, 0.25), (0.33, 0.45)):
+        tone = voice(s, lambda t: glide([(0, 700), (0.05, 760), (s, 750)], t), lambda t, s=s: smooth_env(t, s, 0.03, 0.08),
+                     lambda t: [(760, 90, 1.0), (1520, 160, 0.4), (2280, 220, 0.12)], buzz=0.5, breath=0.35, seed=2)
+        mix(out, tone, start, 0.7)
+    for k in range(4):
+        mix(out, envelope(bandpass(noise(0.16, 30 + k), 600, 3500), 0.005, 18.0), 0.9 + k * 0.17, 0.5 - k * 0.06)
+    return out
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     save("nokta.wav", dot(), TARGET * 0.8)
@@ -145,6 +181,9 @@ if __name__ == "__main__":
     save("yildiz.wav", twinkle(), TARGET * 0.7)
     save("roket.wav", rocket(), TARGET * 0.8)
     save("semsiye.wav", rain(), TARGET * 0.7)
+    save("fener.wav", foghorn(), TARGET * 0.8)
+    save("ucak.wav", plane(), TARGET * 0.7)
+    save("lokomotif.wav", train_whistle(), TARGET * 0.8)
     if not check_all(HERE):
         print("\nDenetim: SORUN VAR")
         sys.exit(1)
