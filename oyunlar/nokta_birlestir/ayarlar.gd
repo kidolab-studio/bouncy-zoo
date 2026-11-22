@@ -7,7 +7,7 @@ extends RefCounted
 ##   sound  bitince çalan ses (sesler/<ses>.wav)
 ##   color  oyunun arka plan rengi (resmin havasına uygun pastel)
 ##   anim   ortaya çıkan nesnenin hareketi: "zipla" (zıplar), "salla" (sallanır), "parla" (zıplar, döner, ışıldar),
-##          "uc" (titreyip havalanır, geri iner)
+##          "uc" (titreyip havalanır, geri iner), "suzul" (burnunu kaldırıp ileri süzülür, geri gelir)
 const PICTURES := {
 	"ev": {"sound": "ev", "color": Color("d5ecff"), "anim": "zipla"},
 	"yelkenli": {"sound": "yelkenli", "color": Color("cdeefa"), "anim": "salla"},
@@ -15,6 +15,9 @@ const PICTURES := {
 	"yildiz": {"sound": "yildiz", "color": Color("dcd8fa"), "anim": "parla"},
 	"roket": {"sound": "roket", "color": Color("d8d4f5"), "anim": "uc"},
 	"semsiye": {"sound": "semsiye", "color": Color("d3ecff"), "anim": "salla"},
+	"fener": {"sound": "fener", "color": Color("ffe1d8"), "anim": "parla"},
+	"ucak": {"sound": "ucak", "color": Color("d5e9ff"), "anim": "suzul"},
+	"lokomotif": {"sound": "lokomotif", "color": Color("dff2cc"), "anim": "zipla"},
 }
 const DATA_PATH := "res://oyunlar/nokta_birlestir/gorseller/resimler/noktalar.json"
 
@@ -26,6 +29,9 @@ const LEVELS: Array[Dictionary] = [
 	{"picture": "yildiz"},
 	{"picture": "roket"},
 	{"picture": "semsiye"},
+	{"picture": "fener"},
+	{"picture": "ucak"},
+	{"picture": "lokomotif"},
 ]
 
 ## Yerleşim (tasarım alanında, 1280x720)
@@ -167,6 +173,6 @@ static func problems() -> PackedStringArray:
 		var sound: String = PICTURES[picture]["sound"]
 		if not ResourceLoader.exists("res://oyunlar/nokta_birlestir/sesler/%s.wav" % sound):
 			out.append("%s: ses dosyası yok (%s)" % [picture, sound])
-		if not PICTURES[picture]["anim"] in ["zipla", "salla", "parla", "uc"]:
+		if not PICTURES[picture]["anim"] in ["zipla", "salla", "parla", "uc", "suzul"]:
 			out.append("%s: hareket türü bilinmiyor (%s)" % [picture, PICTURES[picture]["anim"]])
 	return out
