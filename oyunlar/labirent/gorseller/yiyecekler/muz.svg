@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="kabuk" gradientUnits="userSpaceOnUse" x1="0" y1="104" x2="0" y2="224">
+      <stop offset="0" stop-color="#FFF6B8"/>
+      <stop offset="0.5" stop-color="#FFD84A"/>
+      <stop offset="1" stop-color="#EEAF22"/>
+    </linearGradient>
+    <linearGradient id="kabuk2" gradientUnits="userSpaceOnUse" x1="0" y1="104" x2="0" y2="224">
+      <stop offset="0" stop-color="#FFEC96"/>
+      <stop offset="1" stop-color="#DE9A18"/>
+    </linearGradient>
+    <radialGradient id="golge" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#3A2A4A" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#3A2A4A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Arkadaki muz -->
+  <g transform="rotate(-22 150 150) translate(6 -30)">
+    <path d="M34 118 C44 190 118 236 184 210 C212 198 228 172 232 134 Q234 118 220 116 C212 140 190 154 158 158 C114 164 74 146 56 108 Q46 96 34 118 Z" fill="url(#kabuk2)" stroke="#8A5E06" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M58 132 C80 178 142 206 214 160" fill="none" stroke="#D4981A" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="38" cy="114" r="7" fill="#5E3A12"/>
+  </g>
+  <!-- Öndeki muz -->
+  <path d="M34 118 C44 190 118 236 184 210 C212 198 228 172 232 134 Q234 118 220 116 C212 140 190 154 158 158 C114 164 74 146 56 108 Q46 96 34 118 Z" fill="url(#kabuk)" stroke="#8A5E06" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M58 134 C80 180 142 208 214 162" fill="none" stroke="#E0A820" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+  <path d="M64 140 C86 170 124 182 164 178" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+  <circle cx="190" cy="186" r="3" fill="#C98A2A" opacity="0.5"/>
+  <circle cx="112" cy="210" r="2.5" fill="#C98A2A" opacity="0.5"/>
+  <circle cx="150" cy="200" r="2" fill="#C98A2A" opacity="0.4"/>
+  <circle cx="38" cy="114" r="7.5" fill="#5E3A12"/>
+  <!-- Sap -->
+  <path d="M224 124 L240 94" fill="none" stroke="#5E4212" stroke-width="17" stroke-linecap="round"/>
+  <path d="M224 124 L239 96" fill="none" stroke="#9CBF4A" stroke-width="8" stroke-linecap="round"/>
+</svg>

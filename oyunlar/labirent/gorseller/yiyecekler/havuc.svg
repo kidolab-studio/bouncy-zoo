@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="havuc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFC06A"/>
+      <stop offset="0.45" stop-color="#FF8A1F"/>
+      <stop offset="1" stop-color="#E0600A"/>
+    </linearGradient>
+    <linearGradient id="yaprak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6EB7E"/>
+      <stop offset="1" stop-color="#3A9A3A"/>
+    </linearGradient>
+  </defs>
+  <g transform="rotate(-18 128 140)">
+    <!-- Yapraklar -->
+    <g stroke="#1F5E22" stroke-width="5" stroke-linejoin="round" fill="url(#yaprak)">
+      <path d="M118 70 C96 50 86 26 96 10 C114 20 124 44 124 68 Z"/>
+      <path d="M138 68 C138 42 150 18 170 12 C176 32 162 56 142 72 Z"/>
+      <path d="M126 70 C120 44 124 20 132 4 C146 22 142 48 134 70 Z"/>
+    </g>
+    <!-- Gövde -->
+    <path d="M84 84 C84 66 172 66 172 84 C172 140 144 214 132 240 C130 246 126 246 124 240 C112 214 84 140 84 84 Z" fill="url(#havuc)" stroke="#9A3E00" stroke-width="7" stroke-linejoin="round"/>
+    <g fill="none" stroke="#B85200" stroke-width="4.5" stroke-linecap="round" opacity="0.7">
+      <path d="M96 112 L114 116 M146 132 L162 128 M104 158 L120 162 M136 184 L150 180 M118 210 L128 212"/>
+    </g>
+    <ellipse cx="104" cy="106" rx="8" ry="24" transform="rotate(-8 104 106)" fill="#FFFFFF" opacity="0.55"/>
+    <circle cx="112" cy="146" r="4" fill="#FFFFFF" opacity="0.6"/>
+  </g>
+</svg>

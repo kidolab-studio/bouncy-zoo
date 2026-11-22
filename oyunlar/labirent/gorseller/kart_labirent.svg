@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="220" viewBox="0 0 300 220">
+  <defs>
+    <radialGradient id="zemin" cx="0.4" cy="0.3" r="0.9"><stop offset="0" stop-color="#E4F8C4"/><stop offset="1" stop-color="#B9E58E"/></radialGradient>
+  </defs>
+  <rect x="10" y="10" width="280" height="200" rx="26" fill="url(#zemin)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M45 45 H115 V115 H255" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 24" opacity="0.9"/>
+  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#3B2F6B" stroke-width="30" stroke-linecap="round"/>
+  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#5BB55A" stroke-width="18" stroke-linecap="round"/>
+  <path d="M80 10 L80 80 M10 150 L150 150 M150 80 L220 80 M150 80 L150 150 M220 150 L220 220 " fill="none" stroke="#8FD884" stroke-width="6" stroke-linecap="round" transform="translate(-3 -4)"/>
+</svg>

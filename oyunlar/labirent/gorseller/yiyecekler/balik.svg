@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="pul" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#BDF2FF"/><stop offset="0.55" stop-color="#4FC3E8"/><stop offset="1" stop-color="#2E86C4"/></radialGradient>
+    <radialGradient id="yuzgec" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFD2A8"/><stop offset="0.55" stop-color="#FF9A3D"/><stop offset="1" stop-color="#D48247"/></radialGradient>
+  </defs>
+  <g transform="rotate(-12 128 128)">
+  <path d="M176 128 L230 90 Q222 128 230 166 Z" fill="url(#yuzgec)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M96 88 Q124 58 150 90 Z" fill="url(#yuzgec)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="116" cy="128" rx="74" ry="46" fill="url(#pul)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M120 100 Q108 128 120 156 M144 100 Q132 128 144 156" fill="none" stroke="#2E86C4" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="76" cy="118" r="13" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="73" cy="118" r="6.5" fill="#3B2F6B"/>
+  <path d="M50 138 Q58 146 66 140" fill="none" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="100" cy="100" rx="22" ry="7" transform="rotate(-15 100 100)" fill="#FFFFFF" opacity="0.8"/>
+  </g>
+</svg>
