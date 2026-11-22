@@ -32,6 +32,7 @@ const OYUNLAR := {
 	"hayvan_banyosu": {"giris": [], "bolum": "level_index"},
 	"siradaki_ne": {"giris": [], "bolum": "level_index"},
 	"yapboz": {"giris": [], "bolum": "level_index"},
+	"nokta_birlestir": {"giris": [], "bolum": "level_index"},
 }
 
 var gecis: Node

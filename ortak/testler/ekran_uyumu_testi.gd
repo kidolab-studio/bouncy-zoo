@@ -61,6 +61,7 @@ const ADIMLAR := {
 	"hayvan_banyosu": [],
 	"siradaki_ne": [],
 	"yapboz": [],
+	"nokta_birlestir": [],
 }
 
 var gecis: Node
