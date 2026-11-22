@@ -224,6 +224,12 @@ func animate(kind: String) -> void:
 			tween.tween_property(_object, "position:y", _object_home.y, 0.25).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 			tween.parallel().tween_property(_object, "scale", base, 0.25)
 			tween.tween_callback(func() -> void: _object.rotation = 0.0)
+		"uc":
+			# Titrer, havalanır (kâğıdın üstüne taşar), yumuşakça yerine iner
+			tween.tween_method(func(t: float) -> void:
+				_object.position = _object_home + Vector2(sin(t * 70.0) * 4.0, 0.0), 0.0, 1.0, 0.4)
+			tween.tween_property(_object, "position", _object_home - Vector2(0.0, rect.size.y * 0.3), 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+			tween.tween_property(_object, "position", _object_home, 0.7).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
 
