@@ -356,6 +356,15 @@ def nokta_birlestir():
     ]
 
 
+def labirent():
+    # Labirent: üstten görülen küçük çit labirent, önünde mutlu tavşan
+    g = "labirent/gorseller/"
+    return [
+        parca(g + "kart_labirent.svg", 224, (-12, -26), -0.05),
+        parca(g + "hayvanlar/tavsan.svg", 170, (52, 56)),
+    ]
+
+
 def boyama_kitabi():
     # Boyama Kitabı: yarısı boyanmış kedi sayfası ve boya kalemleri, yanında boya kovası
     g = "boyama_kitabi/gorseller/"
@@ -461,7 +470,7 @@ KARTLAR = {
     "sihirli_bahce": sihirli_bahce, "muzik_kutusu": muzik_kutusu, "robot_fabrikasi": robot_fabrikasi,
     "tren_rayi": tren_rayi, "hayvan_besle": hayvan_besle, "boyama_kitabi": boyama_kitabi,
     "buyukten_kucuge": buyukten_kucuge, "hayvan_banyosu": hayvan_banyosu, "siradaki_ne": siradaki_ne,
-    "yapboz": yapboz, "nokta_birlestir": nokta_birlestir,
+    "yapboz": yapboz, "nokta_birlestir": nokta_birlestir, "labirent": labirent,
 }
 
 
