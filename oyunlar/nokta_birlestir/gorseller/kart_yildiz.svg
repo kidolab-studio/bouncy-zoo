@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="280" viewBox="0 0 300 280">
+  <defs>
+    <radialGradient id="kyildiz" cx="0.45" cy="0.4" r="0.75"><stop offset="0" stop-color="#FFF7C2"/><stop offset="1" stop-color="#FFE27A"/></radialGradient>
+  </defs>
+  <path d="M150.0 18.0 L182.9 92.7 L264.1 100.9 L203.3 155.3 L220.5 235.1 L150.0 194.0 L79.5 235.1 L96.7 155.3 L35.9 100.9 L117.1 92.7 Z" fill="url(#kyildiz)" opacity="0.6"/>
+  <path d="M150.0 18.0 L182.9 92.7 L264.1 100.9 L203.3 155.3 L220.5 235.1 L150.0 194.0 L79.5 235.1 L96.7 155.3 L35.9 100.9 L117.1 92.7 Z" fill="none" stroke="#B9A6F0" stroke-width="5" stroke-dasharray="3 13" stroke-linecap="round"/>
+  <path d="M150.0 18.0 L182.9 92.7 L264.1 100.9 L203.3 155.3 L220.5 235.1 L150.0 194.0" fill="none" stroke="#3B2F6B" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="150.0" cy="18.0" r="11" fill="#FF5A6E" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="182.9" cy="92.7" r="11" fill="#FF9F40" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="264.1" cy="100.9" r="11" fill="#FFC93D" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="203.3" cy="155.3" r="11" fill="#5CC95C" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="220.5" cy="235.1" r="11" fill="#4FA8FF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="150.0" cy="194.0" r="11" fill="#A66BFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="79.5" cy="235.1" r="22" fill="#FF7A45" opacity="0.3"/>
+  <circle cx="79.5" cy="235.1" r="15" fill="#FFFFFF" stroke="#FF7A45" stroke-width="6"/>
+  <circle cx="96.7" cy="155.3" r="13" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="35.9" cy="100.9" r="13" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="117.1" cy="92.7" r="13" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

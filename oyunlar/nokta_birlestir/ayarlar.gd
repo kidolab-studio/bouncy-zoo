@@ -18,10 +18,13 @@ const PICTURES := {
 	"fener": {"sound": "fener", "color": Color("ffe1d8"), "anim": "parla"},
 	"ucak": {"sound": "ucak", "color": Color("d5e9ff"), "anim": "suzul"},
 	"lokomotif": {"sound": "lokomotif", "color": Color("dff2cc"), "anim": "zipla"},
+	"kale": {"sound": "kale", "color": Color("e3e9ff"), "anim": "parla"},
+	"gemi": {"sound": "gemi", "color": Color("cdeefa"), "anim": "salla"},
+	"robot": {"sound": "robot", "color": Color("d8f3e8"), "anim": "zipla"},
 }
 const DATA_PATH := "res://oyunlar/nokta_birlestir/gorseller/resimler/noktalar.json"
 
-## Bölümler (sıra = bölüm sırası). Nokta sayısı resmin kendisinden gelir (noktalar.json).
+## Bölümler (sıra = bölüm sırası). Nokta sayısı resmin kendisinden gelir (noktalar.json): 5, 10, 15, 20 noktadan üçer resim.
 const LEVELS: Array[Dictionary] = [
 	{"picture": "ev"},
 	{"picture": "yelkenli"},
@@ -32,6 +35,9 @@ const LEVELS: Array[Dictionary] = [
 	{"picture": "fener"},
 	{"picture": "ucak"},
 	{"picture": "lokomotif"},
+	{"picture": "kale"},
+	{"picture": "gemi"},
+	{"picture": "robot"},
 ]
 
 ## Yerleşim (tasarım alanında, 1280x720)
