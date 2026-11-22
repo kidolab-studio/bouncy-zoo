@@ -8,9 +8,11 @@
 # - kapan: şekil kapanıp renkli resim belirirken (parıltılı yükselen "viyuu")
 # - bolum_sonu, final: kutlamalar
 # - Resim bitince çalan sesler (ayarlar.gd PICTURES sound): ev (kapı zili "ding-dong"), yelkenli (dalga
-#   hışırtısı ve gemi düdüğü "tuut"), tac (kısa tören borusu)
+#   hışırtısı ve gemi düdüğü "tuut"), tac (kısa tören borusu), yildiz (pırıl pırıl çanlar), roket (gürleyip
+#   yükselen "fiuuu"), semsiye (yağmur damlaları ve tatlı çan)
 
 import os
+import random
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -99,6 +101,37 @@ def fanfare() -> list:
     return out
 
 
+def twinkle() -> list:
+    # Pırıl pırıl: yukarı aşağı tatlı çanlar
+    out = silence(1.5)
+    for k, name in enumerate(["E6", "G6", "C7", "E7", "G7", "E7", "C7", "G7"]):
+        mix(out, bell(note(name), 0.6, 6.0), k * 0.09, 0.35)
+    mix(out, envelope(bandpass(noise(1.2, 14), 4000, 10000), 0.2, 3.0), 0.0, 0.06)
+    return out
+
+
+def rocket() -> list:
+    # Yumuşak gürleme, sonra yükselen "fiuuu" ve sonda parıltı
+    out = envelope(lowpass(noise(1.5, 3), 500), 0.15, 1.6)
+    mix(out, sweep(180, 900, 0.9, 0.2, 2.2, 1.4), 0.35, 0.5)
+    mix(out, envelope(bandpass(noise(0.9, 7), 800, 4000), 0.3, 2.5), 0.4, 0.3)
+    for k, name in enumerate(["C7", "G7", "C8"]):
+        mix(out, bell(note(name), 0.4, 8.0), 1.1 + k * 0.07, 0.15)
+    return out
+
+
+def rain() -> list:
+    # Damlalar: kısa, yukarı kıvrılan "tıp"lar; sonra iki tatlı çan
+    rng = random.Random(4)
+    out = silence(1.5)
+    for k in range(14):
+        f = rng.uniform(900, 1700)
+        mix(out, sweep(f, f * 1.6, 0.05, 0.002, 70.0, 0.6), rng.uniform(0.0, 0.9), rng.uniform(0.25, 0.45))
+    mix(out, bell(note("G6"), 0.7, 5.0), 0.9, 0.35)
+    mix(out, bell(note("C7"), 0.6, 5.0), 1.05, 0.3)
+    return out
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     save("nokta.wav", dot(), TARGET * 0.8)
@@ -109,6 +142,9 @@ if __name__ == "__main__":
     save("ev.wav", doorbell(), TARGET * 0.8)
     save("yelkenli.wav", ship(), TARGET * 0.8)
     save("tac.wav", fanfare(), TARGET * 0.8)
+    save("yildiz.wav", twinkle(), TARGET * 0.7)
+    save("roket.wav", rocket(), TARGET * 0.8)
+    save("semsiye.wav", rain(), TARGET * 0.7)
     if not check_all(HERE):
         print("\nDenetim: SORUN VAR")
         sys.exit(1)

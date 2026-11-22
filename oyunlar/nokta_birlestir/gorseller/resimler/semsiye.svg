@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <clipPath id="kubbekirp1"><path d="M600 100 Q718 100 820 154 Q922 207 981 300 Q1040 393 1040 500 Q930 436 820 500 Q710 436 600 500 Q490 436 380 500 Q270 436 160 500 Q160 393 219 300 Q278 207 380 154 Q482 100 600 100 Z"/></clipPath>
+    <linearGradient id="dilim2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF94A1"/><stop offset="1" stop-color="#E7556E"/></linearGradient>
+    <linearGradient id="dilim3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE282"/><stop offset="1" stop-color="#E7BE44"/></linearGradient>
+    <linearGradient id="dilim4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8DC6FF"/><stop offset="1" stop-color="#4D99ED"/></linearGradient>
+    <linearGradient id="dilim5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#95DC95"/><stop offset="1" stop-color="#58B75E"/></linearGradient>
+  </defs>
+  <path d="M600 500 L600 770 Q600 846 540 846 Q488 846 488 794" fill="none" stroke="#3B2F6B" stroke-width="34" stroke-linecap="round"/>
+  <path d="M600 500 L600 770 Q600 846 540 846 Q488 846 488 794" fill="none" stroke="#B9784A" stroke-width="20" stroke-linecap="round"/>
+  <path d="M594 520 V760" stroke="#D99A6A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M600 100 Q718 100 820 154 Q922 207 981 300 Q1040 393 1040 500 Q930 436 820 500 Q710 436 600 500 Q490 436 380 500 Q270 436 160 500 Q160 393 219 300 Q278 207 380 154 Q482 100 600 100 Z" fill="#FFFFFF"/>
+  <g clip-path="url(#kubbekirp1)"><path d="M600 100 Q743 270 820 500 L820 640 L1300 640 L1300 100 Z" fill="url(#dilim2)"/><path d="M600 100 Q743 270 820 500 L820 640 L600 640 L600 500 Q600 270 600 100 Z" fill="url(#dilim3)"/><path d="M600 100 Q600 270 600 500 L600 640 L380 640 L380 500 Q457 270 600 100 Z" fill="url(#dilim4)"/><path d="M600 100 Q457 270 380 500 L380 640 L-100 640 L-100 100 Z" fill="url(#dilim5)"/><path d="M1040 474 Q930 410 820 474 Q710 410 600 474 Q490 410 380 474 Q270 410 160 474" fill="none" stroke="#FFFFFF" stroke-width="8" opacity="0.45"/></g>
+  <path d="M600 100 Q743 270 820 500" fill="none" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M600 100 Q600 270 600 500" fill="none" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M600 100 Q457 270 380 500" fill="none" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="430" cy="230" rx="60" ry="16" transform="rotate(-40 430 230)" fill="#FFFFFF" opacity="0.55"/>
+  <ellipse cx="370" cy="290" rx="14" ry="7" transform="rotate(-40 370 290)" fill="#FFFFFF" opacity="0.6"/>
+  <path d="M600 100 V66" stroke="#3B2F6B" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="600" cy="60" r="15" fill="#FFD23F" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M700 230 q12 20 0 30 q-12 -10 0 -30 Z" fill="#DFF2FF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M520 300 q12 20 0 30 q-12 -10 0 -30 Z" fill="#DFF2FF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M860 360 q12 20 0 30 q-12 -10 0 -30 Z" fill="#DFF2FF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M600 100 Q718 100 820 154 Q922 207 981 300 Q1040 393 1040 500 Q930 436 820 500 Q710 436 600 500 Q490 436 380 500 Q270 436 160 500 Q160 393 219 300 Q278 207 380 154 Q482 100 600 100 Z" fill="none" stroke="#3B2F6B" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
