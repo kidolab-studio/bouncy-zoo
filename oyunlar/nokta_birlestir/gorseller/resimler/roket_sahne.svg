@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="gok1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1A4A"/><stop offset="1" stop-color="#46348C"/></linearGradient>
+    <radialGradient id="gezegen2" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFD4BC"/><stop offset="0.55" stop-color="#FF9F6A"/><stop offset="1" stop-color="#D4866A"/></radialGradient>
+    <radialGradient id="gezegen3" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#C5EDD8"/><stop offset="0.55" stop-color="#7ED6A8"/><stop offset="1" stop-color="#6FB19B"/></radialGradient>
+    <radialGradient id="dunya4" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#B0D8FF"/><stop offset="0.55" stop-color="#4FA8FF"/><stop offset="1" stop-color="#4B8DDE"/></radialGradient>
+    <clipPath id="dunyakes5"><circle cx="1070" cy="660" r="84"/></clipPath>
+    <radialGradient id="gezegen6" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFCDDF"/><stop offset="0.55" stop-color="#FF8FB8"/><stop offset="1" stop-color="#D47AA7"/></radialGradient>
+    <clipPath id="kart"><rect width="1200" height="900" rx="48"/></clipPath>
+  </defs>
+  <g clip-path="url(#kart)">
+  <rect width="1200" height="900" fill="url(#gok1)"/>
+  <path d="M1104.39 639.059 Q1106.64 649.273 1116.85 651.515 Q1106.64 653.757 1104.39 663.971 Q1102.15 653.757 1091.94 651.515 Q1102.15 649.273 1104.39 639.059 Z" fill="#FFF6C2"/>
+  <path d="M987.997 674.062 Q989.391 680.411 995.74 681.805 Q989.391 683.199 987.997 689.549 Q986.603 683.199 980.253 681.805 Q986.603 680.411 987.997 674.062 Z" fill="#FFF6C2"/>
+  <path d="M1057.03 115.81 Q1058.7 123.422 1066.31 125.093 Q1058.7 126.764 1057.03 134.376 Q1055.36 126.764 1047.74 125.093 Q1055.36 123.422 1057.03 115.81 Z" fill="#FFF6C2"/>
+  <circle cx="464" cy="116" r="3.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="474" cy="670" r="3.2" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M36.057 667.098 Q38.3467 677.529 48.7779 679.819 Q38.3467 682.108 36.057 692.54 Q33.7672 682.108 23.3361 679.819 Q33.7672 677.529 36.057 667.098 Z" fill="#FFF6C2"/>
+  <path d="M1024.54 260.286 Q1026.84 270.725 1037.28 273.016 Q1026.84 275.308 1024.54 285.747 Q1022.25 275.308 1011.81 273.016 Q1022.25 270.725 1024.54 260.286 Z" fill="#CFE0FF"/>
+  <path d="M1028.78 548.342 Q1030.08 554.304 1036.05 555.613 Q1030.08 556.922 1028.78 562.885 Q1027.47 556.922 1021.5 555.613 Q1027.47 554.304 1028.78 548.342 Z" fill="#CFE0FF"/>
+  <circle cx="254" cy="841" r="2.0" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="503" cy="816" r="2.7" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="837" cy="85" r="2.6" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M1112.11 321.591 Q1113.7 328.832 1120.94 330.421 Q1113.7 332.01 1112.11 339.251 Q1110.52 332.01 1103.28 330.421 Q1110.52 328.832 1112.11 321.591 Z" fill="#CFE0FF"/>
+  <path d="M40.3494 61.9843 Q41.6573 67.9428 47.6158 69.2508 Q41.6573 70.5587 40.3494 76.5172 Q39.0414 70.5587 33.0829 69.2508 Q39.0414 67.9428 40.3494 61.9843 Z" fill="#FFF6C2"/>
+  <path d="M165.683 224.976 Q167.796 234.6 177.42 236.713 Q167.796 238.825 165.683 248.449 Q163.571 238.825 153.947 236.713 Q163.571 234.6 165.683 224.976 Z" fill="#FFFFFF"/>
+  <circle cx="939" cy="752" r="3.9" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M133.945 305.946 Q135.795 314.372 144.221 316.222 Q135.795 318.072 133.945 326.498 Q132.095 318.072 123.669 316.222 Q132.095 314.372 133.945 305.946 Z" fill="#FFF6C2"/>
+  <circle cx="386" cy="296" r="2.2" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M199.71 595.93 Q202.045 606.571 212.687 608.907 Q202.045 611.243 199.71 621.884 Q197.374 611.243 186.732 608.907 Q197.374 606.571 199.71 595.93 Z" fill="#FFF6C2"/>
+  <path d="M1082.91 45.5503 Q1084.92 54.7211 1094.1 56.7342 Q1084.92 58.7473 1082.91 67.9182 Q1080.9 58.7473 1071.73 56.7342 Q1080.9 54.7211 1082.91 45.5503 Z" fill="#FFFFFF"/>
+  <path d="M971.977 403.806 Q973.588 411.147 980.929 412.759 Q973.588 414.37 971.977 421.711 Q970.365 414.37 963.025 412.759 Q970.365 411.147 971.977 403.806 Z" fill="#FFF6C2"/>
+  <path d="M1146.12 554.581 Q1148.21 564.102 1157.73 566.192 Q1148.21 568.283 1146.12 577.804 Q1144.03 568.283 1134.51 566.192 Q1144.03 564.102 1146.12 554.581 Z" fill="#FFFFFF"/>
+  <path d="M985.809 128.559 Q987.811 137.678 996.931 139.68 Q987.811 141.682 985.809 150.802 Q983.807 141.682 974.688 139.68 Q983.807 137.678 985.809 128.559 Z" fill="#FFF6C2"/>
+  <circle cx="749" cy="692" r="2.9" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M200.14 731.513 Q201.591 738.125 208.203 739.576 Q201.591 741.028 200.14 747.64 Q198.688 741.028 192.076 739.576 Q198.688 738.125 200.14 731.513 Z" fill="#FFFFFF"/>
+  <path d="M1081.08 543.953 Q1082.38 549.844 1088.27 551.138 Q1082.38 552.431 1081.08 558.323 Q1079.79 552.431 1073.9 551.138 Q1079.79 549.844 1081.08 543.953 Z" fill="#CFE0FF"/>
+  <path d="M197.017 333.762 Q199.343 344.355 209.936 346.681 Q199.343 349.006 197.017 359.599 Q194.692 349.006 184.099 346.681 Q194.692 344.355 197.017 333.762 Z" fill="#FFF6C2"/>
+  <circle cx="745" cy="449" r="2.2" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="444" cy="622" r="3.0" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="908" cy="610" r="3.9" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="771" cy="518" r="3.1" fill="#FFFFFF" opacity="0.8"/>
+  <g transform="rotate(-18 170 210)" fill="none"><path d="M68.5 210 A101.5 26.1 0 0 1 271.5 210" stroke="#3B2F6B" stroke-width="26"/><path d="M68.5 210 A101.5 26.1 0 0 1 271.5 210" stroke="#FFD87A" stroke-width="14"/></g>
+  <circle cx="170" cy="210" r="58" fill="url(#gezegen2)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M123.6 186.8 Q170 193.76 216.4 186.8" fill="none" stroke="#E87A4A" stroke-width="5.8" stroke-linecap="round" opacity="0.7"/>
+  <path d="M114.9 212.9 Q170 219.86 225.1 212.9" fill="none" stroke="#E87A4A" stroke-width="5.8" stroke-linecap="round" opacity="0.7"/>
+  <path d="M123.6 236.1 Q170 243.06 216.4 236.1" fill="none" stroke="#E87A4A" stroke-width="5.8" stroke-linecap="round" opacity="0.7"/>
+  <g transform="rotate(-18 170 210)" fill="none"><path d="M68.5 210 A101.5 26.1 0 0 0 271.5 210" stroke="#3B2F6B" stroke-width="26"/><path d="M68.5 210 A101.5 26.1 0 0 0 271.5 210" stroke="#FFD87A" stroke-width="14"/></g>
+  <ellipse cx="143.9" cy="181" rx="12.76" ry="5.8" transform="rotate(-35 143.9 181)" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="1060" cy="150" r="42" fill="url(#gezegen3)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="1045.3" cy="141.6" r="10.5" fill="#4FB283" opacity="0.7"/>
+  <circle cx="1072.6" cy="162.6" r="8.4" fill="#4FB283" opacity="0.7"/>
+  <circle cx="1070.5" cy="131.1" r="5.04" fill="#4FB283" opacity="0.7"/>
+  <ellipse cx="1043.2" cy="131.1" rx="8.4" ry="3.78" transform="rotate(-35 1043.2 131.1)" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="1070" cy="660" r="84" fill="url(#dunya4)"/>
+  <g clip-path="url(#dunyakes5)" fill="#5CC95C"><path d="M1002.8 634.8 Q1036.4 592.8 1070 618 Q1078.4 651.6 1044.8 668.4 Q1019.6 685.2 1002.8 634.8 Z"/><path d="M1086.8 685.2 Q1128.8 660 1145.6 693.6 Q1120.4 735.6 1086.8 685.2 Z"/></g>
+  <circle cx="1070" cy="660" r="84" fill="none" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="1036.4" cy="622.2" rx="16.8" ry="7.56" transform="rotate(-35 1036.4 622.2)" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="140" cy="640" r="30" fill="url(#gezegen6)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="129.5" cy="634" r="7.5" fill="#E85A8E" opacity="0.7"/>
+  <circle cx="149" cy="649" r="6" fill="#E85A8E" opacity="0.7"/>
+  <circle cx="147.5" cy="626.5" r="3.6" fill="#E85A8E" opacity="0.7"/>
+  <ellipse cx="128" cy="626.5" rx="6" ry="2.7" transform="rotate(-35 128 626.5)" fill="#FFFFFF" opacity="0.8"/>
+  <g transform="translate(1000 380) rotate(22) scale(0.7 0.7)">
+  <path d="M0 -18 Q-140 -30 -260 -60 Q-150 0 -260 60 Q-140 30 0 18 Z" fill="#FFFFFF" opacity="0.35"/>
+  <path d="M0 -12 Q-110 -20 -200 -36 Q-110 0 -200 36 Q-110 20 0 12 Z" fill="#FFE680" opacity="0.6"/>
+  <circle cx="0" cy="0" r="22" fill="#FFF3A8" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  </g>
+</svg>

@@ -365,6 +365,193 @@ def crown() -> None:
     save_picture("tac", dots, curves, (600, 720), scene, obj)
 
 
+def cute_face(x: float, y: float, s: float) -> str:
+    # Nesnelerin gülen yüzü (gözler, yanaklar, ağız); s: ölçek (1 = 60 px göz aralığı)
+    out = ""
+    for dx in (-30, 30):
+        out += f'  <ellipse cx="{x + dx * s:g}" cy="{y:g}" rx="{13 * s:g}" ry="{17 * s:g}" fill="url(#goz)"/>\n'
+        out += f'  <ellipse cx="{x + (dx - 5) * s:g}" cy="{y - 7 * s:g}" rx="{5 * s:g}" ry="{5.5 * s:g}" fill="#FFFFFF"/>\n'
+    out += "".join(f'  <ellipse cx="{x + dx * s:g}" cy="{y + 26 * s:g}" rx="{17 * s:g}" ry="{10 * s:g}" fill="url(#yanak)"/>\n' for dx in (-56, 56))
+    out += (f'  <path d="M{x - 20 * s:g} {y + 22 * s:g} Q{x:g} {y + 25 * s:g} {x + 20 * s:g} {y + 22 * s:g} '
+            f'Q{x + 17 * s:g} {y + 48 * s:g} {x:g} {y + 48 * s:g} Q{x - 17 * s:g} {y + 48 * s:g} {x - 20 * s:g} {y + 22 * s:g} Z" fill="#8A2A4A" {st(5 * s)}/>\n')
+    out += f'  <path d="M{x - 10 * s:g} {y + 41 * s:g} Q{x:g} {y + 34 * s:g} {x + 10 * s:g} {y + 41 * s:g} Q{x:g} {y + 48 * s:g} {x - 10 * s:g} {y + 41 * s:g} Z" fill="#FF7FA3"/>\n'
+    return out
+
+
+def ellipse_arc_dots(cx: float, cy: float, a: float, b: float, angles: list) -> tuple:
+    # Elips üstünde noktalar (açı derece, yukarı pozitif) ve aralarındaki parçaların eğri kontrol noktaları
+    # (komşu iki noktadaki teğetlerin kesişimi: ikinci derece eğri elipse çok yakın düşer)
+    dots = [(round(cx + a * math.cos(math.radians(t))), round(cy - b * math.sin(math.radians(t)))) for t in angles]
+    controls = []
+    for t1, t2 in zip(angles, angles[1:]):
+        m, half = math.radians((t1 + t2) / 2), math.radians(abs(t2 - t1) / 2)
+        controls.append((round(cx + a * math.cos(m) / math.cos(half)), round(cy - b * math.sin(m) / math.cos(half))))
+    return dots, controls
+
+
+# --- 4. Yıldız (10 nokta) ---
+
+def star() -> None:
+    cx, cy, outer, inner = 600, 470, 360, 170
+    dots = []
+    for k in range(10):
+        a = math.radians(-90 + k * 36)
+        r = outer if k % 2 == 0 else inner
+        dots.append((round(cx + r * math.cos(a)), round(cy + r * math.sin(a))))
+    curves = [None] * 10
+    scene = Pic()
+    sky(scene, "#2A2766", "#6B57B8")
+    rng = random.Random(11)
+    for _ in range(40):
+        x, y = rng.uniform(30, 1170), rng.uniform(30, 640)
+        if math.hypot(x - cx, y - cy) > 400:
+            scene.add(yapboz.sparkle_star(x, y, rng.uniform(6, 14), rng.choice(["#FFF6C2", "#FFFFFF", "#CFE0FF"])))
+    yapboz.moon(scene, 150, 160, 74)
+    # Uzak tepeler, ışıklı küçük evler ve alçak bulutlar
+    gh = scene.uid("tepe")
+    scene.add(f'  <path d="M0 760 Q200 690 420 740 Q640 680 860 735 Q1040 690 1200 730 L1200 900 L0 900 Z" fill="url(#{gh})"/>\n',
+              linear(gh, [(0, "#3D3A8C"), (1, "#26235E")]))
+    for hx, hy, s in ((120, 752, 1.0), (230, 740, 0.8), (980, 742, 0.9), (1090, 750, 1.0)):
+        scene.add(f'  <path d="M{hx - 40 * s:g} {hy:g} V{hy - 50 * s:g} L{hx:g} {hy - 86 * s:g} L{hx + 40 * s:g} {hy - 50 * s:g} V{hy:g} Z" fill="#4A4699" {st(4)}/>\n'
+                  f'  <rect x="{hx - 14 * s:g}" y="{hy - 42 * s:g}" width="{28 * s:g}" height="{24 * s:g}" rx="4" fill="#FFD86B"/>\n')
+    for x, y, s in ((140, 860, 1.1), (520, 880, 0.9), (930, 870, 1.2)):
+        scene.add(cloud(x, y, s, "#E8E2FF", "#B7ABEA"))
+
+    obj = Pic()
+    body = outline_d(dots, curves)
+    gs = obj.uid("yildiz")
+    obj.add(f'  <path d="{body}" fill="url(#{gs})" {st()}/>\n',
+            radial(gs, [(0, "#FFF7C2"), (0.5, "#FFD84A"), (1, "#F5A623")], 0.42, 0.35, 0.75) + besle.EYE_DEFS)
+    # İçte açık renkli küçük yıldız (kabartma) ve parıltılar
+    small = [(cx + (p[0] - cx) * 0.72, cy + (p[1] - cy) * 0.72 - 10) for p in dots]
+    obj.add(f'  <path d="{outline_d(small, curves)}" fill="#FFF3A6" opacity="0.55"/>\n')
+    obj.add(shine(566, 236, 26, 9, -62, 0.75) + shine(552, 280, 8, 5, -62, 0.75))
+    obj.add(cute_face(cx, cy + 10, 1.25))
+    obj.add(sparkle(900, 210, 26) + sparkle(300, 640, 18) + sparkle(960, 560, 14))
+    save_picture("yildiz", dots, curves, (cx, cy), scene, obj)
+
+
+# --- 5. Roket (10 nokta) ---
+
+def rocket() -> None:
+    dots = [(600, 60), (770, 300), (770, 500), (930, 790), (715, 720), (600, 860), (485, 720), (270, 790), (430, 500), (430, 300)]
+    curves = [(750, 110), None, (890, 580), None, (700, 815), (500, 815), None, (310, 580), None, (450, 110)]
+    scene = Pic()
+    sky(scene, "#1C1A4A", "#46348C")
+    rng = random.Random(5)
+    for _ in range(46):
+        x, y = rng.uniform(30, 1170), rng.uniform(30, 870)
+        if not (230 < x < 970):
+            scene.add(yapboz.sparkle_star(x, y, rng.uniform(6, 13), rng.choice(["#FFF6C2", "#FFFFFF", "#CFE0FF"])))
+        elif rng.random() < 0.4:
+            scene.add(f'  <circle cx="{x:.0f}" cy="{y:.0f}" r="{rng.uniform(2, 4):.1f}" fill="#FFFFFF" opacity="0.8"/>\n')
+    yapboz.ringed_planet(scene, 170, 210, 58)
+    yapboz.small_planet(scene, 1060, 150, 42, "#7ED6A8", "#4FB283")
+    yapboz.earth(scene, 1070, 660, 84)
+    yapboz.small_planet(scene, 140, 640, 30, "#FF8FB8", "#E85A8E")
+    scene.add(yapboz.comet(1000, 380, 0.7))
+
+    obj = Pic()
+    fin_r = "M770 500 Q890 580 930 790 L715 720 Z"
+    fin_l = "M430 500 Q310 580 270 790 L485 720 Z"
+    flame = "M715 720 Q700 815 600 860 Q500 815 485 720 Z"
+    body = "M600 60 Q750 110 770 300 L770 704 Q600 734 430 704 L430 300 Q450 110 600 60 Z"
+    gf, gb, cb, gfl = obj.uid("kanat"), obj.uid("govde"), obj.uid("govdekirp"), obj.uid("alev")
+    obj.add("", linear(gf, [(0, "#FF7A8A"), (1, "#D9364F")]) + linear(gb, [(0, "#C9D3E8"), (0.35, "#FFFFFF"), (1, "#AEB8D6")], 1, 0)
+            + clip_def(cb, body) + linear(gfl, [(0, "#FFE680"), (0.5, "#FF9F40"), (1, "#FF5A3D")]) + besle.EYE_DEFS)
+    # Alev, egzoz, kanatlar (gövdenin arkasında)
+    obj.add(f'  <path d="{flame}" fill="url(#{gfl})" {st()}/>\n'
+            f'  <path d="M680 726 Q660 796 600 828 Q540 796 520 726 Z" fill="#FFF3A6"/>\n')
+    obj.add(f'  <path d="M500 690 L700 690 L722 728 L478 728 Z" fill="#8C93B8" {st()}/>\n')
+    obj.add(f'  <path d="{fin_r}" fill="url(#{gf})" {st()}/>\n  <path d="{fin_l}" fill="url(#{gf})" {st()}/>\n')
+    # Gövde: burun ucu ve alt bant kırmızı, ortada lombuz
+    obj.add(f'  <path d="{body}" fill="url(#{gb})" {st()}/>\n')
+    obj.add(f'  <g clip-path="url(#{cb})"><rect x="400" y="40" width="400" height="190" fill="url(#{gf})"/>'
+            f'<rect x="400" y="218" width="400" height="20" fill="#FFD23F"/><rect x="400" y="600" width="400" height="44" fill="url(#{gf})"/>'
+            f'<rect x="400" y="644" width="400" height="12" fill="#FFD23F"/></g>\n')
+    obj.add(f'  <path d="M440 230 H760 M440 600 H760" {st(5)}/>\n')
+    obj.add(f'  <path d="{body}" fill="none" {st()}/>\n')
+    obj.add(f'  <circle cx="600" cy="400" r="82" fill="#B8C0DC" {st()}/>\n')
+    gw = obj.uid("cam")
+    obj.add(f'  <circle cx="600" cy="400" r="60" fill="url(#{gw})" {st(5)}/>\n',
+            radial(gw, [(0, "#E8F7FF"), (0.6, "#7FC4FF"), (1, "#3F8FE0")], 0.35, 0.3, 0.8))
+    obj.add(cute_face(600, 392, 0.6))
+    obj.add(shine(572, 368, 14, 7, -40, 0.85))
+    for k in range(8):
+        a = math.radians(k * 45 + 22)
+        obj.add(f'  <circle cx="{600 + 72 * math.cos(a):.1f}" cy="{400 + 72 * math.sin(a):.1f}" r="5" fill="#7C84A8"/>\n')
+    obj.add(shine(480, 330, 14, 60, 0, 0.6))
+    save_picture("roket", dots, curves, (600, 720), scene, obj)
+
+
+# --- 6. Şemsiye (10 nokta) ---
+
+def umbrella() -> None:
+    cx, cy, a, b = 600, 500, 440, 400
+    dome, dome_curves = ellipse_arc_dots(cx, cy, a, b, [90, 60, 30, 0])
+    left, left_curves = ellipse_arc_dots(cx, cy, a, b, [180, 150, 120, 90])
+    tips = [(cx + a - k * 220, cy) for k in range(5)]            # alt kenarın uçları (sağdan sola)
+    scallops = [((x1 + x2) / 2, cy - 64) for (x1, _), (x2, _) in zip(tips, tips[1:])]
+    dots = dome + tips[1:] + left[1:-1]
+    curves = dome_curves + scallops + left_curves
+    scene = Pic()
+    sky(scene, "#B4DDFF", "#EEF8FF")
+    scene.add(yapboz.rainbow(600, 760, 600, 26))
+    for x, y, s in ((170, 120, 1.0), (1030, 110, 1.1), (620, 60, 0.6)):
+        scene.add(cloud(x, y, s, "#F2F5FB", "#BCC8DE"))
+    rng = random.Random(21)
+    for _ in range(34):
+        x, y = rng.uniform(40, 1160), rng.uniform(170, 720)
+        if math.hypot((x - cx) / a, (y - cy) / b) > 1.08 or y > cy + 30:
+            scene.add(f'  <path d="M{x:.0f} {y:.0f} q8 14 0 20 q-8 -6 0 -20 Z" fill="#7FC4FF" opacity="0.8"/>\n')
+    grass_strip(scene, 770, 9)
+    for px, py, w in ((300, 830, 150), (860, 845, 190)):
+        scene.add(f'  <ellipse cx="{px}" cy="{py}" rx="{w / 2:g}" ry="20" fill="#9ED8FF" {st(4)}/>\n'
+                  f'  <ellipse cx="{px - w * 0.15:g}" cy="{py - 5}" rx="{w * 0.18:g}" ry="5" fill="#FFFFFF" opacity="0.7"/>\n')
+    for x in (130, 560, 1110):
+        scene.add(flower(x, 800, 1.1, rng.choice(["#FF6FA8", "#FFD23F", "#A46BFF"])))
+
+    obj = Pic()
+    canopy = outline_d(dots, curves)
+    cc = obj.uid("kubbekirp")
+    obj.add("", clip_def(cc, canopy))
+    # Sap (kubbenin arkasında): düz direk ve J kanca
+    handle = "M600 500 L600 770 Q600 846 540 846 Q488 846 488 794"
+    obj.add(f'  <path d="{handle}" fill="none" stroke="{OUT}" stroke-width="34" stroke-linecap="round"/>\n'
+            f'  <path d="{handle}" fill="none" stroke="#B9784A" stroke-width="20" stroke-linecap="round"/>\n'
+            f'  <path d="M594 520 V760" stroke="#D99A6A" stroke-width="5" stroke-linecap="round"/>\n')
+    # Renkli dilimler: sınırları dilim çizgileriyle (tepeden uçlara inen eğriler) aynı, kubbenin içine kırpılır
+    top = (cx, cy - b)
+    ribs = {x: ((top[0] + x) / 2 + (x - cx) * 0.15, cy - 230) for x in (820, 600, 380)}
+
+    def rib(x: float, down: bool) -> str:
+        # Tepeden uca (down) ya da uçtan tepeye giden dilim çizgisi
+        c = ribs[x]
+        return f"Q{c[0]:g} {c[1]:g} {x:g} {cy:g}" if down else f"Q{c[0]:g} {c[1]:g} {top[0]:g} {top[1]:g}"
+    panels = [
+        (f"M{top[0]} {top[1]} {rib(820, True)} L820 640 L1300 640 L1300 {top[1]} Z", "#FF5A6E"),
+        (f"M{top[0]} {top[1]} {rib(820, True)} L820 640 L600 640 L600 {cy} {rib(600, False)} Z", "#FFD23F"),
+        (f"M{top[0]} {top[1]} {rib(600, True)} L600 640 L380 640 L380 {cy} {rib(380, False)} Z", "#4FA8FF"),
+        (f"M{top[0]} {top[1]} {rib(380, True)} L380 640 L-100 640 L-100 {top[1]} Z", "#5CC95C"),
+    ]
+    inner = ""
+    for d, color in panels:
+        gid = obj.uid("dilim")
+        obj.defs += linear(gid, [(0, light(color, 0.35)), (1, dark(color, 0.12))])
+        inner += f'<path d="{d}" fill="url(#{gid})"/>'
+    # Alt kenarın biraz üstünde ince açık şerit
+    inner += f'<path d="M{tips[0][0]} {cy - 26} {" ".join(f"Q{c[0]:g} {c[1] - 26:g} {t[0]:g} {t[1] - 26:g}" for c, t in zip(scallops, tips[1:]))}" fill="none" stroke="#FFFFFF" stroke-width="8" opacity="0.45"/>'
+    obj.add(f'  <path d="{canopy}" fill="#FFFFFF"/>\n  <g clip-path="url(#{cc})">{inner}</g>\n')
+    for x in ribs:
+        obj.add(f'  <path d="M{top[0]} {top[1]} {rib(x, True)}" fill="none" {st(5)}/>\n')
+    obj.add(shine(430, 230, 60, 16, -40, 0.55) + shine(370, 290, 14, 7, -40, 0.6))
+    # Tepe topuzu ve kubbenin üstünde birkaç damla
+    obj.add(f'  <path d="M600 {top[1]} V{top[1] - 34}" {st(10)}/>\n  <circle cx="600" cy="{top[1] - 40}" r="15" fill="#FFD23F" {st(5)}/>\n')
+    for x, y in ((700, 230), (520, 300), (860, 360)):
+        obj.add(f'  <path d="M{x} {y} q12 20 0 30 q-12 -10 0 -30 Z" fill="#DFF2FF" {st(3)}/>\n')
+    save_picture("semsiye", dots, curves, (600, 846), scene, obj)
+
+
 # --- Kart / final karakteri: gülen kurşun kalem ---
 
 def card_pencil() -> None:
@@ -408,4 +595,7 @@ if __name__ == "__main__":
     house()
     sailboat()
     crown()
+    star()
+    rocket()
+    umbrella()
     save_data()

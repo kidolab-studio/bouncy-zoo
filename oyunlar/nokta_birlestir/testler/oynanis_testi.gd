@@ -205,7 +205,13 @@ func _fast_swipe(level: int) -> void:
 	var dots: PackedVector2Array = page.dots
 	_tap(dots[0])
 	await _frames(3)
-	var start: Vector2 = page.rect.get_center() + Vector2(0, page.rect.size.y * 0.1)
+	# Başlangıç: resmin ortasına yakın, hiçbir noktanın dokunma alanında olmayan bir yer
+	var start: Vector2 = page.rect.get_center()
+	for k in 40:
+		if page.dot_at(start) == -1:
+			break
+		start = page.rect.get_center() + Vector2.from_angle(k * 0.9) * (20.0 + k * 6.0)
+	_check(page.dot_at(start) == -1, "%d. bölüm: boş bir başlangıç yeri bulunamadı" % (level + 1))
 	_touch(start, true, 0)
 	await _frames(2)
 	_drag_event(start + Vector2(30, 0), 0)
