@@ -131,25 +131,25 @@ Projede başka yazı tipi yok. SVG'lerin hiçbirinde yazı ya da yazı tipi adı
 8. **Hayvanları Besle: derlenmiş Python dosyası.** `gorseller/__pycache__/svg_uret.cpython-314.pyc` repodan
    çıkarıldı (lisans sorunu değildi, repoda durmaması gerekiyordu).
 11. **Kanıtlar kaydedildi ve denetim betiği eklendi** (2 Ekim 2026). `LISANS_KANITLARI.md`: 28 kaynak
-    sayfasının Internet Archive'daki tarihli kopyası (hepsinin lisansı gösterdiği doğrulandı), ortak seslerde
-    kullanılan her orijinal dosyanın SHA-256 özeti, paketlerin içindeki lisans dosyaları. `lisans_denetle.py`:
-    kayıtsız ses, lisanssız yazı tipi, dış kaynak izi taşıyan görsel, marka adı ya da ağ bağlantısı eklenirse
-    hata verir. `ses_hazirla.py`'deki indirme, yarıda kesilince yarım dosya bırakmayacak şekilde düzeltildi.
+	sayfasının Internet Archive'daki tarihli kopyası (hepsinin lisansı gösterdiği doğrulandı), ortak seslerde
+	kullanılan her orijinal dosyanın SHA-256 özeti, paketlerin içindeki lisans dosyaları. `lisans_denetle.py`:
+	kayıtsız ses, lisanssız yazı tipi, dış kaynak izi taşıyan görsel, marka adı ya da ağ bağlantısı eklenirse
+	hata verir. `ses_hazirla.py`'deki indirme, yarıda kesilince yarım dosya bırakmayacak şekilde düzeltildi.
 10. **Tren Rayı'nın tren sesleri değiştirildi.** Eski düdük, "çuf", kalkış ve fren sesleri oyunun kendi
-    betiğinde sinüs ve gürültüyle sentezlenmişti (lisans sorunu yoktu, ama kulağa garip geliyordu). Yerlerine
-    OpenGameArt'taki CC0 gerçek buhar kayıtlarından hazırlanan `tren_duduk.ogg`, `tren_cufcuf.ogg` ve
-    `tren_fren.ogg` kondu; eski dört `.wav` dosyası ve üretim kodu projeden silindi. Ayrıntı `SESLER.md`'de.
+	betiğinde sinüs ve gürültüyle sentezlenmişti (lisans sorunu yoktu, ama kulağa garip geliyordu). Yerlerine
+	OpenGameArt'taki CC0 gerçek buhar kayıtlarından hazırlanan `tren_duduk.ogg`, `tren_cufcuf.ogg` ve
+	`tren_fren.ogg` kondu; eski dört `.wav` dosyası ve üretim kodu projeden silindi. Ayrıntı `SESLER.md`'de.
 12. **İngilizce adlar ve denetim** (2 Ekim 2026, üçüncü tur). Çeviri tablosunda uygulama adı "Tiny Games" →
-    "Bouncy Zoo: Kids Games 4-8" (`project.godot` `config/name_localized`; menü başlığı "Bouncy Zoo"), Hafıza'nın
+	"Bouncy Zoo: Kids Games 4-8" (`project.godot` `config/name_localized`; menü başlığı "Bouncy Zoo"), Hafıza'nın
     adı "Memory" → "Find the Pairs". Lisanslar ekranının İngilizce girişindeki "Nearly all drawings" Türkçesiyle
     aynı olacak şekilde "All drawings" yapıldı (bütün çizimler özgün). `lisans_denetle.py` artık `.csv` dosyalarını
     da tarıyor; marka listesine "memory", oyuncak markaları (Jenga, Brio, Duplo, Playmobil...), Türk çocuk çizgi
     filmleri (Pepee, Niloya, Rafadan Tayfa, Kral Şakir) ve Algida eklendi.
 13. **Ana menü müziği değiştirildi** (20 Ekim 2026). "Happy Clappy Loop" (OwlishMedia) beğenilmediği için
-    çıkarıldı; yerine OpenGameArt'tan "Children's Game Music 3 - Home" (heartade, CC0,
-    https://opengameart.org/content/childrens-game-music-3-home) kondu. Sayfa ve 12 Aralık 2025 tarihli arşiv
-    kopyası CC0 gösteriyor. Dosya adı aynı kaldı (`ortak/sesler/muzik_menu.ogg`); `SESLER.md`,
-    `LISANS_KANITLARI.md` ve Lisanslar ekranı güncellendi.
+	çıkarıldı; yerine OpenGameArt'tan "Children's Game Music 3 - Home" (heartade, CC0,
+	https://opengameart.org/content/childrens-game-music-3-home) kondu. Sayfa ve 12 Aralık 2025 tarihli arşiv
+	kopyası CC0 gösteriyor. Dosya adı aynı kaldı (`ortak/sesler/muzik_menu.ogg`); `SESLER.md`,
+	`LISANS_KANITLARI.md` ve Lisanslar ekranı güncellendi.
 9. **Yeni hayvan sesleri kayıtlara işlendi.** BigSoundBank ve "Ribbit Frog Sounds" kaynakları `CREDITS.md`'ye ve
    Lisanslar ekranına (`ana_menu/lisans_metinleri.gd`) eklendi.
 
