@@ -1,6 +1,6 @@
 extends Control
 # Bouncy Zoo ana menüsü (yatay): üstte tek satırda başlık ve kategori sekmeleri, altında 5 sütunlu,
-# dikey kaydırılan büyük oyun kartları. Oyun listesi oyun_listesi.gd'de; kart oyun_karti.gd, sekme sekme.gd.
+# dikey kaydırılan büyük oyun kartları ("genis" kayıtlı kart kendi satırına geçip satırın tamamını kaplar). Oyun listesi oyun_listesi.gd'de; kart oyun_karti.gd, sekme sekme.gd.
 #
 # Dokunma: parmak KAYMA_ESIGI'nden fazla kayarsa dokunma iptal olur ve liste kayar (momentumlu, uçlarda esner).
 # Karta basınca kart küçülür, parmak kalkınca büyüyüp oyun açılır. Oyundan dönünce aynı sekme ve kaydırma
@@ -88,7 +88,7 @@ func _ready() -> void:
 	for i in OYUNLAR.size():
 		var kart: Control = OyunKarti.new()
 		_icerik.add_child(kart)
-		kart.kur(OYUNLAR[i], _kart_boyu(), i * 1.3)
+		kart.kur(OYUNLAR[i], _genis_boyu() if OYUNLAR[i].get("genis", false) else _kart_boyu(), i * 1.3)
 		_kartlar.append(kart)
 	_sekme = _son_sekme if _kategori_var(_son_sekme) else "hepsi"
 	for sekme in _sekmeler:
@@ -285,6 +285,12 @@ func _kart_boyu() -> Vector2:
 	return Vector2(roundf(genislik), roundf(genislik * KART_ORANI))
 
 
+# Satırın tamamını kaplayan kart: beş kart ve aralarındaki boşluklar kadar geniş, normal kart kadar yüksek
+func _genis_boyu() -> Vector2:
+	var boyut := _kart_boyu()
+	return Vector2(boyut.x * SUTUN + ARALIK * (SUTUN - 1), boyut.y)
+
+
 # Ekranın yan boşluğu: çentikli telefonda güvenli alan kadar büyür (iki yanda aynı: ızgara ortada kalır)
 func _kenar() -> float:
 	return maxf(EkranYardimcisi.kenar_payi(SIDE_LEFT, KENAR), EkranYardimcisi.kenar_payi(SIDE_RIGHT, KENAR))
@@ -296,19 +302,25 @@ func _yan_kenar() -> float:
 	return roundf((_ekran.x - boyut.x * SUTUN - ARALIK * (SUTUN - 1)) / 2.0)
 
 
-# Seçili sekmenin kartlarını SUTUN sütuna dizer, kaydırma sınırını hesaplar
+# Seçili sekmenin kartlarını SUTUN sütuna dizer (geniş kart yeni satıra geçip satırı doldurur), kaydırma sınırını
+# hesaplar
 func _yerlestir() -> void:
 	var boyut := _kart_boyu()
 	var sol := _yan_kenar()
 	var ust_bosluk := 14.0
+	var j := 0                           # sıradaki yuva (satır * SUTUN + sütun)
 	_gorunen.clear()
 	for kart in _kartlar:
 		kart.visible = OyunListesi.kategoride_mi(kart.oyun, _sekme)
-		if kart.visible:
-			var j := _gorunen.size()
-			kart.position = Vector2(sol + (j % SUTUN) * (boyut.x + ARALIK), ust_bosluk + floori(float(j) / SUTUN) * (boyut.y + ARALIK))
-			_gorunen.append(kart)
-	var satir := ceili(float(_gorunen.size()) / SUTUN)
+		if not kart.visible:
+			continue
+		var genis: bool = kart.oyun.get("genis", false)
+		if genis and j % SUTUN != 0:
+			j += SUTUN - j % SUTUN
+		kart.position = Vector2(sol + (j % SUTUN) * (boyut.x + ARALIK), ust_bosluk + floori(float(j) / SUTUN) * (boyut.y + ARALIK))
+		j += SUTUN if genis else 1
+		_gorunen.append(kart)
+	var satir := ceili(float(j) / SUTUN)
 	var yukseklik := ust_bosluk + satir * (boyut.y + ARALIK) - ARALIK + 60.0
 	_en_fazla = maxf(0.0, yukseklik - _alan.size.y)
 

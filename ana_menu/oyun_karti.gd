@@ -1,6 +1,7 @@
 extends Control
 # Ana menüde tek oyun kartı: pastel zemin, ortada oyunun büyük görseli (yavaşça nefes alır), altta kısa ad,
-# köşelerde küçük rozetler ("Yeni" ve bölümlü oyunlarda ilerleme; bütün bölümler bitince kupa). Bütün görünüm "ic" düğümünde;
+# köşelerde küçük rozetler ("Yeni" ve bölümlü oyunlarda ilerleme; bütün bölümler bitince kupa). Geniş kart ("genis":
+# satırın tamamı) aynı düzende çizilir; ölçüler kartın kısa kenarından, zeminde hafif çapraz parıltı şeritleri. Bütün görünüm "ic" düğümünde;
 # kartın kendisi sadece yer tutar (kaydırma onu taşır), basma ve açılış animasyonları "ic" üzerinde oynar.
 
 const OyunListesi := preload("res://ana_menu/oyun_listesi.gd")
@@ -18,11 +19,13 @@ var _gorsel_olcek := 1.0
 var _faz := 0.0
 var _zaman := 0.0
 var _yeni: Control
+var _genis := false
 
 
 func kur(p_oyun: Dictionary, boyut: Vector2, faz: float) -> void:
 	oyun = p_oyun
 	_faz = faz
+	_genis = oyun.get("genis", false)
 	_renk = OyunListesi.renk(oyun)
 	size = boyut
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -40,6 +43,8 @@ func kur(p_oyun: Dictionary, boyut: Vector2, faz: float) -> void:
 	var isik := Sprite2D.new()
 	isik.texture = YUMUSAK_DAIRE
 	isik.scale = Vector2.ONE * minf(alan.size.x, alan.size.y) * 1.02 / YUMUSAK_DAIRE.get_width()
+	if _genis:
+		isik.scale = alan.size * Vector2(0.9, 1.1) / YUMUSAK_DAIRE.get_size()
 	isik.position = merkez
 	isik.modulate = Color(1, 1, 1, 0.75)
 	ic.add_child(isik)
@@ -62,7 +67,7 @@ func kur(p_oyun: Dictionary, boyut: Vector2, faz: float) -> void:
 	ad.position = Vector2(0, boyut.y - yazi_payi - 4.0)
 	ad.size = Vector2(boyut.x, yazi_payi)
 	ic.add_child(ad)
-	_yaziyi_sigdir(ad, roundi(boyut.x * 0.112), boyut.x - 30.0)
+	_yaziyi_sigdir(ad, roundi(_kisa() * 0.112), boyut.x - 30.0)
 	# Yazı küçülünce etiketin büyümüş boyutu kalmasın (yoksa ortadan kayar)
 	ad.position = Vector2(0, boyut.y - yazi_payi - 4.0)
 	ad.size = Vector2(boyut.x, yazi_payi)
@@ -78,7 +83,12 @@ func kur(p_oyun: Dictionary, boyut: Vector2, faz: float) -> void:
 
 
 func _yazi_yuksekligi() -> float:
-	return roundf(size.x * 0.2)
+	return roundf(_kisa() * 0.2)
+
+
+# Kartın kısa kenarı (normal kartta genişlik, geniş kartta yükseklik): köşe, ad bandı ve yazı ölçüleri buna göre
+func _kisa() -> float:
+	return minf(size.x, size.y)
 
 
 # Uzun adlar (ör. "Gölge Eşleştirme") karta sığsın diye yazı biraz küçülür
@@ -91,7 +101,7 @@ func _yaziyi_sigdir(ad: Label, boy: int, genislik: float) -> void:
 
 func _zemini_ciz() -> void:
 	var r := Rect2(Vector2.ZERO, size)
-	var kose := roundi(size.x * 0.13)
+	var kose := roundi(_kisa() * 0.13)
 	var zemin := StyleBoxFlat.new()
 	zemin.bg_color = _renk
 	zemin.set_corner_radius_all(kose)
@@ -102,6 +112,14 @@ func _zemini_ciz() -> void:
 	zemin.shadow_offset = Vector2(0, 9)
 	zemin.anti_aliasing_size = 1.2
 	ic.draw_style_box(zemin, r)
+	if _genis:
+		# Geniş kart: zeminde hafif çapraz parıltı şeritleri
+		for k in 4:
+			var x := size.x * (0.12 + k * 0.26)
+			var w := size.y * (0.35 if k % 2 == 0 else 0.18)
+			var serit := PackedVector2Array([Vector2(x, 6), Vector2(x + w, 6), Vector2(x + w - size.y * 0.5, size.y - 6),
+				Vector2(x - size.y * 0.5, size.y - 6)])
+			ic.draw_colored_polygon(serit, Color(1, 1, 1, 0.18))
 	# Adın altındaki açık bant (kartın alt kısmı)
 	var bant := StyleBoxFlat.new()
 	bant.bg_color = Color(1, 1, 1, 0.55)
@@ -236,7 +254,7 @@ func _process(delta: float) -> void:
 	_zaman += delta
 	# Görsel yavaşça nefes alır
 	_gorsel.scale = Vector2.ONE * _gorsel_olcek * (1.0 + sin(_zaman * 1.6 + _faz) * 0.022)
-	_gorsel.rotation = sin(_zaman * 1.1 + _faz * 1.3) * 0.018
+	_gorsel.rotation = 0.0 if _genis else sin(_zaman * 1.1 + _faz * 1.3) * 0.018
 	if _yeni:
 		_yeni.pivot_offset = _yeni.size / 2.0
 		_yeni.scale = Vector2.ONE * (1.0 + maxf(0.0, sin(_zaman * 2.2 + _faz)) * 0.06)
