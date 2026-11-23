@@ -5,7 +5,7 @@
 - Uygulama adı: **Bouncy Zoo** (Play Store başlığı: **Bouncy Zoo: Kids Games 4-8** İngilizce, **Bouncy Zoo: Çocuk Oyunları 4-8** Türkçe; paket `com.kidolab.bouncyzoo`).
 - Repo: [kidolab-studio/bouncy-zoo](https://github.com/kidolab-studio/bouncy-zoo) (eski adresi `mem1nce/mini-games`).
 - Gizlilik politikası ayrı repoda yayınlanır (`kidolab-studio/legal`, GitHub Pages): https://kidolab-studio.github.io/legal/bouncy-zoo/privacy-policy
-- Durum: Google Play kapalı testi bitmek üzere, üretime geçiş hazırlığı yapılıyor.
+- Durum: Google Play'de yayında. Premium (tek seferlik ödemeli) oyunlar planı: `ROADMAP.md`.
 - **Değişiklik günlüğü**: oyuncunun fark edeceği her değişiklikte (yeni oyun, özellik, hata düzeltmesi) `CHANGELOG.md`'nin "Yayınlanmamış" bölümüne Türkçe + İngilizce birer madde ekle, aynı PR'da. Yayında bu maddeler Play Console'daki "Bu sürümdeki yenilikler" alanına gider (kurallar dosyanın başında).
 - **Bu aşamanın kuralı**: sadece küçük ve güvenli düzeltmeler yap. Büyük yeniden yapılandırma, yeni özellik veya riskli değişiklik yapma; gerekiyorsa önce kullanıcıya sor. Her düzeltmeden sonra ilgili oyunu açıp çalıştığını kontrol et.
 
