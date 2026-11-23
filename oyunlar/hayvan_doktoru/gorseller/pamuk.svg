@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="160" viewBox="0 0 180 160">
+  <defs>
+    <radialGradient id="pamuk" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.7" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCE6F6"/></radialGradient>
+  </defs>
+  <g fill="#3B2F6B" stroke="#3B2F6B" stroke-width="12"><circle cx="90" cy="88" r="40"/><circle cx="58" cy="96" r="28"/><circle cx="122" cy="96" r="28"/><circle cx="72" cy="62" r="26"/><circle cx="108" cy="60" r="27"/><circle cx="90" cy="116" r="24"/><circle cx="40" cy="80" r="16"/><circle cx="140" cy="78" r="16"/></g>
+  <g fill="url(#pamuk)"><circle cx="90" cy="88" r="40"/><circle cx="58" cy="96" r="28"/><circle cx="122" cy="96" r="28"/><circle cx="72" cy="62" r="26"/><circle cx="108" cy="60" r="27"/><circle cx="90" cy="116" r="24"/><circle cx="40" cy="80" r="16"/><circle cx="140" cy="78" r="16"/></g>
+  <path d="M70.0 82.0 A24.0 24.0 0 0 1 88.0 64.0" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M44.0 91.8 A16.8 16.8 0 0 1 56.6 79.2" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M108.0 91.8 A16.8 16.8 0 0 1 120.6 79.2" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M59.0 58.1 A15.6 15.6 0 0 1 70.7 46.4" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M94.5 56.0 A16.2 16.2 0 0 1 106.7 43.8" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M78.0 112.4 A14.4 14.4 0 0 1 88.8 101.6" fill="none" stroke="#E3ECF8" stroke-width="4" stroke-linecap="round"/>
+</svg>

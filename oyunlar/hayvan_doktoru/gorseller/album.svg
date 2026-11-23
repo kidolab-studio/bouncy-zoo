@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="kapak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B79CFF"/><stop offset="1" stop-color="#7C5CE6"/></linearGradient>
+    <radialGradient id="kalp_c" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFB3C9"/><stop offset="1" stop-color="#FF5C8A"/></radialGradient>
+  </defs>
+  <rect x="22" y="14" width="88" height="102" rx="12" fill="#FFF3D6" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="16" y="10" width="88" height="102" rx="12" fill="url(#kapak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="16" y="10" width="20" height="102" rx="8" fill="#6A4AD0" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="70" cy="46" r="20" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M70 58 C58 50 56 41 62 38 C66 36 69 39 70 42 C71 39 74 36 78 38 C84 41 82 50 70 58 Z" fill="url(#kalp_c)"/>
+  <circle cx="74" cy="86" r="15" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="74.0,76.0 76.6,82.4 83.5,82.9 78.3,87.4 79.9,94.1 74.0,90.5 68.1,94.1 69.7,87.4 64.5,82.9 71.4,82.4" fill="#FFC93D" stroke="#E09A1E" stroke-width="2"/>
+  <ellipse cx="48" cy="24" rx="14" ry="4" transform="rotate(-10 48 24)" fill="#FFFFFF" opacity="0.6"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="kulak" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFE1EC"/><stop offset="0.6" stop-color="#FFB3C9"/><stop offset="1" stop-color="#F08AA8"/></radialGradient>
+  </defs>
+  <path d="M70 16 Q30 16 28 56 Q28 80 44 92 Q52 98 50 110 Q54 120 66 116 Q78 110 80 94 Q96 80 98 56 Q100 18 70 16 Z" fill="url(#kulak)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M56 70 Q48 46 66 38 Q82 34 82 54 Q80 66 70 70 Q64 74 66 84" fill="none" stroke="#3B2F6B" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M106 34 L120 26" stroke="#FF4D6A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M110 56 L124 56" stroke="#FF4D6A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M106 78 L120 86" stroke="#FF4D6A" stroke-width="6" stroke-linecap="round"/>
+</svg>

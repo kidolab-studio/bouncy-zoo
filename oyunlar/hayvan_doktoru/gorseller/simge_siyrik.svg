@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bant" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD2B0"/><stop offset="1" stop-color="#FFA98A"/></linearGradient>
+  </defs>
+  <g transform="rotate(-38 64 64)">
+  <rect x="5" y="45" width="118" height="38" rx="19" fill="url(#bant)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="46.3" y="51.08" width="35.4" height="25.84" rx="6.08" fill="#FFF3E8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="54.442" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="54.442" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <circle cx="64" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="64" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <circle cx="73.558" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="73.558" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <path d="M25.06 56.4 L27.34 62.1 L32.66 64 L27.34 65.9 L25.06 71.6 L22.78 65.9 L17.46 64 L22.78 62.1 Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M102.94 56.4 L105.22 62.1 L110.54 64 L105.22 65.9 L102.94 71.6 L100.66 65.9 L95.34 64 L100.66 62.1 Z" fill="#FFFFFF" opacity="0.9"/>
+  <ellipse cx="27.8" cy="55.64" rx="12.16" ry="3.04" transform="rotate(-6 27.8 55.64)" fill="#FFFFFF" opacity="0.7"/>
+  </g>
+  <g transform="rotate(38 64 64)">
+  <rect x="5" y="45" width="118" height="38" rx="19" fill="url(#bant)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="46.3" y="51.08" width="35.4" height="25.84" rx="6.08" fill="#FFF3E8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="54.442" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="54.442" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <circle cx="64" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="64" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <circle cx="73.558" cy="59.06" r="1.71" fill="#F2C9A8"/>
+  <circle cx="73.558" cy="68.94" r="1.71" fill="#F2C9A8"/>
+  <path d="M25.06 56.4 L27.34 62.1 L32.66 64 L27.34 65.9 L25.06 71.6 L22.78 65.9 L17.46 64 L22.78 62.1 Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M102.94 56.4 L105.22 62.1 L110.54 64 L105.22 65.9 L102.94 71.6 L100.66 65.9 L95.34 64 L100.66 62.1 Z" fill="#FFFFFF" opacity="0.9"/>
+  <ellipse cx="27.8" cy="55.64" rx="12.16" ry="3.04" transform="rotate(-6 27.8 55.64)" fill="#FFFFFF" opacity="0.7"/>
+  </g>
+</svg>

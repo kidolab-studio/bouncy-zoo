@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ClinicAnimalData" format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_doktoru/hasta_verisi.gd" id="1_veri"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_doktoru/gorseller/hayvanlar/kus_govde.svg" id="2_govde"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_doktoru/gorseller/hayvanlar/kus_kafa.svg" id="3_kafa"]
+[ext_resource type="AudioStream" path="res://oyunlar/hayvan_doktoru/sesler/kus.wav" id="4_ses"]
+
+[resource]
+script = ExtResource("1_veri")
+id = &"kus"
+body_texture = ExtResource("2_govde")
+head_texture = ExtResource("3_kafa")
+voice = ExtResource("4_ses")
+eye_y = 124.0
+eye_dx = 24.0
+eye_size = Vector2(13, 16)
+mouth_y = 152.0
+mouth_width = 16.0
+cheek_y = 150.0
+cheek_dx = 44.0
+skin_color = Color(0.3569, 0.7216, 0.9608, 1)
+beak = true
+nose = Vector2(128, 146)

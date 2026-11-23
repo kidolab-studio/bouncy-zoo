@@ -61,8 +61,8 @@ Hiçbir görselde gerçek marka logosu, marka yazısı ya da ambalajı yok.
 | `ortak/sesler/tren_cufcuf.ogg`, `tren_fren.ogg` | OpenGameArt: "Steam release sounds" (`steam_hisses.zip` içinden `steam hisses - Marker #1`-`#4.wav`), yükleyen bart, https://opengameart.org/content/steam-release-sounds | CC0 | uygun: sayfa doğrulandı (1 Ekim 2026) |
 | `ortak/sesler/vuus.ogg` | projede kodla üretildi (`ses_hazirla.py`) | bize ait | uygun |
 | Oyunların `sesler/` klasörleri (203 wav) | projede Python ile sentezlendi (`ses_uret.py` betikleri) | bize ait | uygun |
-| `muzik_kutusu/sesler/kedi.wav`, `kopek.wav` ve `hayvan_besle`, `hayvan_banyosu`'ndaki kopyaları | OpenGameArt: "Cat Purr & Meow" (Kerzoven), "Dog Barking Mono" (Brandon Morris) | CC0 | uygun: sayfalar doğrulandı |
-| `muzik_kutusu/sesler/inek.wav`, `koyun.wav`, `ordek.wav`, `horoz.wav` (inek `hayvan_besle` ve `hayvan_banyosu`'nda da var) | BigSoundBank (Joseph Sardin): "Cow Moos #1", "Sheep #1", "Ducks", "Rooster Song" | CC0 | uygun: dört sayfa ve sitenin lisans sayfası doğrulandı |
+| `muzik_kutusu/sesler/kedi.wav`, `kopek.wav` ve `hayvan_besle`, `hayvan_banyosu`, `hayvan_doktoru`'ndaki kopyaları | OpenGameArt: "Cat Purr & Meow" (Kerzoven), "Dog Barking Mono" (Brandon Morris) | CC0 | uygun: sayfalar doğrulandı |
+| `muzik_kutusu/sesler/inek.wav`, `koyun.wav`, `ordek.wav`, `horoz.wav` (inek `hayvan_besle`, `hayvan_banyosu` ve `hayvan_doktoru`'nda da var) | BigSoundBank (Joseph Sardin): "Cow Moos #1", "Sheep #1", "Ducks", "Rooster Song" | CC0 | uygun: dört sayfa ve sitenin lisans sayfası doğrulandı |
 | `muzik_kutusu/sesler/kurbaga.wav` | OpenGameArt: "Ribbit Frog Sounds" (EZduzziteh) | CC0 | uygun: sayfa doğrulandı |
 | Müzik Kutusu şarkıları (`sarkilar/`, 3 ezgi) | geleneksel ezgiler: Twinkle Twinkle, Mary Had a Little Lamb, Frère Jacques | kamu malı | uygun |
 

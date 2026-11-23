@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="220" viewBox="0 0 160 220">
+  <defs>
+    <linearGradient id="cam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D8ECFA"/></linearGradient>
+    <radialGradient id="lastik" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFC59E"/><stop offset="0.6" stop-color="#FF8F5A"/><stop offset="1" stop-color="#E0683A"/></radialGradient>
+  </defs>
+  <path d="M58 76 Q50 18 80 14 Q110 18 102 76 Z" fill="url(#lastik)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="50" y="72" width="60" height="16" rx="6" fill="#FF8F5A" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M62 88 H98 V170 L84 204 H76 L62 170 Z" fill="url(#cam)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M66 130 H94 V168 L82 196 H78 L66 168 Z" fill="#6FC3FF" opacity="0.85"/>
+  <path d="M70 96 V160" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+  <ellipse cx="70" cy="34" rx="7" ry="12" transform="rotate(10 70 34)" fill="#FFFFFF" opacity="0.7"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+  <defs>
+    <linearGradient id="bant" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD2B0"/><stop offset="1" stop-color="#FFA98A"/></linearGradient>
+  </defs>
+  <rect x="12" y="24" width="176" height="52" rx="26" fill="url(#bant)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="73.6" y="32.32" width="52.8" height="35.36" rx="8.32" fill="#FFF3E8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="85.744" cy="43.24" r="2.34" fill="#F2C9A8"/>
+  <circle cx="85.744" cy="56.76" r="2.34" fill="#F2C9A8"/>
+  <circle cx="100" cy="43.24" r="2.34" fill="#F2C9A8"/>
+  <circle cx="100" cy="56.76" r="2.34" fill="#F2C9A8"/>
+  <circle cx="114.256" cy="43.24" r="2.34" fill="#F2C9A8"/>
+  <circle cx="114.256" cy="56.76" r="2.34" fill="#F2C9A8"/>
+  <path d="M41.92 39.6 L45.04 47.4 L52.32 50 L45.04 52.6 L41.92 60.4 L38.8 52.6 L31.52 50 L38.8 47.4 Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M158.08 39.6 L161.2 47.4 L168.48 50 L161.2 52.6 L158.08 60.4 L154.96 52.6 L147.68 50 L154.96 47.4 Z" fill="#FFFFFF" opacity="0.9"/>
+  <ellipse cx="43.2" cy="38.56" rx="16.64" ry="4.16" transform="rotate(-6 43.2 38.56)" fill="#FFFFFF" opacity="0.7"/>
+</svg>

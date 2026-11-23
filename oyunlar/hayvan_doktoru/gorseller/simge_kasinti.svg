@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="benek" cx="0.45" cy="0.4" r="0.7"><stop offset="0" stop-color="#FFB3B8"/><stop offset="0.6" stop-color="#FF6F86"/><stop offset="1" stop-color="#E24A66"/></radialGradient>
+  </defs>
+  <circle cx="44" cy="44" r="20" fill="url(#benek)" stroke="#C94660" stroke-width="3"/>
+  <circle cx="38" cy="38" r="5" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="88" cy="52" r="16" fill="url(#benek)" stroke="#C94660" stroke-width="2.4"/>
+  <circle cx="83.2" cy="47.2" r="4" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="52" cy="90" r="15" fill="url(#benek)" stroke="#C94660" stroke-width="2.25"/>
+  <circle cx="47.5" cy="85.5" r="3.75" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="92" cy="92" r="19" fill="url(#benek)" stroke="#C94660" stroke-width="2.85"/>
+  <circle cx="86.3" cy="86.3" r="4.75" fill="#FFFFFF" opacity="0.55"/>
+</svg>

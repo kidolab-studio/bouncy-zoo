@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#F1F3F9"/><stop offset="1" stop-color="#D5DAEA"/></radialGradient>
+    <radialGradient id="siyah" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#625C7A"/><stop offset="0.6" stop-color="#36324C"/><stop offset="1" stop-color="#211E30"/></radialGradient>
+  </defs>
+  <circle cx="72" cy="84" r="25" fill="url(#siyah)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="184" cy="84" r="25" fill="url(#siyah)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="128" cy="134" rx="70" ry="60" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="100" cy="130" rx="21" ry="27" transform="rotate(30 100 130)" fill="url(#siyah)"/>
+  <ellipse cx="156" cy="130" rx="21" ry="27" transform="rotate(-30 156 130)" fill="url(#siyah)"/>
+  <path d="M119 152 Q128 147 137 152 Q135 159 128 160 Q121 159 119 152 Z" fill="#36324C" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="92" cy="96" rx="15" ry="7" transform="rotate(-30 92 96)" fill="#FFFFFF" opacity="0.8"/>
+</svg>
