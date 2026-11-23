@@ -14,6 +14,10 @@ extends RefCounted
 #               {"anahtar": "bolum/anahtar", "ekle": 1, "en_fazla": 10} → user://<klasor>.cfg içinden okunur.
 #               Anahtar "*" ise bölümdeki en büyük değer alınır (ör. Hafıza'da temaların en ilerisi).
 #   "yeni"      (isteğe bağlı) true ise, oyun menüden ilk kez açılana kadar kartta "Yeni" rozeti görünür
+#   "genis"     (isteğe bağlı) true ise kart kendi satırına geçer ve satırın tamamını kaplar (kart görseli 1200x180:
+#               ana_menu/svg_uret.py GENIS_KARTLAR)
+#   "premium"   (isteğe bağlı) true ise premium oyun (ROADMAP.md). Satın alma altyapısı gelene kadar kart yalnızca
+#               debug derlemede (editör, testler) görünür; sürüm derlemesinde menüde yoktur.
 
 const MENU_KAYDI := "user://ana_menu.cfg"
 const KART_KLASORU := "res://ana_menu/kartlar/"
@@ -108,6 +112,9 @@ const OYUNLAR := [
 	{"ad": "Çıkarma", "klasor": "cikarma", "sahne": "res://oyunlar/cikarma/cikarma.tscn", "kart": "cikarma.svg",
 		"renk": "turkuaz", "kategori": "ogren", "yon": "yatay",
 		"ilerleme": {"anahtar": "ilerleme/bolum", "ekle": 1}},
+	{"ad": "Hayvan Doktoru", "klasor": "hayvan_doktoru", "sahne": "res://oyunlar/hayvan_doktoru/hayvan_doktoru.tscn", "kart": "hayvan_doktoru.svg",
+		"renk": "turkuaz", "kategori": "yaratici", "yon": "yatay",
+		"ilerleme": {"anahtar": "ilerleme/gun", "ekle": 1, "en_fazla": 10}, "yeni": true, "genis": true, "premium": true},
 ]
 
 
@@ -127,7 +134,12 @@ static func kategori(id: String) -> Dictionary:
 
 
 static func kategoride_mi(oyun: Dictionary, kategori_id: String) -> bool:
-	return kategori_id == "hepsi" or oyun["kategori"] == kategori_id
+	return gorunur_mu(oyun) and (kategori_id == "hepsi" or oyun["kategori"] == kategori_id)
+
+
+# Premium oyunlar satın alma altyapısı gelene kadar yalnızca debug derlemede görünür (ROADMAP.md)
+static func gorunur_mu(oyun: Dictionary) -> bool:
+	return not oyun.get("premium", false) or OS.is_debug_build()
 
 
 # Kartın köşesindeki ilerleme sayısı; kayıt ya da ilerleme tanımı yoksa 0 (rozet gösterilmez)

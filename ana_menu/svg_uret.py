@@ -1,6 +1,6 @@
 # Ana menü görsellerini üretir. Proje kökünden:  python ana_menu/svg_uret.py
 #
-# 1) Oyun kartlarının görselleri: ana_menu/kartlar/<oyun>.svg
+# 1) Oyun kartlarının görselleri: ana_menu/kartlar/<oyun>.svg (geniş kartlar için aşağıda GENIS_KARTLAR: 1200x180)
 #    Her kart, o oyunun kendi SVG'lerinden (oyunlar/ klasöründen okunur, oyunlara dokunulmaz) birleştirilir.
 #    Tuval 320x300, merkez (0, 0): viewBox="-160 -150 320 300". Parça yerleştirme Godot'taki Sprite2D gibidir:
 #    parca(dosya, genislik, (x, y), aci) → dosya genislik kadar geniş, merkezi (x, y)'de, aci radyan döndürülmüş.
@@ -461,6 +461,48 @@ def buyukten_kucuge():
     return kule + bebekler
 
 
+# --- Geniş kartlar (menüde bir satırın tamamını kaplar; oyun_listesi.gd kaydında "genis": true) ---
+# Tuval 1200x180, merkez (0, 0): viewBox="-600 -90 1200 180". Kartın zemini ve ad bandı oyun_karti.gd'de çizilir;
+# kapak saydam zemin üstünde karakterler ve süslerden oluşur (kart her ekran genişliğinde ortalanır).
+
+def kart_genis_svg(icerik):
+    return ('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+            'width="1200" height="180" viewBox="-600 -90 1200 180">\n%s</svg>\n' % "".join(icerik))
+
+
+def hayvan_doktoru():
+    # Hayvan Doktoru: ortada boynunda stetoskop olan doktor köpek, iki yanında iyileşmiş hastalar (bantlı kedi,
+    # termometreli tavşan, sargılı ayı, buz keseli panda); aralarda kalpler, yıldızlar, ışıltılar ve uçuşan aletler
+    g = "hayvan_doktoru/gorseller/"
+    yer = 84
+    ayak = (128, 246)
+    return [
+        '<ellipse cx="0" cy="86" rx="560" ry="14" fill="#FFFFFF" opacity="0.6"/>\n',
+        parca(g + "surup.svg", 92, (-556, -34), 0.25),
+        parca(g + "merhem.svg", 74, (-346, -58), -0.35),
+        parca(g + "termometre.svg", 76, (346, -58), 1.2),
+        parca(g + "bant.svg", 104, (560, -44), 0.55),
+        parca(g + "kalp.svg", 46, (-128, -56), -0.25),
+        parca(g + "kalp.svg", 34, (-170, -10), 0.2),
+        parca(g + "kalp.svg", 40, (134, -60), 0.3),
+        parca(g + "yildiz.svg", 34, (176, -14), 0.2),
+        parca(g + "yildiz.svg", 28, (-520, 30), -0.3),
+        parca(g + "yildiz.svg", 30, (520, 34), 0.3),
+        parca(g + "isilti.svg", 30, (-96, -12)),
+        parca(g + "isilti.svg", 24, (100, -6)),
+        parca(g + "isilti.svg", 26, (-300, 28)),
+        parca(g + "isilti.svg", 26, (300, 30)),
+        parca(g + "kart_tavsan.svg", 156, (-444, yer), merkez=ayak),
+        parca(g + "kart_kedi.svg", 166, (-252, yer), merkez=ayak),
+        parca(g + "kart_ayi.svg", 166, (252, yer), merkez=ayak),
+        parca(g + "kart_panda.svg", 156, (444, yer), merkez=ayak),
+        parca(g + "kart_doktor.svg", 214, (0, yer + 4), merkez=ayak),
+    ]
+
+
+GENIS_KARTLAR = {"hayvan_doktoru": hayvan_doktoru}
+
+
 KARTLAR = {
     "kule_yapma": kule_yapma,
     "balik_tutma": balik_tutma,
@@ -643,9 +685,12 @@ if __name__ == "__main__":
     for ad, fonksiyon in KARTLAR.items():
         _sayac[0] = 0
         _yaz(os.path.join(KART_KLASORU, ad + ".svg"), kart_svg(fonksiyon()))
+    for ad, fonksiyon in GENIS_KARTLAR.items():
+        _sayac[0] = 0
+        _yaz(os.path.join(KART_KLASORU, ad + ".svg"), kart_genis_svg(fonksiyon()))
     for ad, fonksiyon in SEKMELER.items():
         _yaz(os.path.join(GORSEL_KLASORU, "sekme_%s.svg" % ad), fonksiyon())
     for ad, fonksiyon in SES_SIMGELERI.items():
         _yaz(os.path.join(GORSEL_KLASORU, "ses_%s.svg" % ad), fonksiyon())
     _yaz(os.path.join(GORSEL_KLASORU, "bilgi.svg"), bilgi())
-    print("%d kart, %d sekme, %d ses simgesi yazıldı" % (len(KARTLAR), len(SEKMELER), len(SES_SIMGELERI)))
+    print("%d kart, %d geniş kart, %d sekme, %d ses simgesi yazıldı" % (len(KARTLAR), len(GENIS_KARTLAR), len(SEKMELER), len(SES_SIMGELERI)))

@@ -93,7 +93,7 @@ Bugün birçok yerde "uygulama içi satın alma yok" yazıyor. Hepsi premium'un 
 
 ### 8. İlk premium oyun: Hayvan Doktoru (`oyunlar/hayvan_doktoru/`)
 
-**Durum:** Planlandı, kod yazılmadı. Sahibi: **emirsalihgmrk**. Menü adı "Hayvan Doktoru" / "Animal Doctor". Bu plan yalnızca oyunun kendisini kapsar; faturalama ve ebeveyn kapısı (3. bölüm) ayrı iştir.
+**Durum:** Oyun hazır (6 adımın hepsi). Menüde satırın tamamını kaplayan geniş kartla duruyor, ama `"premium": true` olduğu için satın alma altyapısı gelene kadar yalnızca debug derlemede görünüyor. Sahibi: **emirsalihgmrk**. Menü adı "Hayvan Doktoru" / "Animal Doctor". Bu plan yalnızca oyunun kendisini kapsar; faturalama ve ebeveyn kapısı (3. bölüm) ayrı iştir.
 
 **Neden premium:** Mevcut oyunlarda tek etkileşim ve 10–12 bölüm var. Bu oyunda **5 etkileşim türü**, **9 rahatsızlık**, bekleme odasından **hasta seçme**, **günlük akış** (10 gün × 3 hasta), **çıkartma albümü** ve bitince **sonsuz klinik** modu var. Skor, süre, can ve ceza yok. Yazı da yok. İğne ve aşı yok, çocuk korkmasın.
 
@@ -136,5 +136,5 @@ Bugün birçok yerde "uygulama içi satın alma yok" yazıyor. Hepsi premium'un 
 2. Basılı tut, çek ve ağıza ver türleri + 9 rahatsızlık.
 3. Bekleme odası, günler, kayıt, `OyunBitti`, sonsuz mod.
 4. Çıkartma albümü.
-5. Cila ve testler: `IpucuEli`, sesler, `tablo_testi.gd` (headless), `oynanis_testi.gd` (pencereli). Ortak testlere kayıt: `oyun_bitti_testi.gd`, `ekran_uyumu_testi.gd`, `ipucu_eli_testi.gd`.
-6. **Menü kartı** (ortak dosya, ayrı küçük PR, mem1nce'ye haber verilir): `oyun_listesi.gd` kaydına `"premium": true` eklenir. Premium altyapısı gelene kadar menü bu kartı **yalnızca debug derlemede** gösterir (`OS.is_debug_build()`). Böylece oyun sürüm derlemesine yanlışlıkla ücretsiz girmez, ama menü ve ekran testleri çalışır. CHANGELOG maddesi premium'un yayınlandığı sürümde yazılır.
+5. Cila ve testler: `IpucuEli`, sesler, `tablo_testi.gd` (headless), `oynanis_testi.gd` (pencereli).
+6. **Menü kartı** (ortak dosya, ayrı küçük PR, mem1nce'ye haber verilir) ve ortak testlere kayıt (`oyun_bitti_testi.gd`, `ekran_uyumu_testi.gd`, `ipucu_eli_testi.gd`; bu testler oyunları menüden açtığı için kartla birlikte): `oyun_listesi.gd` kaydına `"premium": true` eklenir. Premium altyapısı gelene kadar menü bu kartı **yalnızca debug derlemede** gösterir (`OS.is_debug_build()`). Böylece oyun sürüm derlemesine yanlışlıkla ücretsiz girmez, ama menü ve ekran testleri çalışır. CHANGELOG maddesi premium'un yayınlandığı sürümde yazılır.

@@ -63,6 +63,9 @@ const ADIMLAR := {
 	"yapboz": [],
 	"nokta_birlestir": [],
 	"labirent": [],
+	# Hayvan Doktoru: hastalar banka oturunca albüm düğmesi (sağ üst) → albüm; geri düğmesine çift dokunuş albümü
+	# kapatır; ortadaki hastaya dokununca tedavi ekranı
+	"hayvan_doktoru": [120, Vector2(0.92, 0.085), 60, "cek", "back_button", 25, "back_button", 60, Vector2(0.5, 0.57), 90, "cek"],
 }
 
 var gecis: Node

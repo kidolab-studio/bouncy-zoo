@@ -34,6 +34,8 @@ const OYUNLAR := {
 	"yapboz": {"giris": [], "bolum": "level_index"},
 	"nokta_birlestir": {"giris": [], "bolum": "level_index"},
 	"labirent": {"giris": [], "bolum": "level_index"},
+	# Hayvan Doktoru: bölüm = gün; F9 bekleme odasında o günü bitirir
+	"hayvan_doktoru": {"giris": [], "bolum": "day"},
 }
 
 var gecis: Node
