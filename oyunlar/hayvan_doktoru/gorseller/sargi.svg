@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">
+  <defs>
+    <radialGradient id="rulo" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.7" stop-color="#F4F7FF"/><stop offset="1" stop-color="#D5DEF2"/></radialGradient>
+  </defs>
+  <path d="M70 118 Q120 132 186 112 L192 136 Q124 156 70 140 Z" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M90 128 L96 144 M118 132 L122 148 M146 130 L150 146 M172 122 L178 138" stroke="#D5DEF2" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="70" cy="80" r="56" fill="url(#rulo)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="70" cy="80" r="40" fill="none" stroke="#D5DEF2" stroke-width="4"/>
+  <circle cx="70" cy="80" r="26" fill="none" stroke="#D5DEF2" stroke-width="4"/>
+  <circle cx="70" cy="80" r="12" fill="#E7ECF8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="48" cy="52" rx="14" ry="6" transform="rotate(-35 48 52)" fill="#FFFFFF" opacity="0.9"/>
+</svg>

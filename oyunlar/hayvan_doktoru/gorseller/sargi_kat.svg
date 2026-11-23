@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="sargi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3E9F7"/></linearGradient>
+  </defs>
+  <rect x="10" y="36" width="108" height="56" rx="24" fill="url(#sargi)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M22 40 L38 88" stroke="#C9D3EA" stroke-width="4" stroke-linecap="round"/>
+  <path d="M44 40 L60 88" stroke="#C9D3EA" stroke-width="4" stroke-linecap="round"/>
+  <path d="M66 40 L82 88" stroke="#C9D3EA" stroke-width="4" stroke-linecap="round"/>
+  <path d="M88 40 L104 88" stroke="#C9D3EA" stroke-width="4" stroke-linecap="round"/>
+  <rect x="54" y="56" width="20" height="16" rx="4" fill="#FF8FB8" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="36" cy="46" rx="16" ry="4" transform="rotate(-4 36 46)" fill="#FFFFFF" opacity="0.8"/>
+</svg>

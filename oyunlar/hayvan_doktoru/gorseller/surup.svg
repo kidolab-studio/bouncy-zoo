@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <defs>
+    <linearGradient id="gumus" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.5" stop-color="#D3E2F2"/><stop offset="1" stop-color="#8EA8CC"/></linearGradient>
+    <radialGradient id="surup" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFC2DA"/><stop offset="0.6" stop-color="#FF6FA8"/><stop offset="1" stop-color="#E0457F"/></radialGradient>
+  </defs>
+  <g transform="rotate(-45 110 110)">
+    <path d="M92 104 L196 100 Q206 100 206 110 Q206 120 196 120 L92 116 Z" fill="url(#gumus)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <ellipse cx="60" cy="110" rx="42" ry="30" fill="url(#gumus)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+    <ellipse cx="58" cy="110" rx="31" ry="20" fill="url(#surup)" stroke="#C93A72" stroke-width="3"/>
+    <ellipse cx="48" cy="103" rx="10" ry="4" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+</svg>

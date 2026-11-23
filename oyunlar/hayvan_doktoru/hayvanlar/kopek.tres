@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ClinicAnimalData" format=3]
+
+[ext_resource type="Script" path="res://oyunlar/hayvan_doktoru/hasta_verisi.gd" id="1_veri"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_doktoru/gorseller/hayvanlar/kopek_govde.svg" id="2_govde"]
+[ext_resource type="Texture2D" path="res://oyunlar/hayvan_doktoru/gorseller/hayvanlar/kopek_kafa.svg" id="3_kafa"]
+[ext_resource type="AudioStream" path="res://oyunlar/hayvan_doktoru/sesler/kopek.wav" id="4_ses"]
+
+[resource]
+script = ExtResource("1_veri")
+id = &"kopek"
+body_texture = ExtResource("2_govde")
+head_texture = ExtResource("3_kafa")
+voice = ExtResource("4_ses")
+eye_y = 120.0
+eye_dx = 26.0
+eye_size = Vector2(14, 17)
+mouth_y = 161.0
+mouth_width = 13.0
+cheek_y = 156.0
+cheek_dx = 52.0
+skin_color = Color(0.9098, 0.6431, 0.3608, 1)
+nose = Vector2(128, 146)
+ear = Vector2(58, 130)

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <defs>
+    <linearGradient id="sap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FF0E4"/><stop offset="1" stop-color="#2FB8AE"/></linearGradient>
+  </defs>
+  <g transform="rotate(-45 110 110)">
+    <path d="M78 104 L200 98 Q210 98 210 110 Q210 122 200 122 L78 118 Z" fill="url(#sap)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="150" y="104" width="40" height="10" rx="5" fill="#FFFFFF" opacity="0.6"/>
+    <rect x="24" y="106" width="60" height="16" rx="7" fill="url(#sap)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="30" y="84" width="9" height="24" rx="3" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="41" y="84" width="9" height="24" rx="3" fill="#BFE4FF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="52" y="84" width="9" height="24" rx="3" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="63" y="84" width="9" height="24" rx="3" fill="#BFE4FF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="74" y="84" width="9" height="24" rx="3" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M28 82 Q36 66 48 76 Q58 62 68 74 Q80 66 84 82 Z" fill="#FFFFFF" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M38 76 Q48 70 56 74 M60 72 Q68 68 76 74" fill="none" stroke="#7FD3FF" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

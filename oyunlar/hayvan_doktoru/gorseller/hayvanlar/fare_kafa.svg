@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="ten" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#E4E0EE"/><stop offset="0.55" stop-color="#C3BBD9"/><stop offset="1" stop-color="#A59CC1"/></radialGradient>
+    <radialGradient id="kulak" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#FFDDE5"/><stop offset="0.55" stop-color="#FFB3C6"/><stop offset="1" stop-color="#D496B2"/></radialGradient>
+  </defs>
+  <circle cx="70" cy="86" r="38" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><circle cx="70" cy="88" r="24" fill="url(#kulak)"/>
+  <circle cx="186" cy="86" r="38" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><circle cx="186" cy="88" r="24" fill="url(#kulak)"/>
+  <ellipse cx="128" cy="140" rx="64" ry="56" fill="url(#ten)" stroke="#3B2F6B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="128" cy="156" r="9" fill="#FF7FA3" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M94 156 L68 150 M94 164 L70 170 M162 156 L188 150 M162 164 L186 170" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="96" cy="110" rx="14" ry="6" transform="rotate(-30 96 110)" fill="#FFFFFF" opacity="0.8"/>
+</svg>

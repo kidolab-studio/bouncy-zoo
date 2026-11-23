@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <defs>
+    <linearGradient id="gumus" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.5" stop-color="#D3E2F2"/><stop offset="1" stop-color="#8EA8CC"/></linearGradient>
+  </defs>
+  <g transform="rotate(-45 110 110)">
+    <path d="M190 76 Q120 86 30 102 L30 111 Q120 104 190 98 Z" fill="url(#gumus)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="114" y="86" width="46" height="14" rx="7" fill="#FF8FB8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M190 144 Q120 134 30 118 L30 109 Q120 116 190 122 Z" fill="url(#gumus)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="114" y="120" width="46" height="14" rx="7" fill="#FF8FB8" stroke="#3B2F6B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="180" y="72" width="24" height="76" rx="11" fill="url(#gumus)" stroke="#3B2F6B" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M187 82 V138" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  </g>
+</svg>
