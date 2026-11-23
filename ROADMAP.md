@@ -85,6 +85,56 @@ Bugün birçok yerde "uygulama içi satın alma yok" yazıyor. Hepsi premium'un 
 ### 7. Açık sorular
 
 - Paketin adı ve fiyatı ne olacak?
-- İlk premium oyunlar hangileri, sahipleri kim?
+- İlk premium oyunlar hangileri, sahipleri kim? (İlki karar verildi: Hayvan Doktoru, bkz. 8. bölüm.)
 - Premium oyunlar menüde ayrı bir sekmede mi olsun, yoksa kendi kategorilerinde kilitli kart olarak mı?
-- Ücretsiz deneme olsun mu (ör. her premium oyunun ilk bölümü açık)?
+
+**Karar verilenler**
+- Ücretsiz deneme **yok**: premium kart tamamen kilitli. Ebeveyn oyunu mağaza görsellerinden ve kapının arkasındaki bilgiden tanır.
+
+### 8. İlk premium oyun: Hayvan Doktoru (`oyunlar/hayvan_doktoru/`)
+
+**Durum:** Planlandı, kod yazılmadı. Sahibi: **emirsalihgmrk**. Menü adı "Hayvan Doktoru" / "Animal Doctor". Bu plan yalnızca oyunun kendisini kapsar; faturalama ve ebeveyn kapısı (3. bölüm) ayrı iştir.
+
+**Neden premium:** Mevcut oyunlarda tek etkileşim ve 10–12 bölüm var. Bu oyunda **5 etkileşim türü**, **9 rahatsızlık**, bekleme odasından **hasta seçme**, **günlük akış** (10 gün × 3 hasta), **çıkartma albümü** ve bitince **sonsuz klinik** modu var. Skor, süre, can ve ceza yok. Yazı da yok. İğne ve aşı yok, çocuk korkmasın.
+
+**Akış (bir gün = 3 hasta)**
+1. **Bekleme odası:** 3 hasta hayvan oturur, belirtileri görünür (kırmızı burun, hapşırık, dizde yara, patide diken, şiş yanak, kaşınan benekler, topallama...). Çocuk birine dokunur, hayvan muayene masasına zıplar. Köşede albüm düğmesi olur.
+2. **Muayene:** Her ziyaret stetoskopla başlar (göğse basılı tut, kalp atışı duyulur). Sonra başın üstünde rahatsızlığın simgesiyle bir düşünce balonu çıkar.
+3. **Tedavi:** Sağdaki rafta yalnızca bu rahatsızlığın 2–3 aleti durur. Sırası gelen alet parlar (Hayvan Banyosu'ndaki gibi), sırası gelmeyen yalnızca kıpırdar.
+4. **İyileşme:** Yüz hastadan mutluya döner. Hayvan zıplar, sesini çıkarır, kalpler uçar. Albüme bir çıkartma gider. Hasta el sallayarak kapıdan çıkar.
+5. 3 hasta bitince **gün sonu** kutlaması olur (10 yıldızdan biri dolar). 10. günden sonra `OyunBitti` gelir, "sonsuz" düğmesiyle rastgele hastalar başlar.
+
+**Etkileşim türleri**
+
+| Tür | Nasıl | Aletler |
+|---|---|---|
+| Sürt | aleti noktanın üstünde gezdir | pamuk, merhem, krem, pudra, diş fırçası, mendil, kulak çubuğu |
+| Basılı tut | aleti noktada tut; dolum aletin kendisinde görünür (cıva yükselir, buz erir) | stetoskop, termometre, buz kesesi, damla |
+| Yerleştir | aleti hedefe bırak, yerine oturur | yara bandı, sargı |
+| Çek | noktaya dokun, dışarı doğru çek | cımbız (diken) |
+| Ağıza ver | kaşığı ağza götür; hayvan ağzını açar, yutar, yüzünü buruşturur, sonra güler | şurup |
+
+**Rahatsızlıklar** (stetoskoptan sonraki adımlar)
+1. Sıyrık: pamuk → merhem → yara bandı
+2. Diken: cımbız (1–3 diken) → merhem → yara bandı
+3. Ateş: termometre → şurup → alına buz
+4. Nezle: mendil (burun; arada hapşırır) → şurup
+5. Diş ağrısı (şiş yanak): diş fırçası → yanağa buz
+6. Kaşıntı (kırmızı benekler): krem → pudra
+7. Kulak ağrısı: kulak çubuğu → damla
+8. Burkulma (topallama): buz → sargı
+9. Gözde toz: göz damlası → mendil
+
+İlk günlerde 1–3. rahatsızlıklar ve az nokta olur. Sonra yenileri açılır. Son günlerde 3 adım ve çok nokta olur (3 diken, 6 benek). Hayvanlar Hayvanları Besle ve Hayvan Banyosu'ndaki 10 hayvandır. Bir günde aynı hayvan iki kez gelmez.
+
+**Çıkartma albümü:** Her hayvan × rahatsızlık çifti için bir çıkartma olur (hayvanın yüzü + rozet, kodla birleştirilir). Dolu çıkartmaya dokununca hayvan sesini çıkarır. Bu, oyunu uzun süre oynatan bir toplama hedefidir.
+
+**Teknik:** Hayvan Banyosu'nun yapısından kopyalanıp uyarlanır, Banyo'ya dokunulmaz. Uyarlanacaklar: alet ve raf (`alet.gd`, `alet_rafi.gd`), hayvan ve yüz (`hayvan.gd`, `hayvan_yuzu.gd`; yüze hasta ve buruşuk ifadeler eklenir), leke yerine genelleşmiş tedavi noktası (`tedavi_noktasi.gd`: sürt / tut / yerleştir / çek). Bütün ayarlar `ayarlar.gd`'de olur (`ANIMALS`, `TOOLS`, `AILMENTS`, `DAYS`, `problems()`). Hayvan çizimleri Besle'nin `svg_uret.py`'sinden gelir. Kayıt dosyası `user://hayvan_doktoru.cfg` (`[ilerleme] gun`, `hasta`; `[album]`).
+
+**Uygulama sırası** (küçük PR'lar, dallar `emir/hayvan-doktoru-*`)
+1. İskelet + tek hasta: klinik, hasta, stetoskop ve Sıyrık uçtan uca. F6 ile açılır, menüde yok. Kök `CLAUDE.md` sahiplik listesine eklenir.
+2. Basılı tut, çek ve ağıza ver türleri + 9 rahatsızlık.
+3. Bekleme odası, günler, kayıt, `OyunBitti`, sonsuz mod.
+4. Çıkartma albümü.
+5. Cila ve testler: `IpucuEli`, sesler, `tablo_testi.gd` (headless), `oynanis_testi.gd` (pencereli). Ortak testlere kayıt: `oyun_bitti_testi.gd`, `ekran_uyumu_testi.gd`, `ipucu_eli_testi.gd`.
+6. **Menü kartı** (ortak dosya, ayrı küçük PR, mem1nce'ye haber verilir): `oyun_listesi.gd` kaydına `"premium": true` eklenir. Premium altyapısı gelene kadar menü bu kartı **yalnızca debug derlemede** gösterir (`OS.is_debug_build()`). Böylece oyun sürüm derlemesine yanlışlıkla ücretsiz girmez, ama menü ve ekran testleri çalışır. CHANGELOG maddesi premium'un yayınlandığı sürümde yazılır.
